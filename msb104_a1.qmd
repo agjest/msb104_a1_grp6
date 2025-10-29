@@ -4,7 +4,7 @@ author: Karin Liang
 format: html
 lang: NO_nb
 editor: visual
-bibliography:
+bibliography: references.bib
 ---
 
 # Introduksjon
@@ -45,10 +45,8 @@ gdp <- gdp %>%
 # viser BNP-datastruktur
 glimpse(gdp)
 ```
-
 #### Datastruktur for GDP
-
-Datasettet GDP (nama_10r_3gdp) er hentet fra Eurostat og inneholder årlige verdier for BNP (bruttonasjonalprodukt) på NUTS3-nivå. Etter filtrering ifølge oppgaven består datasettet GDP av 2 591 observasjoner og 5 variabler: freq: viser frekvensen, her årlig "A" unit: måleenhet, "MIO_EUR" betyr millioner euro geo: geografisk kode "NUTS3" TIME_PERIOD: år, fra 2000 til 2023 values: BNP-verdi i millioner euro Datasettet dekker regionale BNP-data for BE (Belgia), NL (Nederland), BG (Bulgaria), NO (Norge).
+Datasettet GDP (nama_10r_3gdp) er hentet fra Eurostat og inneholder årlige verdier for BNP (bruttonasjonalprodukt) på NUTS3-nivå. Etter filtrering ifølge oppgaven består datasettet GDP av 2 591 observasjoner og 5 variabler [@Eurostat_reg_eco10_2025]: freq: viser frekvensen, her årlig "A" unit: måleenhet, "MIO_EUR" betyr millioner euro geo: geografisk kode "NUTS3" TIME_PERIOD: år, fra 2000 til 2023 values: BNP-verdi i millioner euro Datasettet dekker regionale BNP-data for BE (Belgia), NL (Nederland), BG (Bulgaria), NO (Norge).
 
 ```{r}
 # laster ned datasettet population (demo_r_pjanaggr3)
@@ -65,25 +63,20 @@ population <- population %>%
 # viser population-datastruktur
 glimpse(population)
 ```
-
 #### Datastruktur for population
-
-Datasettet papulation (demo_r_pjanaggr3) er hentet fra Eurostat og viser befolkningen per 1. januar for hver NUTS3-region. Etter filtrering ifølge oppgaven består datasettet av 3 023 observasjoner og 7 variabler: unit: måleenhet, "NR" betyr antall personer sex: kjønn, her "T" for total befolkning age: "TOTAL", viser total befolkning uten aldersinndeling values: antall personer i regionen freq, geo og TIME_PERIOD har samme betydning som i GDP datasettet Datasettet dekker den totale befolkningen i BE (Belgia), NL (Nederland), BG (Bulgaria), NO (Norge).
+Datasettet papulation (demo_r_pjanaggr3) er hentet fra Eurostat og viser befolkningen per 1. januar for hver NUTS3-region. Etter filtrering ifølge oppgaven består datasettet av 3 023 observasjoner og 7 variabler [@Eurostat_demo_pop_2025]: unit: måleenhet, "NR" betyr antall personer sex: kjønn, her "T" for total befolkning age: "TOTAL", viser total befolkning uten aldersinndeling values: antall personer i regionen freq, geo og TIME_PERIOD har samme betydning som i GDP datasettet Datasettet dekker den totale befolkningen i BE (Belgia), NL (Nederland), BG (Bulgaria), NO (Norge).
 
 #### Informasjon om dataene:
-
 Begge datasettene er hentet fra Eurostat.
 
-BNP-datasettet (nama_10r_3gdp) er en del av Regional Economic Accounts og viser verdien av bruttonasjonalprodukt for de relevante europeiske regionene. Tallene er målt i millioner euro (MIO_EUR), rapporteres årlig (freq = "A") på NUTS3-nivå, og dekker perioden 2000–2023. Datasettet inneholder fem variabler: freq, unit, geo, TIME_PERIOD og values. Variablen geo representerer regionkoder, TIME_PERIOD viser år, og values gir BNP-verdi i millioner euro. Dataene rapporteres av nasjonale statistiske institutter og samles inn og standardiseres i Eurostat.
+BNP-datasettet (nama_10r_3gdp) [@Eurostat_reg_eco10_2025] er en del av Regional Economic Accounts og viser verdien av bruttonasjonalprodukt for de relevante europeiske regionene. Tallene er målt i millioner euro (MIO_EUR), rapporteres årlig (freq = "A") på NUTS3-nivå, og dekker perioden 2000–2023. Datasettet inneholder fem variabler: freq, unit, geo, TIME_PERIOD og values. Variablen geo representerer regionkoder, TIME_PERIOD viser år, og values gir BNP-verdi i millioner euro. Dataene rapporteres av nasjonale statistiske institutter og samles inn og standardiseres i Eurostat.
 
-Papulation (demo_r_pjanaggr3) kommer fra Eurostats Demography Database og viser befolkningen per 1. januar hvert år. Tallene måles i antall personer (NR) og er tilgjengelige etter kjønn og alder, men her brukes bare total befolkning (kjønn = "T", alder = "TOTAL"). Datasettet inneholder variablene freq, unit, sex, age, geo, TIME_PERIOD og values, der values viser antall personer i hver region og år.
+Papulation (demo_r_pjanaggr3) [@Eurostat_demo_pop_2025] kommer fra Eurostats Demography Database og viser befolkningen per 1. januar hvert år. Tallene måles i antall personer (NR) og er tilgjengelige etter kjønn og alder, men her brukes bare total befolkning (kjønn = "T", alder = "TOTAL"). Datasettet inneholder variablene freq, unit, sex, age, geo, TIME_PERIOD og values, der values viser antall personer i hver region og år.
 
 Begge datasettene oppdateres årlig, dekker europeiske land, og gir et felles grunnlag for å beregne BNP per innbygger og analysere regionale forskjeller i Belgia (BE), Nederland (NL), Bulgaria (BG) og Norge (NO).
 
 ### Beregning av BNP per innbygger
-
 #### Merger og rydder datasetter GDP og papulation
-
 ```{r}
 # merger datasetter GDP og papulation
 gdp_pop <- left_join(
@@ -103,27 +96,25 @@ gdp_pop <- gdp_pop %>%
   drop_na(values_gdp, values_pop) %>%
   mutate(GDPC = (values_gdp * 1e6) / values_pop) %>% # BNP per innbygger (GDPC) er beregnet i euro per person
   filter(values_pop > 0, is.finite(GDPC)) # Fjerner ugyldige eller ekstreme observasjoner
-  
 ```
+Samslåing av datasett ble utført her, ifølge regionale økonomiske regnskaper etter NUTS 3-regioner (@Eurostat_reg_eco10_2025) og befolkning per 1. januar etter aldersgruppe, kjønn og NUTS 3-region (@Eurostat_demo_pop_2025). 
+Datasettet BNP og population ble slått sammen ved hjelp av regionkode (geo) og år (TIME_PERIOD). Etter sammenslåingen ble manglende verdier fjernet, og BNP per innbygger (GDPC) ble beregnet som total BNP delt på befolkningstall. Videre ble observasjoner med null eller ugyldige verdier ekskludert for å sikre et rent og pålitelig datasett før videre analyse.
 
 #### Kontrollerer datastrukturen og verdiene etter sammenslåing og beregning
-
 ```{r}
 # Viser strukturen til datasettet etter beregningen
 glimpse(gdp_pop)
 # Oppsummerer sentrale statistiske mål for å kontrollere verdiene
 summary(gdp_pop)
 ```
-
+Informasjonen om variablene bygger på metadata fra regionale økonomiske regnskaper etter NUTS 3-regioner (@Eurostat_reg_eco10_2025) og befolkning per 1. januar etter aldersgruppe, kjønn og NUTS 3-region (@Eurostat_demo_pop_2025).
 glimpse(gdp_pop) viser at datasettet inneholder 2 119 observasjoner og 11 variabler etter sammenslåing og rensing. Variablene inkluderer blant annet regionkode (geo), år (TIME_PERIOD), BNP i millioner euro (values_gdp), befolkning (values_pop) og beregnet BNP per innbygger (GDPC). summary(gdp_pop) gir et overblikk over fordelingen i dataene. Tidsperioden dekker årene 2000–2023. BNP-verdiene varierer fra om lag 168 til 103 285 millioner euro, mens befolkningen i regionene varierer fra under 42 000 til over 1,29 millioner personer. Variabelen GDPC viser de beregnede verdiene for BNP per innbygger, som danner grunnlaget for den videre analysen.
 
 ### Beskrivende analyse
-
 #### Grunnleggende deskriptiv statistikk
-
 ```{r}
 # Grunnleggende deskriptiv statistikk for merged datasettet
-gdpc_summary <- gdp_pop %>%
+gdp_pop_summary <- gdp_pop %>%
   filter(values_pop > 0, is.finite(GDPC)) %>% 
   summarise(
     n_obs = n(),
@@ -135,7 +126,7 @@ gdpc_summary <- gdp_pop %>%
     Max = max(GDPC, na.rm = TRUE),
     SD  = sd(GDPC, na.rm = TRUE)
   )
-gdpc_summary
+gdp_pop_summary
 
 # viser den generelle fordelingen av BNP per innbygger
 bnp_per_innbygger <- gdp_pop %>% 
@@ -148,12 +139,21 @@ bnp_per_innbygger <- gdp_pop %>%
   )
 bnp_per_innbygger
 ```
+Resultatene for fordelingen av BNP per innbygger (GDPC)  viser følgende nøkkeltall:
+Antall observasjoner: 2 119 regioner
+Minimumsverdi: 1 087 euro per person
+Første kvartil (Q1): 6 061 euro
+Median: 25 632 euro
+Gjennomsnitt (Mean): 24 551 euro
+Tredje kvartil (Q3): 35 051 euro
+Maksimumsverdi: 105 721 euro
+Standardavvik: 17 452 euro
+Dette betyr at halvparten av regionene har et BNP per innbygger mellom omtrent 6 000 og 35 000 euro, og at spredningen er ganske stor. Gjennomsnittet ligger litt lavere enn medianen, noe som tyder på at fordelingen er høyreskjev, som histogrammet viser dette. Der noen få regioner har mye høyere verdiskaping enn flertallet. Det vil si at de fleste regionene har relativt lavt BNP per innbygger.
 
 #### Deskriptiv statistikk for hvert land
-
 ```{r}
 # Deskriptiv statistikk for hvert land
-gdp_land_summary <- gdp_pop %>%
+gdp_pop_land_summary <- gdp_pop %>%
   filter(values_pop > 0, is.finite(GDPC)) %>% 
   mutate(country = substr(geo, 1, 2)) %>%
   group_by(country) %>%
@@ -167,7 +167,7 @@ gdp_land_summary <- gdp_pop %>%
     Max = max(GDPC, na.rm = TRUE),
     SD  = sd(GDPC, na.rm = TRUE)
   )
-gdp_land_summary
+gdp_pop_land_summary
 
 # Sammenligning mellom land: boksdiagram
 bnp_per_innbygger_land  <- gdp_pop %>% 
@@ -191,13 +191,22 @@ bnp_per_innbygger_land  <- gdp_pop %>%
     plot.title = element_text(hjust = 0.5, face = "bold"),
     legend.position = "right"
   )
-
-
 bnp_per_innbygger_land
 ```
+Tabellen viser nøkkeltall for BNP per innbygger (i euro) i de fire landene Belgia (BE), Bulgaria (BG), Nederland (NL) og Norge (NO). Resultatene viser store forskjeller mellom landene.
+Belgia har en moderat inntektsfordeling, der medianen ligger på rundt 28 000 euro per person.
+Bulgaria har den laveste verdien blant de fire landene. Medianen er kun 3 763 euro, og både gjennomsnitt og maksimum er langt lavere enn i de andre landene.
+Nederland ligger betydelig høyere, med en median på omtrent 33 600 euro og et maksimum over 100 000 euro.
+Norge har de høyeste verdiene, med en median på 53 500 euro og et gjennomsnitt på 58 300 euro. 
+
+Boksdiagrammet gir et tydelig visuelt bilde av forskjellene mellom landene.
+Bulgaria skiller seg ut med svært lave verdier og liten variasjon mellom regionene, noe som indikerer et generelt lavt, men jevnt inntektsnivå.
+Belgia har et bredere spenn, med enkelte regioner som ligger betydelig over medianen, men ingen ekstreme avvik.
+Nederland viser både høyere nivåer og større spredning, spesielt enkelte rike regioner med høy BNP per innbygger.
+Norge har høyest median og et bredt spenn, med flere regioner som ligger over 100 000 euro per person.
+Diagrammet bekrefter dermed et klart nord–sør-mønster i Europa: Norge og Nederland ligger høyest i økonomisk velstand, Belgia i midten, og Bulgaria betydelig lavere.
 
 #### BNP per innbygger etter land over tid
-
 ```{r}
 # Utvikling av BNP per innbygger over tid (medianverdi)
 bnp_over_tid_median <- gdp_pop %>%
@@ -213,7 +222,7 @@ bnp_over_tid_median <- gdp_pop %>%
                             "NL" = "Nederland",
                             "NO" = "Norge")) %>%
   ggplot(aes(x = TIME_PERIOD, y = median_BNPI, color = land_full)) +
-  geom_line(size = 1.2) +
+  geom_line(linewidth = 1.2) +
   scale_y_continuous(limits = c(0, 70000),
                      labels = scales::comma) +
   labs(
@@ -230,3 +239,28 @@ bnp_over_tid_median <- gdp_pop %>%
   )
 bnp_over_tid_median
 ```
+Linjediagrammet viser tydelig forskjeller i økonomisk utvikling mellom de fire landene:
+Norge ligger høyest gjennom hele perioden, med median BNP per innbygger mellom 40 000 og 60 000 euro. 
+Nederland følger som nummer to, med jevn vekst fra rundt 20 000 til over 45 000 euro.
+Belgia ligger noe lavere, men viser også en stabil, gradvis økning.
+Bulgaria starter svært lavt, under 2 000 euro i 2000, men har hatt den mest markerte veksten i prosent, opp mot 10 000 euro i 2023.
+Denne utviklingen viser at selv om nivåforskjellene mellom landene fortsatt er store, har alle opplevd en jevn økonomisk vekst over tid.
+
+## Del B: Regional ulikhet
+### Litteraturgjennomgang
+Ifølge artikkelen 'Regional inequality, convergence, and its determinants– A view from outer space' @Lessmann2017regional finnes det en tydelig sammenheng mellom økonomisk utvikling og forskjeller mellom regioner.  
+I artikkelen @Lessmann2017regional bruker satellittbaserte nattlysdata for å måle økonomisk aktivitet i 180 land og 3166 regioner i perioden 1992–2012. Metoden gjør det mulig å analysere regionale ulikheter også i land der det mangler pålitelige inntektsdata.
+Resultatene til @Lessmann2017regional viser at 67–70 prosent av landene har opplevd sigma-konvergens, det vil si at inntektsforskjellene mellom regioner har blitt mindre over tid. 
+Samtidig finner @Lessmann2017regional at forholdet mellom økonomisk utvikling og ulikhet følger et N-formet mønster, der ulikheten øker i lavinntektsland, reduseres i mellominntektsland og stiger svakt igjen i høyinntektsland.
+Videre viser @Lessmann2017regional at naturressurser, handelsåpenhet, transportkostnader, bistand og etnisk ulikhet ofte bidrar til større regionale forskjeller. Derimot kan utdanning, føderale strukturer og høy andel dyrkbar jord bidra til å redusere dem. 
+Studien til @Lessmann2017regional konkluderer med at økonomisk vekst ikke automatisk fører til utjevning mellom regioner, siden effekten avhenger av institusjoner, ressursfordeling og befolkningens utdanningsnivå.
+
+### Beregning av Gini-koeffisienten
+
+
+### Datapresentasjon
+
+
+### Diskusjon
+
+
