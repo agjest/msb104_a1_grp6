@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="NO_nb" xml:lang="NO_nb"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Karin Liang">
+
+<title>Assignment 1: Data and Descriptive, MSB104 2025</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="msb104_a1_files/libs/clipboard/clipboard.min.js"></script>
+<script src="msb104_a1_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="msb104_a1_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="msb104_a1_files/libs/quarto-html/popper.min.js"></script>
+<script src="msb104_a1_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="msb104_a1_files/libs/quarto-html/anchor.min.js"></script>
+<link href="msb104_a1_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="msb104_a1_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="msb104_a1_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="msb104_a1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="msb104_a1_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Assignment 1: Data and Descriptive, MSB104 2025</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Karin Liang </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduksjon" class="level1">
+<h1>Introduksjon</h1>
+<p>Denne oppgaven studerer regionale økonomiske forskjeller i Belgia (BE), Nederland (NL), Bulgaria (BG) og Norge (NO). Ved å bruke Eurostat-data om BNP og befolkning beregnes BNP per innbygger for å sammenligne regioner på tvers av land og over tiden fra 2000 til 2023.</p>
+</section>
+<section id="del-a-subnasjonalt-bnp-og-bnp-per-innbygger" class="level1">
+<h1>Del A: Subnasjonalt BNP og BNP per innbygger</h1>
+<p>Denne analysen bruker to regionale datasett fra Eurostat: GDP (nama_10r_3gdp) og papulation (demo_r_pjanaggr3).</p>
+<section id="datainnsamling" class="level2">
+<h2 class="anchored" data-anchor-id="datainnsamling">Datainnsamling</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pakker</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dineq)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ forcats   1.0.0     ✔ readr     2.1.5
+✔ lubridate 1.9.4     ✔ tibble    3.3.0
+✔ purrr     1.1.0     ✔ tidyr     1.3.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install datapakken "eurostat"</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("eurostat")</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(eurostat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="laster-ned-datasettet-gdp" class="level3">
+<h3 class="anchored" data-anchor-id="laster-ned-datasettet-gdp">Laster ned datasettet GDP</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># laster ned datasettet GDP (nama_10r_3gdp)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>gdp <span class="ot">&lt;-</span> <span class="fu">get_eurostat</span>(<span class="st">"nama_10r_3gdp"</span>, <span class="at">time_format =</span> <span class="st">"num"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+indexed 0B in  0s, 0B/s
+indexed 1.00TB in  0s, 143.16TB/s
+                                                                              </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Table nama_10r_3gdp cached at /var/folders/w2/3p9sptn92814q_8xk2zpybsr0000gn/T//RtmpCftMb4/eurostat/7836c23287bbae809ba3eae1f692f8f2.rds</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># velger tidperiod 2000-2023, unit i MIO_EUR (Million euro), og 4 land ("BE", "NL", "BG", "NO")</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>gdp <span class="ot">&lt;-</span> gdp <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(unit <span class="sc">==</span> <span class="st">"MIO_EUR"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">TIME_PERIOD =</span> <span class="fu">as.numeric</span>(TIME_PERIOD), <span class="at">geo =</span> <span class="fu">as.character</span>(geo)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(TIME_PERIOD <span class="sc">&gt;=</span> <span class="dv">2000</span>, TIME_PERIOD <span class="sc">&lt;=</span> <span class="dv">2023</span>) <span class="sc">%&gt;%</span> <span class="co">#velger år 2000-2023</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">substr</span>(geo, <span class="dv">1</span>, <span class="dv">2</span>) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"BE"</span>, <span class="st">"NL"</span>, <span class="st">"BG"</span>, <span class="st">"NO"</span>)) <span class="sc">%&gt;%</span> <span class="co"># velger 4 land</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">nchar</span>(geo) <span class="sc">==</span> <span class="dv">5</span>)    <span class="co"># velger NUTS3</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># viser BNP-datastruktur</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(gdp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,591
+Columns: 5
+$ freq        &lt;chr&gt; "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A"…
+$ unit        &lt;chr&gt; "MIO_EUR", "MIO_EUR", "MIO_EUR", "MIO_EUR", "MIO_EUR", "MI…
+$ geo         &lt;chr&gt; "BE100", "BE100", "BE100", "BE100", "BE100", "BE100", "BE1…
+$ TIME_PERIOD &lt;dbl&gt; 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012…
+$ values      &lt;dbl&gt; 54681.25, 57619.35, 59500.55, 62125.09, 64604.73, 65375.89…</code></pre>
+</div>
+</div>
+<p>Datasettet gdp (nama_10r_3gdp) er hentet fra Eurostat og inneholder årlige verdier for BNP (bruttonasjonalprodukt) på NUTS3-nivå. Etter filtrering ifølge oppgaven består datasettet gdp av 2 591 observasjoner og 5 variabler fra 2000 til 2023 for landene Belgia (BE), Nederland (NL) , BG Bulgaria (BG) , Norge (NO).</p>
+</section>
+<section id="laster-ned-datasettet-population" class="level3">
+<h3 class="anchored" data-anchor-id="laster-ned-datasettet-population">Laster ned datasettet population</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># laster ned datasettet population (demo_r_pjanaggr3)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>population <span class="ot">&lt;-</span> <span class="fu">get_eurostat</span>(<span class="st">"demo_r_pjanaggr3"</span>, <span class="at">time_format =</span> <span class="st">"num"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+indexed 0B in  0s, 0B/s
+indexed 1.00TB in  0s, 27.05TB/s
+                                                                              </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Table demo_r_pjanaggr3 cached at /var/folders/w2/3p9sptn92814q_8xk2zpybsr0000gn/T//RtmpCftMb4/eurostat/c18a0434a58bcf637c6893da79339574.rds</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># velger tidperiod 2000-2023, age Total population (Million euro), og 4 land ("BE", "NL", "BG", "NO")</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>population <span class="ot">&lt;-</span> population <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">"T"</span>, age <span class="sc">==</span> <span class="st">"TOTAL"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">TIME_PERIOD =</span> <span class="fu">as.numeric</span>(TIME_PERIOD), <span class="at">geo =</span> <span class="fu">as.character</span>(geo)) <span class="sc">%&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">between</span>(TIME_PERIOD, <span class="dv">2000</span>, <span class="dv">2023</span>)) <span class="sc">%&gt;%</span> <span class="co">#velger år 2000-2023</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">substr</span>(geo, <span class="dv">1</span>, <span class="dv">2</span>) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"BE"</span>, <span class="st">"NL"</span>, <span class="st">"BG"</span>, <span class="st">"NO"</span>)) <span class="sc">%&gt;%</span> <span class="co"># velger 4 land</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">nchar</span>(geo) <span class="sc">==</span> <span class="dv">5</span>)    <span class="co"># velger NUTS3</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># viser population-datastruktur</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(population)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3,023
+Columns: 7
+$ freq        &lt;chr&gt; "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A"…
+$ unit        &lt;chr&gt; "NR", "NR", "NR", "NR", "NR", "NR", "NR", "NR", "NR", "NR"…
+$ sex         &lt;chr&gt; "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T"…
+$ age         &lt;chr&gt; "TOTAL", "TOTAL", "TOTAL", "TOTAL", "TOTAL", "TOTAL", "TOT…
+$ geo         &lt;chr&gt; "BE100", "BE100", "BE100", "BE100", "BE100", "BE100", "BE1…
+$ TIME_PERIOD &lt;dbl&gt; 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009…
+$ values      &lt;dbl&gt; 959318, 964405, 978384, 992041, 999899, 1006749, 1018804, …</code></pre>
+</div>
+</div>
+<p>Datasettet papulation (demo_r_pjanaggr3) er hentet fra Eurostat og viser befolkningen per 1. januar for hver NUTS3-region. Etter filtrering ifølge oppgaven består datasettet av 3 023 observasjoner og 7 variabler fra 2000 til 2023 for landene Belgia (BE), Nederland (NL) , BG Bulgaria (BG) , Norge (NO).</p>
+</section>
+<section id="informasjon-om-dataene" class="level3">
+<h3 class="anchored" data-anchor-id="informasjon-om-dataene">Informasjon om dataene:</h3>
+<p>Begge datasettene er hentet fra Eurostat, og oppdateres årlig. Informasjonen om variablene bygger på metadata <span class="citation" data-cites="Eurostat_reg_eco10_2025 Eurostat_demo_pop_2025">(<a href="#ref-Eurostat_reg_eco10_2025" role="doc-biblioref">Eurostat 2025b</a>, <a href="#ref-Eurostat_demo_pop_2025" role="doc-biblioref">2025a</a>)</span>. Datadekningen for EFTA-land (inkludert Norge) starter i 2010. Derfor starter dataene for Norge i denne oppgaven fra 2010. BNP-datasettet (nama_10r_3gdp) ifølge metadatabeskrivelsen <span class="citation" data-cites="Eurostat_reg_eco10_2025">(<a href="#ref-Eurostat_reg_eco10_2025" role="doc-biblioref">Eurostat 2025b</a>)</span> er en del av Regional Economic Accounts og viser verdien av bruttonasjonalprodukt for de relevante europeiske regionene. Tallene er målt i millioner euro (MIO_EUR), rapporteres årlig (freq = “A”) på NUTS3-nivå, og dekker perioden 2000–2023. Datasettet inneholder fem variabler: freq, unit, geo, TIME_PERIOD og values. Variablen geo representerer regionkoder, TIME_PERIOD viser år, og values gir BNP-verdi i millioner euro. Dataene rapporteres av nasjonale statistiske institutter og samles inn og standardiseres i Eurostat. Datasettet gdp dekker nå regionale BNP-data for BE (Belgia), NL (Nederland), BG (Bulgaria), NO (Norge) som knyttet til oppgaven. Papulation (demo_r_pjanaggr3) ifølge metadatabeskrivelsen <span class="citation" data-cites="Eurostat_demo_pop_2025">(<a href="#ref-Eurostat_demo_pop_2025" role="doc-biblioref">Eurostat 2025a</a>)</span> kommer fra Eurostats Demography Database og viser befolkningen per 1. januar hvert år. Tallene måles i antall personer (NR) og er tilgjengelige etter kjønn og alder, men her brukes bare total befolkning (kjønn = “T”, alder = “TOTAL”). Datasettet inneholder variablene freq, unit, sex, age, geo, TIME_PERIOD og values, der values viser antall personer i hver region og år. Datasettet brukes til å beregne BNP per innbygger ved å koble befolkningsdataene med de regionale BNP-tallene. Dette muliggjør sammenligninger av økonomisk velstand mellom regioner og mellom landene Belgia (BE), Bulgaria (BG), Nederland (NL) og Norge (NO) i perioden 2000–2023.</p>
+</section>
+</section>
+<section id="beregning-av-bnp-per-innbygger-gdpc" class="level2">
+<h2 class="anchored" data-anchor-id="beregning-av-bnp-per-innbygger-gdpc">Beregning av BNP per innbygger (GDPC)</h2>
+<section id="merger-datasetter-gdp-og-papulation-og-fjerner-manglende-verdier" class="level3">
+<h3 class="anchored" data-anchor-id="merger-datasetter-gdp-og-papulation-og-fjerner-manglende-verdier">Merger datasetter GDP og papulation, og fjerner manglende verdier</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merger datasetter GDP og papulation</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>gdp_pop <span class="ot">&lt;-</span> <span class="fu">left_join</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  gdp,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  population,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">join_by</span>(geo, TIME_PERIOD),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">"_gdp"</span>, <span class="st">"_pop"</span>))</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Teller antall manglende verdier (NA) i hver variabel</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(gdp_pop))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   freq_gdp    unit_gdp         geo TIME_PERIOD  values_gdp    freq_pop 
+          0           0           0           0           0         462 
+   unit_pop         sex         age  values_pop 
+        462         462         462         462 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Viser totalt antall manglende verdier i hele datasettet</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(gdp_pop))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2310</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dette steget brukes for å sjekke om datasettet har manglende verdier. De to metodene viser det samme resultatet – 2 310 manglende verdier i datasettet etter merged.</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fjerner manglende verdier i BNP- og befolkningskolonnene før videre beregninger</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>gdp_pop <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(values_gdp, values_pop) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Samslåing av datasett ble utført her. Datasettet BNP og population ble slått sammen ved hjelp av regionkode (geo) og år (TIME_PERIOD). Så sjekker og fjerner 2 310 manglende verdier i BNP- og befolkningskolonnene før videre beregninger.</p>
+</section>
+<section id="beregner-bnp-per-innbygger-gdpc-etter-å-merge-dataene" class="level3">
+<h3 class="anchored" data-anchor-id="beregner-bnp-per-innbygger-gdpc-etter-å-merge-dataene">Beregner BNP per innbygger (GDPC) etter å merge dataene</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Beregner BNP per innbygger etter å merge dataene</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>gdp_pop <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">GDPC =</span> (values_gdp <span class="sc">*</span> <span class="fl">1e6</span>) <span class="sc">/</span> values_pop) <span class="sc">%&gt;%</span> <span class="co"># BNP per innbygger (GDPC) er beregnet i euro per person</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(values_pop <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="fu">is.finite</span>(GDPC)) <span class="co"># Fjerner ugyldige eller ekstreme observasjoner</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Sjekker datastrukturen og verdiene etter sammenslåing og beregning</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Viser strukturen til datasettet etter beregningen</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(gdp_pop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,119
+Columns: 11
+$ freq_gdp    &lt;chr&gt; "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A"…
+$ unit_gdp    &lt;chr&gt; "MIO_EUR", "MIO_EUR", "MIO_EUR", "MIO_EUR", "MIO_EUR", "MI…
+$ geo         &lt;chr&gt; "BE100", "BE100", "BE100", "BE100", "BE100", "BE100", "BE1…
+$ TIME_PERIOD &lt;dbl&gt; 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012…
+$ values_gdp  &lt;dbl&gt; 54681.25, 57619.35, 59500.55, 62125.09, 64604.73, 65375.89…
+$ freq_pop    &lt;chr&gt; "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A"…
+$ unit_pop    &lt;chr&gt; "NR", "NR", "NR", "NR", "NR", "NR", "NR", "NR", "NR", "NR"…
+$ sex         &lt;chr&gt; "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T"…
+$ age         &lt;chr&gt; "TOTAL", "TOTAL", "TOTAL", "TOTAL", "TOTAL", "TOTAL", "TOT…
+$ values_pop  &lt;dbl&gt; 992041, 999899, 1006749, 1018804, 1031215, 1048491, 106853…
+$ GDPC        &lt;dbl&gt; 55119.95, 57625.17, 59101.67, 60978.45, 62649.14, 62352.36…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Oppsummerer sentrale statistiske mål for å kontrollere verdiene</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gdp_pop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   freq_gdp           unit_gdp             geo             TIME_PERIOD  
+ Length:2119        Length:2119        Length:2119        Min.   :2000  
+ Class :character   Class :character   Class :character   1st Qu.:2008  
+ Mode  :character   Mode  :character   Mode  :character   Median :2013  
+                                                          Mean   :2013  
+                                                          3rd Qu.:2018  
+                                                          Max.   :2023  
+   values_gdp         freq_pop           unit_pop             sex           
+ Min.   :   168.8   Length:2119        Length:2119        Length:2119       
+ 1st Qu.:  1068.3   Class :character   Class :character   Class :character  
+ Median :  3828.0   Mode  :character   Mode  :character   Mode  :character  
+ Mean   :  8393.3                                                           
+ 3rd Qu.: 10733.5                                                           
+ Max.   :103285.0                                                           
+     age              values_pop           GDPC       
+ Length:2119        Min.   :  41906   Min.   :  1087  
+ Class :character   1st Qu.: 125404   1st Qu.:  6061  
+ Mode  :character   Median : 217969   Median : 25632  
+                    Mean   : 283701   Mean   : 24551  
+                    3rd Qu.: 365834   3rd Qu.: 35051  
+                    Max.   :1296615   Max.   :105721  </code></pre>
+</div>
+</div>
+<p>BNP per innbygger (GDPC) ble beregnet som total BNP delt på befolkningstall. Videre ble observasjoner med null eller ugyldige verdier ekskludert for å sikre et rent og pålitelig datasett før videre analyse. glimpse(gdp_pop) viser at datasettet inneholder 2 119 observasjoner og 11 variabler etter sammenslåing og rensing. Variablene inkluderer blant annet regionkode (geo), år (TIME_PERIOD), BNP i millioner euro (values_gdp), befolkning (values_pop) og beregnet BNP per innbygger (GDPC). summary(gdp_pop) gir et overblikk over fordelingen i dataene. Tidsperioden dekker årene 2000–2023. BNP-verdiene varierer fra om lag 168 til 103 285 millioner euro, mens befolkningen i regionene varierer fra under 42 000 til over 1,29 millioner personer. Variabelen GDPC viser de beregnede verdiene for BNP per innbygger, med minst 1 087 og maks 105 721, som danner grunnlaget for den videre analysen.</p>
+</section>
+</section>
+<section id="beskrivende-analyse" class="level2">
+<h2 class="anchored" data-anchor-id="beskrivende-analyse">Beskrivende analyse</h2>
+<section id="grunnleggende-deskriptiv-statistikk" class="level3">
+<h3 class="anchored" data-anchor-id="grunnleggende-deskriptiv-statistikk">Grunnleggende deskriptiv statistikk</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grunnleggende deskriptiv statistikk for merged datasettet</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>gdp_pop_summary <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(values_pop <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="fu">is.finite</span>(GDPC)) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_obs =</span> <span class="fu">n</span>(),</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Min =</span> <span class="fu">min</span>(GDPC, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Q1  =</span> <span class="fu">quantile</span>(GDPC, <span class="fl">0.25</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Median =</span> <span class="fu">median</span>(GDPC, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean =</span> <span class="fu">mean</span>(GDPC, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Q3  =</span> <span class="fu">quantile</span>(GDPC, <span class="fl">0.75</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max =</span> <span class="fu">max</span>(GDPC, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD  =</span> <span class="fu">sd</span>(GDPC, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>gdp_pop_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 8
+  n_obs   Min    Q1 Median   Mean     Q3     Max     SD
+  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+1  2119 1087. 6061. 25632. 24551. 35051. 105721. 17452.</code></pre>
+</div>
+</div>
+<p>Resultatene for grunnleggende deskriptiv statistikk for merged datasettet gdp_pop viser følgende nøkkeltall: antall observasjoner: 2 119 regioner, minimumsverdi 1 087 euro per person, første kvartil (Q1) 6 061 euro, median 25 632 euro, gjennomsnitt (Mean) 24 551 euro, tredje kvartil (Q3) 35 051 euro, maksimumsverdi 105 721 euro, og standardavvik: 17 452 euro.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>bnp_per_innbygger <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> GDPC)) <span class="sc">+</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">40</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Fordeling av BNP per innbygger (alle regioner)"</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"BNP per innbygger (euro per person)"</span>,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Antall regioner"</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>bnp_per_innbygger</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-bnp_per_innbygger" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bnp_per_innbygger-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="msb104_a1_files/figure-html/fig-bnp_per_innbygger-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bnp_per_innbygger-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Fordeling av BNP per innbygger (alle regioner)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-bnp_per_innbygger" class="quarto-xref">Figure&nbsp;1</a> viser at halvparten av regionene har et BNP per innbygger mellom omtrent 5 000 og 40 000 euro, og at spredningen er ganske stor. Gjennomsnittet ligger litt lavere enn medianen, noe som tyder på at fordelingen er høyreskjev, slik figuren viser. Det betyr at de fleste regionene har relativt lavt BNP per innbygger, mens noen få regioner har svært høy verdiskaping.</p>
+</section>
+<section id="deskriptiv-statistikk-for-hvert-land" class="level3">
+<h3 class="anchored" data-anchor-id="deskriptiv-statistikk-for-hvert-land">Deskriptiv statistikk for hvert land</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Deskriptiv statistikk for hvert land</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>gdp_pop_land_summary <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(values_pop <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="fu">is.finite</span>(GDPC)) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country =</span> <span class="fu">substr</span>(geo, <span class="dv">1</span>, <span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_obs =</span> <span class="fu">n</span>(),</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Min =</span> <span class="fu">min</span>(GDPC, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Q1  =</span> <span class="fu">quantile</span>(GDPC, <span class="fl">0.25</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Median =</span> <span class="fu">median</span>(GDPC, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean =</span> <span class="fu">mean</span>(GDPC, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Q3  =</span> <span class="fu">quantile</span>(GDPC, <span class="fl">0.75</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max =</span> <span class="fu">max</span>(GDPC, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD  =</span> <span class="fu">sd</span>(GDPC, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>gdp_pop_land_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 9
+  country n_obs    Min     Q1 Median   Mean     Q3     Max     SD
+  &lt;chr&gt;   &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+1 BE        850 12756. 22665. 27979. 30263. 35751.  82418. 11092.
+2 BG        672  1087.  2531.  3763.  4572.  5496.  31697.  3286.
+3 NL        506 21694. 29189. 33612. 35413. 39395. 104524.  9812.
+4 NO         91 37623. 48020. 53533. 58337. 60404. 105721. 16748.</code></pre>
+</div>
+</div>
+<p>Tabellen viser beskrivende statistikk for BNP per innbygger (i euro) i de fire landene Belgia (BE), Bulgaria (BG), Nederland (NL) og Norge (NO). Resultatene viser store forskjeller mellom landene. Belgia har en moderat inntektsfordeling, der medianen ligger på rundt 28 000 euro per person. Maksimumsverdien er omtrent tre ganger enn median. Bulgaria har den laveste verdien blant de fire landene. Medianen er kun 3 763 euro, og både gjennomsnitt og maksimum er langt lavere enn i de andre landene. Maksimumsverdien er omtrent åtte ganger enn median. Nederland ligger betydelig høyere, med en median på omtrent 33 600 euro og et maksimum over 100 000 euro. Maksimumsverdien er omtrent tre ganger enn median. Norge har de høyeste verdiene, med en median på 53 533 euro og et gjennomsnitt på 58 337 euro. Maksimumsverdien er omtrent to ganger enn median.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>bnp_per_innbygger_land  <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">land_full =</span> <span class="fu">recode</span>(<span class="fu">substr</span>(geo, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"BE"</span> <span class="ot">=</span> <span class="st">"Belgia"</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"BG"</span> <span class="ot">=</span> <span class="st">"Bulgaria"</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"NL"</span> <span class="ot">=</span> <span class="st">"Nederland"</span>,</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"NO"</span> <span class="ot">=</span> <span class="st">"Norge"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> land_full, <span class="at">y =</span> GDPC, <span class="at">fill =</span> land_full)) <span class="sc">+</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"BNP per innbygger etter land"</span>,</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Land"</span>,</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"BNP per innbygger (euro)"</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>bnp_per_innbygger_land</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-bnp_per_innbygger_land" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bnp_per_innbygger_land-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="msb104_a1_files/figure-html/fig-bnp_per_innbygger_land-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bnp_per_innbygger_land-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Sammenligning av BNP per innbygger etter land
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-bnp_per_innbygger_land" class="quarto-xref">Figure&nbsp;2</a> gir et tydelig visuelt bilde av forskjellene mellom landene. Bulgaria skiller seg ut med svært lave verdier og liten variasjon mellom regionene, noe som indikerer et generelt lavt, men jevnt inntektsnivå. Belgia har et bredere spenn, med enkelte regioner som ligger betydelig over medianen, men ingen ekstreme avvik. Nederland viser både høyere nivåer og større spredning, spesielt enkelte rike regioner med høy BNP per innbygger. Norge har høyest median og et bredt spenn, med flere regioner som ligger over 100 000 euro per person.<br>
+Både tabellen og <a href="#fig-bnp_per_innbygger_land" class="quarto-xref">Figure&nbsp;2</a> viser at Norge har den høyeste nivåen av BNP per innbygger. Nederland har nesten maks BNP per innbygger som Norge, men har lavere medien og gjennomsnitt BNP per innbygger enn Norge. Bulgaria ligger lavest. Belgia befinner seg mellom disse, med moderate verdier og begrenset variasjon mellom regionene.</p>
+</section>
+<section id="median-bnp-per-innbygger-etter-land-over-tid" class="level3">
+<h3 class="anchored" data-anchor-id="median-bnp-per-innbygger-etter-land-over-tid">Median BNP per innbygger etter land over tid</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>bnp_over_tid_median <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">land =</span> <span class="fu">substr</span>(geo, <span class="dv">1</span>, <span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(land, TIME_PERIOD) <span class="sc">%&gt;%</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_BNPI =</span> <span class="fu">median</span>(GDPC, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">land_full =</span> <span class="fu">recode</span>(land,</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"BE"</span> <span class="ot">=</span> <span class="st">"Belgia"</span>,</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"BG"</span> <span class="ot">=</span> <span class="st">"Bulgaria"</span>,</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"NL"</span> <span class="ot">=</span> <span class="st">"Nederland"</span>,</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"NO"</span> <span class="ot">=</span> <span class="st">"Norge"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> TIME_PERIOD, <span class="at">y =</span> median_BNPI, <span class="at">color =</span> land_full)) <span class="sc">+</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">70000</span>),</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Utvikling i median BNP per innbygger (2000–2023)"</span>,</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"År"</span>,</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"BNP per innbygger (euro)"</span>,</span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Land"</span></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"right"</span></span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>bnp_over_tid_median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-bnp_over_tid_median" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bnp_over_tid_median-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="msb104_a1_files/figure-html/fig-bnp_over_tid_median-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bnp_over_tid_median-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Utvikling i median BNP per innbygger (2000–2023)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-bnp_over_tid_median" class="quarto-xref">Figure&nbsp;3</a> er basert på median BNP per innbygger fra 2000 til 2023, og viser tydelig forskjeller i økonomisk utvikling mellom de fire landene: Norge ligger høyest gjennom hele perioden, med median BNP per innbygger mellom omtrent 40 000 og 60 000 euro. Nederland følger som nummer to, med tydelig jevn vekst fra rundt 20 000 til over 45 000 euro. Belgia ligger noe lavere, men viser også en stabil, gradvis økning som Nederland. Bulgaria starter svært lavt, men øker opp mot omtrent 10 000 euro i 2023. Median BNP i Norge har høyest nivå og størst variasjon, etterfulgt av Nederland, mens Belgia ligger midt i gruppen og Bulgaria betydelig lavere. Utviklingen over tid viser likevel positiv vekst i alle land. Resultatene til <a href="#fig-bnp_over_tid_median" class="quarto-xref">Figure&nbsp;3</a> er i samsvar med resultatene til <a href="#fig-bnp_per_innbygger_land" class="quarto-xref">Figure&nbsp;2</a> og resultatene av beskrivende statistikk for BNP per innbygger.</p>
+</section>
+</section>
+</section>
+<section id="del-b-regional-ulikhet" class="level1">
+<h1>Del B: Regional ulikhet</h1>
+<section id="litteraturgjennomgang" class="level2">
+<h2 class="anchored" data-anchor-id="litteraturgjennomgang">Litteraturgjennomgang</h2>
+<p>Ifølge artikkelen ‘Regional inequality, convergence, and its determinants– A view from outer space’ <span class="citation" data-cites="LESSMANN2017110">Lessmann and Seidel (<a href="#ref-LESSMANN2017110" role="doc-biblioref">2017</a>)</span> forsøker regional ulikhet, konvergens og dens determinanter, og finnes det en tydelig sammenheng mellom økonomisk utvikling og forskjeller mellom regioner. I artikkelen <span class="citation" data-cites="LESSMANN2017110">Lessmann and Seidel (<a href="#ref-LESSMANN2017110" role="doc-biblioref">2017</a>)</span> bekrefter først forholdet mellom lysstyrkedata og regional inntekt, deretter bruker satellittbaserte nattlysdata for å måle økonomisk aktivitet i 180 land og 3166 regioner i perioden 1992–2012. Metoden bidrar å analysere regionale ulikheter også i land der det mangler pålitelige inntektsdata. Resultatene til <span class="citation" data-cites="LESSMANN2017110">Lessmann and Seidel (<a href="#ref-LESSMANN2017110" role="doc-biblioref">2017</a>)</span> viser at omtrent 67–70 prosent av landene har opplevd sigma-konvergens, det vil si at inntektsforskjellene mellom regioner har blitt mindre over tid. Samtidig finner <span class="citation" data-cites="LESSMANN2017110">Lessmann and Seidel (<a href="#ref-LESSMANN2017110" role="doc-biblioref">2017</a>)</span> at forholdet mellom økonomisk utvikling og ulikhet følger et N-formet mønster, der ulikheten øker i lavinntektsland, reduseres i mellominntektsland og stiger svakt igjen i høyinntektsland. Videre viser <span class="citation" data-cites="LESSMANN2017110">Lessmann and Seidel (<a href="#ref-LESSMANN2017110" role="doc-biblioref">2017</a>)</span> at utvikling, mobilitet, åpenhet, ressurser, institusjoner, overføringer og utdanning, og etnisitet er syv grupper som kan påvirke ulike determinanter for regional ulikhet. Derimot kan geografiske faktorer over tid også ha en innvirkning for regional ulikhet. <span class="citation" data-cites="LESSMANN2017110">Lessmann and Seidel (<a href="#ref-LESSMANN2017110" role="doc-biblioref">2017</a>)</span> peker på at regionale ulikheter ikke bare har økonomiske, men også politiske implikasjoner, fordi økonomisk aktivitet ofte er sterkt konsentrert i enkelte byområder og ressursrike regioner. Dette kan påvirke både sosial stabilitet og utformingen av nasjonal politikk. Dermed gir studien et globalt rammeverk for å forstå hvorfor enkelte land opplever regional konvergens mens andre får økende ulikhet, og hvordan geografiske, økonomiske og institusjonelle forhold påvirker utviklingsmønsteret. Kort sagt fra <span class="citation" data-cites="su13021006">Bandeira Morais, Swart, and Jordaan (<a href="#ref-su13021006" role="doc-biblioref">2021</a>)</span>, Gini-koeffisienten er et av de mest brukte målene på økonomisk ulikhet, og varierer fra 0 (full likhet) til 1 (total ulikhet). Jo høyere Gini-koeffisienten indikerer jo større forskjeller i økonomisk aktivitet mellom ulike regioner.</p>
+</section>
+<section id="beregning-av-gini-koeffisienten-på-nuts2-nivå" class="level2">
+<h2 class="anchored" data-anchor-id="beregning-av-gini-koeffisienten-på-nuts2-nivå">Beregning av Gini-koeffisienten på NUTS2-nivå</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Beregner befolkningsvektet Gini på NUTS2-nivå (basert på GDPC for NUTS3)</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>gini <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">NUTS2   =</span> <span class="fu">substr</span>(geo, <span class="dv">1</span>, <span class="dv">4</span>),<span class="co"># Henter NUTS2-kode fra NUTS3 og legger til landkode</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="fu">substr</span>(geo, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(values_pop <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="fu">is.finite</span>(GDPC)) <span class="sc">%&gt;%</span> <span class="co"># Fjerner ugyldige observasjoner (befolkning ≤ 0 eller manglende)</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country, NUTS2, TIME_PERIOD) <span class="sc">%&gt;%</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_nuts3 =</span> dplyr<span class="sc">::</span><span class="fu">n</span>(),<span class="co"># Teller hvor mange NUTS3-regioner som inngår i hver NUTS2-gruppe</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Gini_weighted =</span> <span class="cf">if</span> (dplyr<span class="sc">::</span><span class="fu">n</span>() <span class="sc">&gt;=</span> <span class="dv">2</span>) {</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Beregner befolkningsvektet Gini ved hjelp av funksjonen gini.wtd()</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.numeric</span>(dineq<span class="sc">::</span><span class="fu">gini.wtd</span>(GDPC, <span class="at">weights =</span> values_pop))</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>      <span class="cn">NA_real_</span> </span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    }, <span class="co"># Hvis NUTS2 bare består av én NUTS3, Gini settes til NA</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Sjekker struktur og summary</span></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Sjekker strukturen til Gini-resultatene</span></span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(gini)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 646
+Columns: 5
+$ country       &lt;chr&gt; "BE", "BE", "BE", "BE", "BE", "BE", "BE", "BE", "BE", "B…
+$ NUTS2         &lt;chr&gt; "BE10", "BE10", "BE10", "BE10", "BE10", "BE10", "BE10", …
+$ TIME_PERIOD   &lt;dbl&gt; 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 20…
+$ n_nuts3       &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ Gini_weighted &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Oppsummerer Gini-fordelingen</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gini<span class="sc">$</span>Gini_weighted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.     NA's 
+0.000948 0.038088 0.067481 0.076888 0.096178 0.282296      173 </code></pre>
+</div>
+</div>
+<p>I denne delen beregnet jeg den befolkningsvektede Gini-koeffisienten på NUTS2-nivå basert på BNP per innbygger (GDPC) for NUTS3-regionene. Jeg hentet NUTS2- og landskoder fra NUTS3-koden og fjernet ugyldige observasjoner der befolkningen var ≤ 0 eller verdiene ikke var endelige. Deretter grupperte jeg dataene etter land, NUTS2 og år (TIME_PERIOD), og brukte funksjonen gini.wtd(GDPC, weights = values_pop) fra pakken dineq til å beregne Gini-koeffisienten med befolkningsvekter. Beregningen av oppgaven bygger på flere antakelser og forenklinger. Det antas at NUTS3-regionene gir et representativt bilde av den økonomiske aktiviteten innenfor hver NUTS2-region, og at ulikheten mellom disse kan tolkes som intern regional ulikhet. Videre antas det at befolkningen er en egnet vekt, slik at regioner med flere innbyggere får større innflytelse på den samlede ulikheten. Observasjoner med ugyldige eller manglende verdier er fjernet, og for NUTS2-regioner som kun består av en NUTS3-region, ble Gini satt til NA som ikke brukes i beregningen, siden intern ulikhet ikke kan defineres i slike tilfeller. Resultatet er en tidsserie med Gini-verdier for hver NUTS2-region i perioden 2000–2023, som danner grunnlaget for videre analyse av utviklingen i regional økonomisk ulikhet. glimpse(gini) viser at datasettet med Gini-resultater inneholder fem variabler: land (country), regionkode (NUTS2), år (TIME_PERIOD), antall NUTS3-regioner (n_nuts3) og den beregnede Gini-koeffisienten (Gini_weighted). summary(gini$Gini_weighted) viser at Gini-verdiene varierer mellom omtrent 0.001 og 0.28, med et gjennomsnitt på rundt 0.08, og 173 NA-verdier som skyldes NUTS2-regioner med bare én NUTS3. Dette bekrefter at beregningen fungerer som forventet, og at resultatene ligger innenfor et realistisk område for regional ulikhet.</p>
+</section>
+<section id="datapresentasjon" class="level2">
+<h2 class="anchored" data-anchor-id="datapresentasjon">Datapresentasjon</h2>
+<section id="statistikk-gini-totalt-og-etter-land" class="level3">
+<h3 class="anchored" data-anchor-id="statistikk-gini-totalt-og-etter-land">Statistikk Gini totalt og etter land</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># statistikk totalt gini</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>gini_totalt <span class="ot">&lt;-</span> gini <span class="sc">%&gt;%</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_obs =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gini_weighted)),</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Min   =</span> <span class="fu">min</span>(Gini_weighted, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Q1    =</span> <span class="fu">quantile</span>(Gini_weighted, <span class="fl">0.25</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Median=</span> <span class="fu">median</span>(Gini_weighted, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean  =</span> <span class="fu">mean</span>(Gini_weighted, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Q3    =</span> <span class="fu">quantile</span>(Gini_weighted, <span class="fl">0.75</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max   =</span> <span class="fu">max</span>(Gini_weighted, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD    =</span> <span class="fu">sd</span>(Gini_weighted, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>gini_totalt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 8
+  n_obs      Min     Q1 Median   Mean     Q3   Max     SD
+  &lt;int&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+1   473 0.000948 0.0381 0.0675 0.0769 0.0962 0.282 0.0496</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># statistikk gini etter land</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>gini_etter_land <span class="ot">&lt;-</span> gini <span class="sc">%&gt;%</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_obs =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gini_weighted)),</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Min   =</span> <span class="fu">min</span>(Gini_weighted, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Q1    =</span> <span class="fu">quantile</span>(Gini_weighted, <span class="fl">0.25</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Median=</span> <span class="fu">median</span>(Gini_weighted, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean  =</span> <span class="fu">mean</span>(Gini_weighted, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Q3    =</span> <span class="fu">quantile</span>(Gini_weighted, <span class="fl">0.75</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max   =</span> <span class="fu">max</span>(Gini_weighted, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD    =</span> <span class="fu">sd</span>(Gini_weighted, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>gini_etter_land</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 9
+  country n_obs      Min     Q1 Median   Mean     Q3    Max      SD
+  &lt;chr&gt;   &lt;int&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+1 BE        171 0.00992  0.0625 0.0781 0.0783 0.0899 0.153  0.0297 
+2 BG        144 0.0458   0.0818 0.103  0.118  0.126  0.282  0.0565 
+3 NL        147 0.000948 0.0249 0.0334 0.0385 0.0452 0.117  0.0232 
+4 NO         11 0.0213   0.0292 0.0342 0.0330 0.0366 0.0447 0.00679</code></pre>
+</div>
+</div>
+<p>Totalt består datasettet av 473 observasjoner av Gini-koeffisient på NUTS2-nivå for Belgia, Nederland, Bulgaria og Norge mellom 2000 til 2023. Gini-verdiene varierer fra 0.0009 til 0.2823, med en median på 0.0675 og et gjennomsnitt på 0.0769, noe som tyder på moderat regional ulikhet. Videre ser på landene hver for seg, finner vi følgende nøkkeldata: Belgia har ca. minimum 0.010, median 0.078 og maksimum 0.153. Bulgaria har ca. minimum 0.046, median 0.103 og maksimum 0.282. Nederland har ca. minimum 0.001, median 0.033 og maksimum 0.117. Norge har ca. minimum 0.021, median 0.034 og maksimum 0.045. Resultatene viser at ulikheten er størst i Bulgaria og minst i Norge og Nederland, mens Belgia ligger midt imellom. Dette betyr at økonomisk aktivitet i Nederland og Norge er jevnere fordelt mellom regionene, mens Bulgaria har større forskjeller i økonomisk aktivitet mellom ulike regionene.</p>
+</section>
+<section id="gjennomsnittlig-gini-per-land-per-år" class="level3">
+<h3 class="anchored" data-anchor-id="gjennomsnittlig-gini-per-land-per-år">Gjennomsnittlig Gini per land per år</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gjennomsnittlig Gini</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>gini_gjennomsnittlig <span class="ot">&lt;-</span> gini <span class="sc">%&gt;%</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gini_weighted)) <span class="sc">%&gt;%</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country, TIME_PERIOD) <span class="sc">%&gt;%</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_gini =</span> <span class="fu">mean</span>(Gini_weighted), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">land_full =</span> <span class="fu">recode</span>(country,</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"BE"</span> <span class="ot">=</span> <span class="st">"Belgia"</span>, <span class="st">"BG"</span> <span class="ot">=</span> <span class="st">"Bulgaria"</span>,</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"NL"</span> <span class="ot">=</span> <span class="st">"Nederland"</span>, <span class="st">"NO"</span> <span class="ot">=</span> <span class="st">"Norge"</span>))</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>gini_gjennomsnittlig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 77 × 4
+   country TIME_PERIOD mean_gini land_full
+   &lt;chr&gt;         &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;    
+ 1 BE             2003    0.0757 Belgia   
+ 2 BE             2004    0.0794 Belgia   
+ 3 BE             2005    0.0790 Belgia   
+ 4 BE             2006    0.0797 Belgia   
+ 5 BE             2007    0.0798 Belgia   
+ 6 BE             2008    0.0800 Belgia   
+ 7 BE             2009    0.0712 Belgia   
+ 8 BE             2010    0.0736 Belgia   
+ 9 BE             2011    0.0720 Belgia   
+10 BE             2012    0.0784 Belgia   
+# ℹ 67 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Høyeste og laveste gjennomsnittlig Gini</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>gini_max_min <span class="ot">&lt;-</span> gini_gjennomsnittlig <span class="sc">%&gt;%</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_gini =</span> <span class="fu">max</span>(mean_gini, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_max =</span> TIME_PERIOD[<span class="fu">which.max</span>(mean_gini)],</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_gini =</span> <span class="fu">min</span>(mean_gini, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_min =</span> TIME_PERIOD[<span class="fu">which.min</span>(mean_gini)])</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>gini_max_min</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 5
+  country max_gini year_max min_gini year_min
+  &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+1 BE        0.0820     2016   0.0712     2009
+2 BG        0.151      2022   0.0925     2002
+3 NL        0.0454     2006   0.0305     2010
+4 NO        0.0447     2020   0.0213     2017</code></pre>
+</div>
+</div>
+<p>Tabellene viser gjennomsnittlig Gini og de høyeste og laveste verdiene for gjennomsnittlig Gini per land og tilhørende år i perioden 2000–2023. Bulgaria har hatt den høyeste ulikheten blant landene, med maksimum 0.151 i 2022 og minimum 0.093 i 2002. Belgia viser små endringer over tid, med maksimum 0.082 i 2016 og minimum 0.071 i 2009. Nederland har hatt lave verdier, mellom 0.031 i 2010 og 0.045 i 2006, mens Norge har de laveste forskjellene, fra 0.021 i 2017 til 0.045 i 2020. Samlet viser resultatene at ulikheten har vært lav og stabil i de tre av fire landene, men med en tydelig økende tendens i Bulgaria de siste årene.</p>
+</section>
+<section id="median-gini-per-land-per-år" class="level3">
+<h3 class="anchored" data-anchor-id="median-gini-per-land-per-år">Median Gini per land per år</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Median Gini per land per år</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>gini_median <span class="ot">&lt;-</span> gini <span class="sc">%&gt;%</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gini_weighted)) <span class="sc">%&gt;%</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country, TIME_PERIOD) <span class="sc">%&gt;%</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">median_gini =</span> <span class="fu">median</span>(Gini_weighted), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">land_full =</span> <span class="fu">recode</span>(country,</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"BE"</span> <span class="ot">=</span> <span class="st">"Belgia"</span>, <span class="st">"BG"</span> <span class="ot">=</span> <span class="st">"Bulgaria"</span>,</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"NL"</span> <span class="ot">=</span> <span class="st">"Nederland"</span>, <span class="st">"NO"</span> <span class="ot">=</span> <span class="st">"Norge"</span>))</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>gini_median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 77 × 4
+   country TIME_PERIOD median_gini land_full
+   &lt;chr&gt;         &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;    
+ 1 BE             2003      0.0782 Belgia   
+ 2 BE             2004      0.0812 Belgia   
+ 3 BE             2005      0.0763 Belgia   
+ 4 BE             2006      0.0731 Belgia   
+ 5 BE             2007      0.0755 Belgia   
+ 6 BE             2008      0.0798 Belgia   
+ 7 BE             2009      0.0661 Belgia   
+ 8 BE             2010      0.0650 Belgia   
+ 9 BE             2011      0.0657 Belgia   
+10 BE             2012      0.0806 Belgia   
+# ℹ 67 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Høyeste og laveste median Gini per land (med år)</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>gini_median_max_min <span class="ot">&lt;-</span> gini_median <span class="sc">%&gt;%</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_median_gini =</span> <span class="fu">max</span>(median_gini, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_max =</span> TIME_PERIOD[<span class="fu">which.max</span>(median_gini)],</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_median_gini =</span> <span class="fu">min</span>(median_gini, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_min =</span> TIME_PERIOD[<span class="fu">which.min</span>(median_gini)])</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>gini_median_max_min</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 5
+  country max_median_gini year_max min_median_gini year_min
+  &lt;chr&gt;             &lt;dbl&gt;    &lt;dbl&gt;           &lt;dbl&gt;    &lt;dbl&gt;
+1 BE               0.0844     2016          0.0650     2010
+2 BG               0.130      2022          0.0842     2002
+3 NL               0.0408     2019          0.0193     2010
+4 NO               0.0447     2020          0.0213     2017</code></pre>
+</div>
+</div>
+<p>Tabellene viser median Gini og høyeste og laveste verdier for median Gini per land og tilhørende år i perioden 2000–2023. Tredene og resultatene er det nesten samme som gjennomsnittlig Gini per land per år. Bulgaria har hatt de høyeste verdiene, med maksimum 0.130 i 2022 og minimum 0.084 i 2002. Belgia har hatt moderate og stabile verdier mellom 0.065 (2010) og 0.084 (2016). Nederland og Norge har hatt de laveste forskjellene, med verdier fra henholdsvis 0.019–0.041 og 0.021–0.045.</p>
+</section>
+</section>
+<section id="visualisering" class="level2">
+<h2 class="anchored" data-anchor-id="visualisering">Visualisering</h2>
+<section id="figuren-for-gjennomsnittlig-gini-per-land-per-år" class="level4">
+<h4 class="anchored" data-anchor-id="figuren-for-gjennomsnittlig-gini-per-land-per-år">Figuren for gjennomsnittlig Gini per land per år</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>figuren_gini_gjennomsnittlig <span class="ot">&lt;-</span> gini_gjennomsnittlig <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(TIME_PERIOD, mean_gini, <span class="at">color =</span> land_full)) <span class="sc">+</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Utvikling i gjennomsnittlig Gini (NUTS2)"</span>,</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"År"</span>, <span class="at">y =</span> <span class="st">"Gjennomsnittlig Gini"</span>, <span class="at">color =</span> <span class="st">"Land"</span>) <span class="sc">+</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>figuren_gini_gjennomsnittlig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-gini_gjennomsnittlig" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gini_gjennomsnittlig-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="msb104_a1_files/figure-html/fig-gini_gjennomsnittlig-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gini_gjennomsnittlig-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Utvikling i gjennomsnittlig Gini (NUTS2) etter land, 2000–2023
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-gini_gjennomsnittlig" class="quarto-xref">Figure&nbsp;4</a> viser de samme trendene over tid. Bulgaria ligger klart høyest gini-tred og har hatt en svak økning i ulikheten etter 2010, spesielt 2022. Belgia har et stabilt nivå uten store endringer. Nederland og Norge ligger lavt gjennom hele perioden, med små svingninger og generelt jevn regional fordeling. Norge viser den lavste gjennomsnittlig Gini i 2017. Både resultatene til de gjennomsnittlige Gini og <a href="#fig-gini_gjennomsnittlig" class="quarto-xref">Figure&nbsp;4</a> viser at ulikheten mellom regionene har vært mest stabil i Belgia og lavest i Nederland og Norge, spesilt Norge har den laveste ulikheten mellom de fire landene. Bulgaria har hatt den tydeligste økningen i gjennomsnitt Gini, betyr det at Bulgaria har økt ulikheten mellom regionale.</p>
+</section>
+<section id="figuren-for-median-gini-per-land-per-år" class="level4">
+<h4 class="anchored" data-anchor-id="figuren-for-median-gini-per-land-per-år">Figuren for median Gini per land per år</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>figuren_gini_median <span class="ot">&lt;-</span> gini_median <span class="sc">%&gt;%</span> </span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(TIME_PERIOD, median_gini, <span class="at">color =</span> land_full)) <span class="sc">+</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>, <span class="at">linetype =</span> <span class="st">"solid"</span>) <span class="sc">+</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Utvikling i median Gini (NUTS2)"</span>,</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"År"</span>, <span class="at">y =</span> <span class="st">"Median Gini"</span>, <span class="at">color =</span> <span class="st">"Land"</span>) <span class="sc">+</span></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>figuren_gini_median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-gini_median" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gini_median-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="msb104_a1_files/figure-html/fig-gini_median-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gini_median-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Utvikling i median Gini (NUTS2) etter land, 2000–2023
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-gini_median" class="quarto-xref">Figure&nbsp;5</a> viser utviklingen i median Gini-koeffisienten for Belgia, Bulgaria, Nederland og Norge i perioden 2000–2023. Utviklingen i median Gini samsvarer i stor grad med resultatene for gjennomsnittlig Gini, der Bulgaria viser den mest markante økningen i ulikhet, mens de øvrige landene holder et stabilt og lavt nivå.</p>
+</section>
+<section id="figuren-for-fordeling-av-gini-nuts2-etter-land" class="level4">
+<h4 class="anchored" data-anchor-id="figuren-for-fordeling-av-gini-nuts2-etter-land">Figuren for fordeling av Gini (NUTS2) etter land</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>figuren_gini_etter_land <span class="ot">&lt;-</span> gini <span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gini_weighted)) <span class="sc">%&gt;%</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">land_full =</span> <span class="fu">recode</span>(country,</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"BE"</span> <span class="ot">=</span> <span class="st">"Belgia"</span>, <span class="st">"BG"</span> <span class="ot">=</span> <span class="st">"Bulgaria"</span>,</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"NL"</span> <span class="ot">=</span> <span class="st">"Nederland"</span>, <span class="st">"NO"</span> <span class="ot">=</span> <span class="st">"Norge"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(land_full, Gini_weighted, <span class="at">fill =</span> land_full)) <span class="sc">+</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Fordeling av Gini (NUTS2) etter land"</span>,</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Land"</span>, <span class="at">y =</span> <span class="st">"Gini-koeffisient"</span>) <span class="sc">+</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>figuren_gini_etter_land</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-gini_etter_land" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gini_etter_land-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="msb104_a1_files/figure-html/fig-gini_etter_land-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gini_etter_land-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Fordeling av Gini-koeffisienter (NUTS2) etter land, 2000–2023
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-gini_etter_land" class="quarto-xref">Figure&nbsp;6</a> viser spredningsituasjonen til de Gini-koeffisientene for Belgia, Bulgaria, Nederland og Norge i perioden 2000–2023. Bulgaria har høyest nivå og størst variasjon, noe som viser store forskjeller i regional økonomisk aktivitet. Belgia ligger på et middels nivå med moderat spredning. Nederland har lavere verdier og mer jevn fordeling, mens Norge har de laveste verdiene og minst variasjon mellom regionene. Spredningsituasjonen til <a href="#fig-gini_etter_land" class="quarto-xref">Figure&nbsp;6</a> viser stemmer overens med resultatene til både <a href="#fig-gini_gjennomsnittlig" class="quarto-xref">Figure&nbsp;4</a> og <a href="#fig-gini_median" class="quarto-xref">Figure&nbsp;5</a>, der Bulgaria har størst ulikhet og Norge og Nederland viser den mest balanserte regionale fordelingen.</p>
+</section>
+<section id="figuren-for-gini-per-nuts2-over-tid-fasettert-etter-land" class="level4">
+<h4 class="anchored" data-anchor-id="figuren-for-gini-per-nuts2-over-tid-fasettert-etter-land">Figuren for Gini per NUTS2 over tid (fasettert etter land)”</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>figuren_gini_over_tid <span class="ot">&lt;-</span> gini <span class="sc">%&gt;%</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gini_weighted)) <span class="sc">%&gt;%</span>        <span class="co"># Fjerner rader med manglende Gini (NA)</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(TIME_PERIOD, Gini_weighted, <span class="at">group =</span> NUTS2)) <span class="sc">+</span>  <span class="co"># Setter opp tidsserie per NUTS2-region</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span>                <span class="co"># Tegner tynne linjer for hver NUTS2-region (gjennomsiktighet 25%)</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> country, <span class="at">ncol =</span> <span class="dv">2</span>,          <span class="co"># Lager separate paneler (fasetter) for hvert land</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">as_labeller</span>(<span class="fu">c</span>(</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">BE =</span> <span class="st">"Belgia"</span>,</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">BG =</span> <span class="st">"Bulgaria"</span>,</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">NL =</span> <span class="st">"Nederland"</span>,</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">NO =</span> <span class="st">"Norge"</span>))) <span class="sc">+</span></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Gini per NUTS2 over tid (fasettert etter land)"</span>,  <span class="co"># Tittel og aksetitler</span></span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"År"</span>,</span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Gini-koeffisient"</span>) <span class="sc">+</span></span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>))    <span class="co"># Midtstiller og gjør tittelen fet</span></span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>figuren_gini_over_tid</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-gini_over_tid" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gini_over_tid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="msb104_a1_files/figure-html/fig-gini_over_tid-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gini_over_tid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Utvikling i Gini per NUTS2 over tid (2000–2023), fasettert etter land
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-gini_over_tid" class="quarto-xref">Figure&nbsp;7</a> viser utviklingen i Gini-koeffisienten for hver NUTS2-region i Belgia, Bulgaria, Nederland og Norge i perioden 2000–2023. Hver linje representerer en region, slik at variasjonen innad i landene kan observeres. For Norge vises kun en linje, fordi flere norske NUTS2-regioner består av bare en NUTS3-region, dermed ikke får beregnet intern Gini-verdi. I tillegg starter de norske dataene først i 2010, nevte i informasjon om dataene. Bulgaria har høyest over 0.2 Gini, viser størst intern ulikhet. Belgia har Gini med relevant stabilte mellom 0.05-0.1 mesteparten av tiden. Mens Norge og Nederland har nesten lavere enn 0.1 Gini, jevn og stabil regional fordeling. Resultatene til <a href="#fig-gini_over_tid" class="quarto-xref">Figure&nbsp;7</a> samsvarer med <a href="#fig-gini_etter_land" class="quarto-xref">Figure&nbsp;6</a>, <a href="#fig-gini_gjennomsnittlig" class="quarto-xref">Figure&nbsp;4</a> og <a href="#fig-gini_median" class="quarto-xref">Figure&nbsp;5</a>.</p>
+</section>
+</section>
+<section id="diskusjon" class="level2">
+<h2 class="anchored" data-anchor-id="diskusjon">Diskusjon</h2>
+<section id="analyse-og-sammenligning-av-gini-resultater" class="level3">
+<h3 class="anchored" data-anchor-id="analyse-og-sammenligning-av-gini-resultater">Analyse og sammenligning av Gini-resultater</h3>
+<p>Basert på analysen av Gini-koeffisientene kan man se at det finnes betydelige forskjeller i regional økonomisk ulikhet mellom Belgia, Bulgaria, Nederland og Norge i perioden 2000–2023. Bulgaria har de høyeste Gini-verdiene, Nederland og Norge de laveste, mens Belgia ligger mellom disse. Dette mønsteret er konsistent på tvers av resultatene for Gini totalt, Gini etter land, gjennomsnittlig Gini og median Gini, noe som viser at analysen har høy stabilitet og konsistens.</p>
+<p>Når man ser på utviklingen over tid, har Bulgaria opplevd en tydelig økning i regional ulikhet etter 2010. Maksimumsverdien for Gini er rundt 0.28, noe som indikerer at de økonomiske forskjellene mellom regionene har økt og at den regionale utviklingen er lite balansert. Belgia har Gini-verdier som varierer mellom 0.07 og 0.15, og viser et generelt stabilt nivå, noe som tyder på moderate regionale forskjeller. Nederland har verdier mellom 0.03 og 0.11, med små variasjoner over tid, som indikerer en jevn og balansert regional fordeling. Norge har de laveste og mest stabile verdiene, mellom 0.02 og 0.05, noe som viser svært små økonomiske forskjeller mellom regionene og en balansert regional struktur. Som tidligere nevnt har de norske dataene en spesiell karakter, ettersom flere NUTS2-regioner består av kun én NUTS3-region. Dette fører til at figuren for Norge bare viser én Gini-linje, men dette påvirker ikke gyldigheten av konklusjonene.</p>
+<p>Statistisk sett er Bulgarias maksimale Gini-verdi omtrent 0.28, betydelig høyere enn de andre landenes øvre grenser, mens Norges maksimale verdi er bare rundt 0.045, noe som skaper en tydelig kontrast. Gjennomsnitts- og medianverdiene er svært like i alle land, noe som viser at dataene er symmetrisk fordelt uten alvorlig skjevhet eller ekstreme verdier. Denne stabiliteten bekrefter ytterligere påliteligheten i beregningen av Gini-koeffisientene.</p>
+<p>Basert på betydningen av Gini-koeffisienten <span class="citation" data-cites="su13021006">(<a href="#ref-su13021006" role="doc-biblioref">Bandeira Morais, Swart, and Jordaan 2021</a>)</span>, der en verdi nær 1 indikerer høy ulikhet og en verdi nær 0 indikerer full likhet, kan vi se følgende situasjoner: Bulgaria har den høyeste Gini-verdien blant de fire landene, noe som viser at de regionale økonomiske forskjellene er størst og at ulikheten er mest markert. Belgia ligger på et middels nivå og viser en moderat grad av ulikhet. Nederland og Norge har de laveste Gini-verdiene, spesielt Norge, som viser den mest balanserte økonomiske fordelingen mellom regionene og det laveste nivået av ulikhet.</p>
+<p>Analysen bekrefter at graden av regional ulikhet varierer betydelig mellom landene og følger et mønster som samsvarer med <span class="citation" data-cites="LESSMANN2017110">(<a href="#ref-LESSMANN2017110" role="doc-biblioref">Lessmann and Seidel 2017</a>)</span>. Resultatene viser at økonomisk utvikling og ulikhet henger tett sammen, der lavinntektsland som Bulgaria har høyere og økende Gini-verdier, mens høyinntektsland som Nederland og Norge har lavere og mer stabile nivåer. Dette støtter den N-formede sammenhengen mellom utvikling og ulikhet som <span class="citation" data-cites="LESSMANN2017110">(<a href="#ref-LESSMANN2017110" role="doc-biblioref">Lessmann and Seidel 2017</a>)</span> beskriver.</p>
+<p><span class="citation" data-cites="Cappelen2009">(<a href="#ref-Cappelen2009" role="doc-biblioref">Cappelen and Mjøset 2009</a>)</span> peker på at Norge er et ressursrikt og velstående land, der staten har brukt inntektene fra naturressursene til å utvikle og stabilisere økonomien gjennom målrettet politikk og solide institusjoner. I lys av de bestemmende faktorene for regional ulikhet som fremheves av <span class="citation" data-cites="LESSMANN2017110">(<a href="#ref-LESSMANN2017110" role="doc-biblioref">Lessmann and Seidel 2017</a>)</span> som utvikling, mobilitet, åpenhet, ressurser, institusjoner, overføringer og utdanning, og etnisitet, kan man se at Norges økonomiske styrke og institusjonelle kvalitet bidrar til lav regional ulikhet. Dette gjenspeiles tydelig i landets lave Gini-koeffisient, som indikerer en balansert og inkluderende økonomisk utvikling.</p>
+</section>
+<section id="refleksjon" class="level3">
+<h3 class="anchored" data-anchor-id="refleksjon">Refleksjon</h3>
+<p>Denne analysen viser at det i perioden 2000–2023 finnes tydelige forskjeller i regional økonomisk ulikhet mellom Belgia, Bulgaria, Nederland og Norge. I henhold til forklaringen av Gini-koeffisienten i <span class="citation" data-cites="su13021006">(<a href="#ref-su13021006" role="doc-biblioref">Bandeira Morais, Swart, and Jordaan 2021</a>)</span> har Bulgaria de høyeste Gini-verdiene, som har økt etter 2010, noe som indikerer større ulikhet mellom regionene. Belgia har en middels Gini-verdi med små endringer over tid, noe som tyder på en stabil grad av regional ulikhet. Nederland og Norge har de laveste og mest stabile Gini-verdiene, noe som viser at ulikheten i disse landene er relativt liten. Som <span class="citation" data-cites="LESSMANN2017110">(<a href="#ref-LESSMANN2017110" role="doc-biblioref">Lessmann and Seidel 2017</a>)</span> påpeker, har lavinntektsland ofte høyere grad av ulikhet, mens høyinntektsland har lavere nivåer. De høye Gini-verdiene i Bulgaria og de lave verdiene i Norge bekrefter dette mønsteret. I tillegg påpeker <span class="citation" data-cites="Cappelen2009">(<a href="#ref-Cappelen2009" role="doc-biblioref">Cappelen and Mjøset 2009</a>)</span> at Norge er et ressursrikt og institusjonelt velfungerende land som har oppnådd økonomisk stabilitet gjennom målrettet og effektiv politikk. Dette har bidratt til å opprettholde lave regionale forskjeller. Dette viser også at land med rikelige naturressurser og sterke institusjoner har bedre forutsetninger for å redusere regional ulikhet. Funnene bekrefter dermed at regional ulikhet henger tett sammen med de syv bestemmende faktorene som foreslås av <span class="citation" data-cites="LESSMANN2017110">(<a href="#ref-LESSMANN2017110" role="doc-biblioref">Lessmann and Seidel 2017</a>)</span>, spesielt ressurser, utvikling og institusjoner. Samlet sett viser analysen at graden av regional ulikhet ikke bare reflekterer økonomisk utviklingsnivå, men også hvordan land forvalter sine ressurser og institusjoner. Effektiv ressursforvaltning og et velfungerende politisk-institusjonelt system fremstår som avgjørende for å redusere regionale forskjeller, fremme bærekraftig utvikling og motvirke økende ulikhet.</p>
+</section>
+</section>
+</section>
+<section id="del-c-dokumenter-bruken-min-av-ai" class="level1">
+<h1>Del C: Dokumenter bruken min av AI</h1>
+</section>
+<section id="kilder" class="level1 unnumbered">
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">Kilder</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-su13021006" class="csl-entry" role="listitem">
+Bandeira Morais, Margarida, Julia Swart, and Jacob Arie Jordaan. 2021. <span>“Economic Complexity and Inequality: Does Regional Productive Structure Affect Income Inequality in Brazilian States?”</span> <em>Sustainability</em> 13 (2). <a href="https://doi.org/10.3390/su13021006">https://doi.org/10.3390/su13021006</a>.
+</div>
+<div id="ref-Cappelen2009" class="csl-entry" role="listitem">
+Cappelen, Øystein, and Lars Mjøset. 2009. <span>“Can Norway Be a Role Model for Natural Resource Abundant Countries?”</span> <em>Discussion Papers in Economics</em> 09: 1–26. <a href="https://www.researchgate.net/publication/228983025_Can_Norway_Be_a_Role_Model_for_Natural_Resource_Abundant_Countries">https://www.researchgate.net/publication/228983025_Can_Norway_Be_a_Role_Model_for_Natural_Resource_Abundant_Countries</a>.
+</div>
+<div id="ref-Eurostat_demo_pop_2025" class="csl-entry" role="listitem">
+Eurostat. 2025a. <span>“Population on 1 January by Broad Age Group, Sex and NUTS 3 Region (Demo_r_pjanaggr3).”</span> <a href="https://ec.europa.eu/eurostat/cache/metadata/en/demo_pop_esms.htm" class="uri">https://ec.europa.eu/eurostat/cache/metadata/en/demo_pop_esms.htm</a>.
+</div>
+<div id="ref-Eurostat_reg_eco10_2025" class="csl-entry" role="listitem">
+———. 2025b. <span>“Regional Economic Accounts by NUTS 3 Regions (Reg_eco10).”</span> <a href="https://ec.europa.eu/eurostat/cache/metadata/en/reg_eco10_esms.htm" class="uri">https://ec.europa.eu/eurostat/cache/metadata/en/reg_eco10_esms.htm</a>.
+</div>
+<div id="ref-LESSMANN2017110" class="csl-entry" role="listitem">
+Lessmann, Christian, and André Seidel. 2017. <span>“Regional Inequality, Convergence, and Its Determinants – a View from Outer Space.”</span> <em>European Economic Review</em> 92: 110–32. https://doi.org/<a href="https://doi.org/10.1016/j.euroecorev.2016.11.009">https://doi.org/10.1016/j.euroecorev.2016.11.009</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

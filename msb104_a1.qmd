@@ -1,14 +1,17 @@
 ---
 title: "Assignment 1: Data and Descriptive, MSB104 2025"
 author: Karin Liang
-format: html
+format:
+  html:
+    fig-cap-location: bottom
+    fig-number: true
 lang: NO_nb
 editor: visual
 bibliography: references.bib
 ---
 
 # Introduksjon
-Denne oppgaven studerer regionale økonomiske forskjeller i Belgia (BE), Nederland (NL), Bulgaria (BG) og Norge (NO). Ved å bruke Eurostat-data om BNP og befolkning beregnes BNP per innbygger for å sammenligne regioner på tvers av land og over tid.
+Denne oppgaven studerer regionale økonomiske forskjeller i Belgia (BE), Nederland (NL), Bulgaria (BG) og Norge (NO). Ved å bruke Eurostat-data om BNP og befolkning beregnes BNP per innbygger for å sammenligne regioner på tvers av land og over tiden fra 2000 til 2023.
 
 # Del A: Subnasjonalt BNP og BNP per innbygger
 Denne analysen bruker to regionale datasett fra Eurostat: GDP (nama_10r_3gdp) og papulation (demo_r_pjanaggr3).
@@ -43,7 +46,7 @@ gdp <- gdp %>%
 # viser BNP-datastruktur
 glimpse(gdp)
 ```
-Datasettet GDP (nama_10r_3gdp) er hentet fra Eurostat og inneholder årlige verdier for BNP (bruttonasjonalprodukt) på NUTS3-nivå. Etter filtrering ifølge oppgaven består datasettet GDP av 2 591 observasjoner og 5 variabler: freq: viser frekvensen, her årlig "A" unit: måleenhet, "MIO_EUR" betyr millioner euro geo: geografisk kode "NUTS3" TIME_PERIOD: år, fra 2000 til 2023 values: BNP-verdi i millioner euro Datasettet dekker regionale BNP-data for BE (Belgia), NL (Nederland), BG (Bulgaria), NO (Norge).
+Datasettet gdp (nama_10r_3gdp) er hentet fra Eurostat og inneholder årlige verdier for BNP (bruttonasjonalprodukt) på NUTS3-nivå. Etter filtrering ifølge oppgaven består datasettet gdp av 2 591 observasjoner og 5 variabler fra 2000 til 2023 for landene Belgia (BE), Nederland (NL) , BG Bulgaria (BG) , Norge (NO).
 
 ### Laster ned datasettet population
 ```{r}
@@ -61,14 +64,13 @@ population <- population %>%
 # viser population-datastruktur
 glimpse(population)
 ```
-Datasettet papulation (demo_r_pjanaggr3) er hentet fra Eurostat og viser befolkningen per 1. januar for hver NUTS3-region. Etter filtrering ifølge oppgaven består datasettet av 3 023 observasjoner og 7 variabler: unit: måleenhet, "NR" betyr antall personer sex: kjønn, her "T" for total befolkning age: "TOTAL", viser total befolkning uten aldersinndeling values: antall personer i regionen freq, geo og TIME_PERIOD har samme betydning som i GDP datasettet Datasettet dekker den totale befolkningen i BE (Belgia), NL (Nederland), BG (Bulgaria), NO (Norge).
+Datasettet papulation (demo_r_pjanaggr3) er hentet fra Eurostat og viser befolkningen per 1. januar for hver NUTS3-region. Etter filtrering ifølge oppgaven består datasettet av 3 023 observasjoner og 7 variabler fra 2000 til 2023 for landene Belgia (BE), Nederland (NL) , BG Bulgaria (BG) , Norge (NO).
 
 ### Informasjon om dataene:
-Begge datasettene er hentet fra Eurostat. Informasjonen om variablene bygger på metadata fra regionale økonomiske regnskaper etter NUTS 3-regioner (@Eurostat_reg_eco10_2025) og befolkning per 1. januar etter aldersgruppe, kjønn og NUTS 3-region (@Eurostat_demo_pop_2025).
-BNP-datasettet (nama_10r_3gdp) [@Eurostat_reg_eco10_2025] er en del av Regional Economic Accounts og viser verdien av bruttonasjonalprodukt for de relevante europeiske regionene. Tallene er målt i millioner euro (MIO_EUR), rapporteres årlig (freq = "A") på NUTS3-nivå, og dekker perioden 2000–2023. Datasettet inneholder fem variabler: freq, unit, geo, TIME_PERIOD og values. Variablen geo representerer regionkoder, TIME_PERIOD viser år, og values gir BNP-verdi i millioner euro. Dataene rapporteres av nasjonale statistiske institutter og samles inn og standardiseres i Eurostat.
-Papulation (demo_r_pjanaggr3) [@Eurostat_demo_pop_2025] kommer fra Eurostats Demography Database og viser befolkningen per 1. januar hvert år. Tallene måles i antall personer (NR) og er tilgjengelige etter kjønn og alder, men her brukes bare total befolkning (kjønn = "T", alder = "TOTAL"). Datasettet inneholder variablene freq, unit, sex, age, geo, TIME_PERIOD og values, der values viser antall personer i hver region og år.
-Begge datasettene oppdateres årlig, dekker europeiske land, og gir et felles grunnlag for å beregne BNP per innbygger og analysere regionale forskjeller i Belgia (BE), Nederland (NL), Bulgaria (BG) og Norge (NO).
-
+Begge datasettene er hentet fra Eurostat, og oppdateres årlig. Informasjonen om variablene bygger på metadata [@Eurostat_reg_eco10_2025; @Eurostat_demo_pop_2025 ]. Datadekningen for EFTA-land (inkludert Norge) starter i 2010. Derfor starter dataene for Norge i denne oppgaven fra 2010.
+BNP-datasettet (nama_10r_3gdp) ifølge metadatabeskrivelsen [@Eurostat_reg_eco10_2025] er en del av Regional Economic Accounts og viser verdien av bruttonasjonalprodukt for de relevante europeiske regionene. Tallene er målt i millioner euro (MIO_EUR), rapporteres årlig (freq = "A") på NUTS3-nivå, og dekker perioden 2000–2023. Datasettet inneholder fem variabler: freq, unit, geo, TIME_PERIOD og values. Variablen geo representerer regionkoder, TIME_PERIOD viser år, og values gir BNP-verdi i millioner euro. Dataene rapporteres av nasjonale statistiske institutter og samles inn og standardiseres i Eurostat. Datasettet gdp dekker nå regionale BNP-data for BE (Belgia), NL (Nederland), BG (Bulgaria), NO (Norge) som knyttet til oppgaven.
+Papulation (demo_r_pjanaggr3) ifølge metadatabeskrivelsen [@Eurostat_demo_pop_2025] kommer fra Eurostats Demography Database og viser befolkningen per 1. januar hvert år. Tallene måles i antall personer (NR) og er tilgjengelige etter kjønn og alder, men her brukes bare total befolkning (kjønn = "T", alder = "TOTAL"). Datasettet inneholder variablene freq, unit, sex, age, geo, TIME_PERIOD og values, der values viser antall personer i hver region og år. Datasettet brukes til å beregne BNP per innbygger ved å koble befolkningsdataene med de regionale BNP-tallene. Dette muliggjør sammenligninger av økonomisk velstand mellom regioner og mellom landene Belgia (BE), Bulgaria (BG), Nederland (NL) og Norge (NO) i perioden 2000–2023.
+ 
 ## Beregning av BNP per innbygger (GDPC)
 ### Merger datasetter GDP og papulation, og fjerner manglende verdier
 ```{r}
@@ -89,7 +91,7 @@ sum(is.na(gdp_pop))
 gdp_pop <- gdp_pop %>%
   drop_na(values_gdp, values_pop) 
 ```
-Samslåing av datasett ble utført her, ifølge regionale økonomiske regnskaper etter NUTS 3-regioner og befolkning per 1. januar etter aldersgruppe, kjønn og NUTS 3-region. Datasettet BNP og population ble slått sammen ved hjelp av regionkode (geo) og år (TIME_PERIOD). Så sjekker og fjerner 2 310 manglende verdier i BNP- og befolkningskolonnene før videre beregninger.
+Samslåing av datasett ble utført her. Datasettet BNP og population ble slått sammen ved hjelp av regionkode (geo) og år (TIME_PERIOD). Så sjekker og fjerner 2 310 manglende verdier i BNP- og befolkningskolonnene før videre beregninger.
 
 ### Beregner BNP per innbygger (GDPC) etter å merge dataene
 ```{r}
@@ -104,8 +106,9 @@ glimpse(gdp_pop)
 # Oppsummerer sentrale statistiske mål for å kontrollere verdiene
 summary(gdp_pop)
 ```
-BNP per innbygger (GDPC) ble beregnet som total BNP delt på befolkningstall. Videre ble observasjoner med null eller ugyldige verdier ekskludert for å sikre et rent og pålitelig datasett før videre analyse.
-glimpse(gdp_pop) viser at datasettet inneholder 2 119 observasjoner og 11 variabler etter sammenslåing og rensing. Variablene inkluderer blant annet regionkode (geo), år (TIME_PERIOD), BNP i millioner euro (values_gdp), befolkning (values_pop) og beregnet BNP per innbygger (GDPC). summary(gdp_pop) gir et overblikk over fordelingen i dataene. Tidsperioden dekker årene 2000–2023. BNP-verdiene varierer fra om lag 168 til 103 285 millioner euro, mens befolkningen i regionene varierer fra under 42 000 til over 1,29 millioner personer. Variabelen GDPC viser de beregnede verdiene for BNP per innbygger, som danner grunnlaget for den videre analysen.
+BNP per innbygger (GDPC) ble beregnet som total BNP delt på befolkningstall. Videre ble observasjoner med null eller ugyldige verdier ekskludert for å sikre et rent og pålitelig datasett før videre analyse. 
+glimpse(gdp_pop) viser at datasettet inneholder 2 119 observasjoner og 11 variabler etter sammenslåing og rensing. Variablene inkluderer blant annet regionkode (geo), år (TIME_PERIOD), BNP i millioner euro (values_gdp), befolkning (values_pop) og beregnet BNP per innbygger (GDPC). 
+summary(gdp_pop) gir et overblikk over fordelingen i dataene. Tidsperioden dekker årene 2000–2023. BNP-verdiene varierer fra om lag 168 til 103 285 millioner euro, mens befolkningen i regionene varierer fra under 42 000 til over 1,29 millioner personer. Variabelen GDPC viser de beregnede verdiene for BNP per innbygger, med minst  1 087 og maks 105 721, som danner grunnlaget for den videre analysen.
 
 ## Beskrivende analyse
 ### Grunnleggende deskriptiv statistikk
@@ -125,9 +128,12 @@ gdp_pop_summary <- gdp_pop %>%
   )
 gdp_pop_summary
 
-# viser den generelle fordelingen av BNP per innbygger
+```
+Resultatene for grunnleggende deskriptiv statistikk for merged datasettet gdp_pop viser følgende nøkkeltall: antall observasjoner: 2 119 regioner, minimumsverdi 1 087 euro per person, første kvartil (Q1) 6 061 euro, median 25 632 euro, gjennomsnitt (Mean) 24 551 euro, tredje kvartil (Q3) 35 051 euro, maksimumsverdi 105 721 euro, og standardavvik: 17 452 euro. 
+
+```{r}
 #| label: fig-bnp_per_innbygger
-#| fig-cap: "Fordeling av BNP per innbygger (alle regioner). Histogrammet viser fordelingen av BNP per innbygger på tvers av alle NUTS3-regioner i Belgia, Bulgaria, Nederland og Norge for perioden 2000–2023."
+#| fig-cap: "Fordeling av BNP per innbygger (alle regioner)"
 bnp_per_innbygger <- gdp_pop %>% 
   ggplot(aes(x = GDPC)) +
   geom_histogram(bins = 40, fill = "steelblue", color = "white") +
@@ -138,15 +144,6 @@ bnp_per_innbygger <- gdp_pop %>%
   )
 bnp_per_innbygger
 ```
-Resultatene for grunnleggende deskriptiv statistikk for merged datasettet gdp_pop viser følgende nøkkeltall:
-Antall observasjoner: 2 119 regioner
-Minimumsverdi: 1 087 euro per person
-Første kvartil (Q1): 6 061 euro
-Median: 25 632 euro
-Gjennomsnitt (Mean): 24 551 euro
-Tredje kvartil (Q3): 35 051 euro
-Maksimumsverdi: 105 721 euro
-Standardavvik: 17 452 euro
 @fig-bnp_per_innbygger viser at halvparten av regionene har et BNP per innbygger mellom omtrent 5 000 og 40 000 euro, og at spredningen er ganske stor. Gjennomsnittet ligger litt lavere enn medianen, noe som tyder på at fordelingen er høyreskjev, slik figuren viser. Det betyr at de fleste regionene har relativt lavt BNP per innbygger, mens noen få regioner har svært høy verdiskaping.
 
 ### Deskriptiv statistikk for hvert land
@@ -167,10 +164,12 @@ gdp_pop_land_summary <- gdp_pop %>%
     SD  = sd(GDPC, na.rm = TRUE)
   )
 gdp_pop_land_summary
+```
+Tabellen viser beskrivende statistikk for BNP per innbygger (i euro) i de fire landene Belgia (BE), Bulgaria (BG), Nederland (NL) og Norge (NO). Resultatene viser store forskjeller mellom landene. Belgia har en moderat inntektsfordeling, der medianen ligger på rundt 28 000 euro per person. Maksimumsverdien er omtrent tre ganger enn median. Bulgaria har den laveste verdien blant de fire landene. Medianen er kun 3 763 euro, og både gjennomsnitt og maksimum er langt lavere enn i de andre landene. Maksimumsverdien er omtrent åtte ganger enn median. Nederland ligger betydelig høyere, med en median på omtrent 33 600 euro og et maksimum over 100 000 euro. Maksimumsverdien er omtrent tre ganger enn median. Norge har de høyeste verdiene, med en median på 53 533 euro og et gjennomsnitt på 58 337 euro. Maksimumsverdien er omtrent to ganger enn median.
 
-# Sammenligning mellom land
+```{r}
 #| label: fig-bnp_per_innbygger_land
-#| fig-cap: "Sammenligning av BNP per innbygger etter land. Figuren viser fordelingen av BNP per innbygger (GDPC) på NUTS3-nivå i Belgia, Bulgaria, Nederland og Norge i perioden 2000–2023. Hvert boksplott representerer variasjonen mellom regionene i hvert land."
+#| fig-cap: "Sammenligning av BNP per innbygger etter land"
 bnp_per_innbygger_land  <- gdp_pop %>% 
   mutate(
     land_full = recode(substr(geo, 1, 2),
@@ -191,24 +190,14 @@ bnp_per_innbygger_land  <- gdp_pop %>%
     legend.position = "none")
 bnp_per_innbygger_land
 ```
-Tabellen viser beskrivende statistikk for BNP per innbygger (i euro) i de fire landene Belgia (BE), Bulgaria (BG), Nederland (NL) og Norge (NO). Resultatene viser store forskjeller mellom landene.
-Belgia har en moderat inntektsfordeling, der medianen ligger på rundt 28 000 euro per person.
-Bulgaria har den laveste verdien blant de fire landene. Medianen er kun 3 763 euro, og både gjennomsnitt og maksimum er langt lavere enn i de andre landene.
-Nederland ligger betydelig høyere, med en median på omtrent 33 600 euro og et maksimum over 100 000 euro.
-Norge har de høyeste verdiene, med en median på 53 500 euro og et gjennomsnitt på 58 300 euro. 
+@fig-bnp_per_innbygger_land gir et tydelig visuelt bilde av forskjellene mellom landene. Bulgaria skiller seg ut med svært lave verdier og liten variasjon mellom regionene, noe som indikerer et generelt lavt, men jevnt inntektsnivå. Belgia har et bredere spenn, med enkelte regioner som ligger betydelig over medianen, men ingen ekstreme avvik. Nederland viser både høyere nivåer og større spredning, spesielt enkelte rike regioner med høy BNP per innbygger. Norge har høyest median og et bredt spenn, med flere regioner som ligger over 100 000 euro per person.  
+Både tabellen og @fig-bnp_per_innbygger_land viser at Norge har den høyeste nivåen av BNP per innbygger. Nederland har nesten maks BNP per innbygger som Norge, men har lavere medien og gjennomsnitt BNP per innbygger enn Norge.
+Bulgaria ligger lavest. Belgia befinner seg mellom disse, med moderate verdier og begrenset variasjon mellom regionene.
 
-@fig-bnp_per_innbygger_land gir et tydelig visuelt bilde av forskjellene mellom landene.
-Bulgaria skiller seg ut med svært lave verdier og liten variasjon mellom regionene, noe som indikerer et generelt lavt, men jevnt inntektsnivå.
-Belgia har et bredere spenn, med enkelte regioner som ligger betydelig over medianen, men ingen ekstreme avvik.
-Nederland viser både høyere nivåer og større spredning, spesielt enkelte rike regioner med høy BNP per innbygger.
-Norge har høyest median og et bredt spenn, med flere regioner som ligger over 100 000 euro per person.
-Diagrammet bekrefter dermed et klart nord–sør-mønster i Europa: Norge og Nederland ligger høyest i økonomisk velstand, Belgia i midten, og Bulgaria betydelig lavere.
-
-### BNP per innbygger etter land over tid
+### Median BNP per innbygger etter land over tid
 ```{r}
-# Utvikling av BNP per innbygger over tid (medianverdi)
 #| label: fig-bnp_over_tid_median
-#| fig-cap: "Utvikling i median BNP per innbygger (2000–2023). Figuren viser hvordan median BNP per innbygger (GDPC) har utviklet seg over tid på NUTS3-nivå for Belgia, Bulgaria, Nederland og Norge. Linjene representerer landenes økonomiske utvikling målt i euro per person."
+#| fig-cap: "Utvikling i median BNP per innbygger (2000–2023)"
 bnp_over_tid_median <- gdp_pop %>%
   mutate(land = substr(geo, 1, 2)) %>%
   group_by(land, TIME_PERIOD) %>%
@@ -239,21 +228,18 @@ bnp_over_tid_median <- gdp_pop %>%
   )
 bnp_over_tid_median
 ```
-@fig-bnp_over_tid_median er basert på median BNP per innbygger, og viser tydelig forskjeller i økonomisk utvikling mellom de fire landene:
-Norge ligger høyest gjennom hele perioden, med median BNP per innbygger mellom 40 000 og 60 000 euro. Nederland følger som nummer to, med jevn vekst fra rundt 20 000 til over 45 000 euro. Belgia ligger noe lavere, men viser også en stabil, gradvis økning. Bulgaria starter svært lavt, under 2 000 euro i 2000, men har hatt den mest markerte veksten i prosent, opp mot 10 000 euro i 2023.
-Median BNP i Norge har høyest nivå og størst variasjon, etterfulgt av Nederland, mens Belgia ligger midt i gruppen og Bulgaria betydelig lavere. Utviklingen over tid viser likevel positiv vekst i alle land.  
-Sammenligningen mellom Belgia, Bulgaria, Nederland og Norge viser et klart nord–sør-mønster. Jo lenger nord det geografiske området er, desto høyere er inntekten per innbygger.
-Denne utviklingen viser at selv om nivåforskjellene mellom landene fortsatt er store, har alle opplevd en jevn økonomisk vekst over tid.
+@fig-bnp_over_tid_median er basert på median BNP per innbygger fra 2000 til 2023, og viser tydelig forskjeller i økonomisk utvikling mellom de fire landene: Norge ligger høyest gjennom hele perioden, med median BNP per innbygger mellom omtrent 40 000 og 60 000 euro. Nederland følger som nummer to, med tydelig jevn vekst fra rundt 20 000 til over 45 000 euro. Belgia ligger noe lavere, men viser også en stabil, gradvis økning som Nederland. Bulgaria starter svært lavt, men øker opp mot omtrent 10 000 euro i 2023. Median BNP i Norge har høyest nivå og størst variasjon, etterfulgt av Nederland, mens Belgia ligger midt i gruppen og Bulgaria betydelig lavere. Utviklingen over tid viser likevel positiv vekst i alle land.
+Resultatene til @fig-bnp_over_tid_median er i samsvar med resultatene til @fig-bnp_per_innbygger_land og resultatene av beskrivende statistikk for BNP per innbygger.
 
 # Del B: Regional ulikhet
 ## Litteraturgjennomgang
-Ifølge artikkelen 'Regional inequality, convergence, and its determinants– A view from outer space' @Lessmann2017regional finnes det en tydelig sammenheng mellom økonomisk utvikling og forskjeller mellom regioner.  
-I artikkelen @Lessmann2017regional bruker satellittbaserte nattlysdata for å måle økonomisk aktivitet i 180 land og 3166 regioner i perioden 1992–2012. Metoden gjør det mulig å analysere regionale ulikheter også i land der det mangler pålitelige inntektsdata.
-Resultatene til @Lessmann2017regional viser at 67–70 prosent av landene har opplevd sigma-konvergens, det vil si at inntektsforskjellene mellom regioner har blitt mindre over tid.
-Samtidig finner @Lessmann2017regional at forholdet mellom økonomisk utvikling og ulikhet følger et N-formet mønster, der ulikheten øker i lavinntektsland, reduseres i mellominntektsland og stiger svakt igjen i høyinntektsland.
-Videre viser @Lessmann2017regional at naturressurser, handelsåpenhet, transportkostnader, bistand og etnisk ulikhet ofte bidrar til større regionale forskjeller. Derimot kan utdanning, føderale strukturer og høy andel dyrkbar jord bidra til å redusere dem. 
-Studien til @Lessmann2017regional konkluderer med at økonomisk vekst ikke automatisk fører til utjevning mellom regioner, siden effekten avhenger av institusjoner, ressursfordeling og befolkningens utdanningsnivå. 
-@Lessmann2017regional understreker også at regionale forskjeller kan ha sosiale og politiske konsekvenser, fordi økonomisk aktivitet ofte er sterkt konsentrert i enkelte byområder og ressursrike regioner. Dermed gir studien et globalt rammeverk for å forstå hvorfor enkelte land opplever regional konvergens mens andre får økende ulikhet, og hvordan geografiske, økonomiske og institusjonelle forhold påvirker utviklingsmønsteret.
+Ifølge artikkelen 'Regional inequality, convergence, and its determinants– A view from outer space' @LESSMANN2017110 forsøker regional ulikhet, konvergens og dens determinanter, og finnes det en tydelig sammenheng mellom økonomisk utvikling og forskjeller mellom regioner.
+I artikkelen @LESSMANN2017110 bekrefter først forholdet mellom lysstyrkedata og regional inntekt, deretter bruker satellittbaserte nattlysdata for å måle økonomisk aktivitet i 180 land og 3166 regioner i perioden 1992–2012. Metoden bidrar å analysere regionale ulikheter også i land der det mangler pålitelige inntektsdata.
+Resultatene til @LESSMANN2017110 viser at omtrent 67–70 prosent av landene har opplevd sigma-konvergens, det vil si at inntektsforskjellene mellom regioner har blitt mindre over tid.
+Samtidig finner @LESSMANN2017110 at forholdet mellom økonomisk utvikling og ulikhet følger et N-formet mønster, der ulikheten øker i lavinntektsland, reduseres i mellominntektsland og stiger svakt igjen i høyinntektsland. 
+Videre viser @LESSMANN2017110 at utvikling, mobilitet, åpenhet, ressurser, institusjoner, overføringer og utdanning, og etnisitet er syv grupper som kan påvirke ulike determinanter for regional ulikhet. Derimot kan geografiske faktorer over tid også ha en innvirkning for regional ulikhet.
+@LESSMANN2017110 peker på at regionale ulikheter ikke bare har økonomiske, men også politiske implikasjoner, fordi økonomisk aktivitet ofte er sterkt konsentrert i enkelte byområder og ressursrike regioner. Dette kan påvirke både sosial stabilitet og utformingen av nasjonal politikk. Dermed gir studien et globalt rammeverk for å forstå hvorfor enkelte land opplever regional konvergens mens andre får økende ulikhet, og hvordan geografiske, økonomiske og institusjonelle forhold påvirker utviklingsmønsteret.
+Kort sagt fra @su13021006, Gini-koeffisienten er et av de mest brukte målene på økonomisk ulikhet, og varierer fra 0 (full likhet) til 1 (total ulikhet). Jo høyere Gini-koeffisienten indikerer jo større forskjeller i økonomisk aktivitet mellom ulike regioner.
 
 ## Beregning av Gini-koeffisienten på NUTS2-nivå
 ```{r}
@@ -263,7 +249,7 @@ gini <- gdp_pop %>%
     NUTS2   = substr(geo, 1, 4),# Henter NUTS2-kode fra NUTS3 og legger til landkode
     country = substr(geo, 1, 2)
   ) %>%
-  filter(values_pop > 0, is.finite(GDPC)) %>% # Fjerner ugyldige observasjoner (befolkning ≤ 0 eller manglende
+  filter(values_pop > 0, is.finite(GDPC)) %>% # Fjerner ugyldige observasjoner (befolkning ≤ 0 eller manglende)
   group_by(country, NUTS2, TIME_PERIOD) %>%
   summarise(
     n_nuts3 = dplyr::n(),# Teller hvor mange NUTS3-regioner som inngår i hver NUTS2-gruppe
@@ -272,7 +258,7 @@ gini <- gdp_pop %>%
       as.numeric(dineq::gini.wtd(GDPC, weights = values_pop))
     } else {
       NA_real_ 
-    }, # Hvis NUTS2 bare består av én NUTS3 → ingen intern ulikhet → Gini settes til NA
+    }, # Hvis NUTS2 bare består av én NUTS3, Gini settes til NA
     .groups = "drop"
   ) 
 
@@ -284,20 +270,16 @@ glimpse(gini)
 summary(gini$Gini_weighted)
 ```
 I denne delen beregnet jeg den befolkningsvektede Gini-koeffisienten på NUTS2-nivå basert på BNP per innbygger (GDPC) for NUTS3-regionene.
-Jeg hentet NUTS2- og landskoder fra NUTS3-koden og fjernet ugyldige observasjoner der befolkningen var ≤ 0 eller verdiene ikke var endelige.
-Deretter grupperte jeg dataene etter land, NUTS2 og år (TIME_PERIOD), og brukte funksjonen gini.wtd(GDPC, weights = values_pop) fra pakken dineq til å beregne Gini-koeffisienten med befolkningsvekter.
-Beregningen bygger på flere antakelser og forenklinger:
-Det antas at NUTS3-regionene gir et representativt bilde av den økonomiske aktiviteten innenfor hver NUTS2-region, og at ulikheten mellom disse kan tolkes som intern regional ulikhet.
-Videre antas det at befolkningen er en egnet vekt, slik at regioner med flere innbyggere får større innflytelse på den samlede ulikheten.
-Observasjoner med ugyldige eller manglende verdier er fjernet, og for NUTS2-regioner som kun består av én NUTS3-region, ble Gini satt til NA, siden intern ulikhet ikke kan defineres i slike tilfeller.
+Jeg hentet NUTS2- og landskoder fra NUTS3-koden og fjernet ugyldige observasjoner der befolkningen var ≤ 0 eller verdiene ikke var endelige. 
+Deretter grupperte jeg dataene etter land, NUTS2 og år (TIME_PERIOD), og brukte funksjonen gini.wtd(GDPC, weights = values_pop) fra pakken dineq til å beregne Gini-koeffisienten med befolkningsvekter. 
+Beregningen av oppgaven bygger på flere antakelser og forenklinger. Det antas at NUTS3-regionene gir et representativt bilde av den økonomiske aktiviteten innenfor hver NUTS2-region, og at ulikheten mellom disse kan tolkes som intern regional ulikhet. Videre antas det at befolkningen er en egnet vekt, slik at regioner med flere innbyggere får større innflytelse på den samlede ulikheten. 
+Observasjoner med ugyldige eller manglende verdier er fjernet, og for NUTS2-regioner som kun består av en NUTS3-region, ble Gini satt til NA som ikke brukes i beregningen, siden intern ulikhet ikke kan defineres i slike tilfeller. 
 Resultatet er en tidsserie med Gini-verdier for hver NUTS2-region i perioden 2000–2023, som danner grunnlaget for videre analyse av utviklingen i regional økonomisk ulikhet.
-
 glimpse(gini) viser at datasettet med Gini-resultater inneholder fem variabler: land (country), regionkode (NUTS2), år (TIME_PERIOD), antall NUTS3-regioner (n_nuts3) og den beregnede Gini-koeffisienten (Gini_weighted).
-summary(gini$Gini_weighted) viser at Gini-verdiene varierer mellom omtrent 0.001 og 0.28, med et gjennomsnitt på rundt 0.08, og 173 NA-verdier som skyldes NUTS2-regioner med bare én NUTS3.
-Dette bekrefter at beregningen fungerer som forventet, og at resultatene ligger innenfor et realistisk område for regional ulikhet.
+summary(gini$Gini_weighted) viser at Gini-verdiene varierer mellom omtrent 0.001 og 0.28, med et gjennomsnitt på rundt 0.08, og 173 NA-verdier som skyldes NUTS2-regioner med bare én NUTS3. Dette bekrefter at beregningen fungerer som forventet, og at resultatene ligger innenfor et realistisk område for regional ulikhet.
 
 ## Datapresentasjon
-### Deskriptiv statistikk (totalt og etter land)
+### Statistikk Gini totalt og etter land
 ```{r}
 # statistikk totalt gini
 gini_totalt <- gini %>%
@@ -330,14 +312,18 @@ gini_etter_land <- gini %>%
 gini_etter_land
 ```
 
+Totalt består datasettet av 473 observasjoner av Gini-koeffisient på NUTS2-nivå for Belgia, Nederland, Bulgaria og Norge mellom 2000 til 2023.
+Gini-verdiene varierer fra 0.0009 til 0.2823, med en median på 0.0675 og et gjennomsnitt på 0.0769, noe som tyder på moderat regional ulikhet.
+Videre ser på landene hver for seg, finner vi følgende nøkkeldata:
+Belgia har ca. minimum 0.010, median 0.078 og maksimum 0.153.
+Bulgaria har ca. minimum 0.046, median 0.103 og maksimum 0.282.
+Nederland har ca. minimum 0.001, median 0.033 og maksimum 0.117.
+Norge har ca. minimum 0.021, median 0.034 og maksimum 0.045.
+Resultatene viser at ulikheten er størst i Bulgaria og minst i Norge og Nederland, mens Belgia ligger midt imellom. Dette betyr at økonomisk aktivitet i Nederland og Norge er jevnere fordelt mellom regionene, mens Bulgaria har større forskjeller i økonomisk aktivitet mellom ulike regionene.
 
-
-
-
-### Visualisering
-#### Figuren for gjennomsnittlig Gini per land per år
+### Gjennomsnittlig Gini per land per år
 ```{r}
-# Gjennomsnittlig Gini per land per år
+# Gjennomsnittlig Gini
 gini_gjennomsnittlig <- gini %>%
   filter(!is.na(Gini_weighted)) %>%
   group_by(country, TIME_PERIOD) %>%
@@ -347,7 +333,7 @@ gini_gjennomsnittlig <- gini %>%
                             "NL" = "Nederland", "NO" = "Norge"))
 gini_gjennomsnittlig
 
-# Høyeste og laveste gjennomsnittlig Gini per land
+# Høyeste og laveste gjennomsnittlig Gini
 gini_max_min <- gini_gjennomsnittlig %>%
   group_by(country) %>%
   summarise(
@@ -356,22 +342,12 @@ gini_max_min <- gini_gjennomsnittlig %>%
     min_gini = min(mean_gini, na.rm = TRUE),
     year_min = TIME_PERIOD[which.min(mean_gini)])
 gini_max_min
-
-# figuren for gjennomsnittlig Gini per land per år
-#| label: fig-gini_gjennomsnittlig
-#| fig-cap: "Utvikling i gjennomsnittlig Gini (NUTS2) etter land, 2000–2023. Figuren viser utviklingen i gjennomsnittlig befolkningsvektet Gini-koeffisient for Belgia, Bulgaria, Nederland og Norge. En lavere Gini indikerer mindre regional ulikhet mellom NUTS3-regionene innenfor hvert land."
-figuren_gini_gjennomsnittlig <- gini_gjennomsnittlig %>%
-  ggplot(aes(TIME_PERIOD, mean_gini, color = land_full)) +
-  geom_line(linewidth = 1.2) +
-  labs(title = "Utvikling i gjennomsnittlig Gini (NUTS2)",
-       x = "År", y = "Gjennomsnittlig Gini", color = "Land") +
-  theme_minimal(base_size = 13) +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
-figuren_gini_gjennomsnittlig
 ```
+Tabellene viser gjennomsnittlig Gini og de høyeste og laveste verdiene for gjennomsnittlig Gini per land og tilhørende år i perioden 2000–2023. 
+Bulgaria har hatt den høyeste ulikheten blant landene, med maksimum 0.151 i 2022 og minimum 0.093 i 2002. Belgia viser små endringer over tid, med maksimum 0.082 i 2016 og minimum 0.071 i 2009. Nederland har hatt lave verdier, mellom 0.031 i 2010 og 0.045 i 2006, mens Norge har de laveste forskjellene, fra 0.021 i 2017 til 0.045 i 2020. 
+Samlet viser resultatene at ulikheten har vært lav og stabil i de tre av fire landene, men med en tydelig økende tendens i Bulgaria de siste årene.
 
-
-#### Figuren for median Gini per land per år
+### Median Gini per land per år
 ```{r}
 # Median Gini per land per år
 gini_median <- gini %>%
@@ -392,10 +368,31 @@ gini_median_max_min <- gini_median %>%
     min_median_gini = min(median_gini, na.rm = TRUE),
     year_min = TIME_PERIOD[which.min(median_gini)])
 gini_median_max_min
+```
+Tabellene viser median Gini og høyeste og laveste verdier for median Gini per land og tilhørende år i perioden 2000–2023. Tredene og resultatene er det nesten samme som gjennomsnittlig Gini per land per år.
+Bulgaria har hatt de høyeste verdiene, med maksimum 0.130 i 2022 og minimum 0.084 i 2002. Belgia har hatt moderate og stabile verdier mellom 0.065 (2010) og 0.084 (2016). Nederland og Norge har hatt de laveste forskjellene, med verdier fra henholdsvis 0.019–0.041 og 0.021–0.045.
 
-# figuren for median Gini per land per år
+## Visualisering
+#### Figuren for gjennomsnittlig Gini per land per år
+```{r}
+#| label: fig-gini_gjennomsnittlig
+#| fig-cap: "Utvikling i gjennomsnittlig Gini (NUTS2) etter land, 2000–2023"
+figuren_gini_gjennomsnittlig <- gini_gjennomsnittlig %>%
+  ggplot(aes(TIME_PERIOD, mean_gini, color = land_full)) +
+  geom_line(linewidth = 1.2) +
+  labs(title = "Utvikling i gjennomsnittlig Gini (NUTS2)",
+       x = "År", y = "Gjennomsnittlig Gini", color = "Land") +
+  theme_minimal(base_size = 13) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+figuren_gini_gjennomsnittlig
+```
+@fig-gini_gjennomsnittlig viser de samme trendene over tid. Bulgaria ligger klart høyest gini-tred og har hatt en svak økning i ulikheten etter 2010, spesielt 2022. Belgia har et stabilt nivå uten store endringer. Nederland og Norge ligger lavt gjennom hele perioden, med små svingninger og generelt jevn regional fordeling. Norge viser den lavste gjennomsnittlig Gini i 2017.
+Både resultatene til de gjennomsnittlige Gini og @fig-gini_gjennomsnittlig viser at ulikheten mellom regionene har vært mest stabil i Belgia og lavest i Nederland og Norge, spesilt Norge har den laveste ulikheten mellom de fire landene. Bulgaria har hatt den tydeligste økningen i gjennomsnitt Gini, betyr det at Bulgaria har økt ulikheten mellom regionale.
+
+#### Figuren for median Gini per land per år
+```{r}
 #| label: fig-gini_median
-#| fig-cap: "Utvikling i median Gini (NUTS2) etter land, 2000–2023. Figuren viser endringen i medianverdien av den befolkningsvektede Gini-koeffisienten for Belgia, Bulgaria, Nederland og Norge. Median Gini gir et robust mål på regional ulikhet og reduserer påvirkningen av ekstreme verdier."
+#| fig-cap: "Utvikling i median Gini (NUTS2) etter land, 2000–2023"
 figuren_gini_median <- gini_median %>% 
   ggplot(aes(TIME_PERIOD, median_gini, color = land_full)) +
   geom_line(linewidth = 1.2, linetype = "solid") +
@@ -406,12 +403,12 @@ figuren_gini_median <- gini_median %>%
 figuren_gini_median
 
 ```
-
+@fig-gini_median viser utviklingen i median Gini-koeffisienten for Belgia, Bulgaria, Nederland og Norge i perioden 2000–2023. Utviklingen i median Gini samsvarer i stor grad med resultatene for gjennomsnittlig Gini, der Bulgaria viser den mest markante økningen i ulikhet, mens de øvrige landene holder et stabilt og lavt nivå.
 
 #### Figuren for fordeling av Gini (NUTS2) etter land
 ```{r}
 #| label: fig-gini_etter_land
-#| fig-cap: "Fordeling av Gini-koeffisienter (NUTS2) etter land, 2000–2023. Figuren viser fordelingen av befolkningsvektet Gini mellom regioner i Belgia, Bulgaria, Nederland og Norge. Hver boks representerer variasjonen i regional ulikhet på NUTS2-nivå, der høyere verdier indikerer større forskjeller mellom regionene."
+#| fig-cap: "Fordeling av Gini-koeffisienter (NUTS2) etter land, 2000–2023"
 figuren_gini_etter_land <- gini %>%
   filter(!is.na(Gini_weighted)) %>%
   mutate(land_full = recode(country,
@@ -426,11 +423,14 @@ figuren_gini_etter_land <- gini %>%
         legend.position = "none")
 figuren_gini_etter_land
 ```
+@fig-gini_etter_land viser spredningsituasjonen til de Gini-koeffisientene for Belgia, Bulgaria, Nederland og Norge i perioden 2000–2023.
+Bulgaria har høyest nivå og størst variasjon, noe som viser store forskjeller i regional økonomisk aktivitet. Belgia ligger på et middels nivå med moderat spredning. Nederland har lavere verdier og mer jevn fordeling, mens Norge har de laveste verdiene og minst variasjon mellom regionene.
+Spredningsituasjonen til @fig-gini_etter_land viser stemmer overens med resultatene til både @fig-gini_gjennomsnittlig og @fig-gini_median, der Bulgaria har størst ulikhet og Norge og Nederland viser den mest balanserte regionale fordelingen.
 
 #### Figuren for Gini per NUTS2 over tid (fasettert etter land)"
 ```{r}
 #| label: fig-gini_over_tid
-#| fig-cap: "Utvikling i Gini per NUTS2 over tid (2000–2023), fasettert etter land. Figuren viser utviklingen i den befolkningsvektede Gini-koeffisienten for hver NUTS2-region i Belgia, Bulgaria, Nederland og Norge. Hver linje representerer en enkelt NUTS2-region, og fasettene viser hvordan den regionale ulikheten utvikler seg innenfor hvert land over tid."
+#| fig-cap: "Utvikling i Gini per NUTS2 over tid (2000–2023), fasettert etter land"
 figuren_gini_over_tid <- gini %>%
   filter(!is.na(Gini_weighted)) %>%        # Fjerner rader med manglende Gini (NA)
   ggplot(aes(TIME_PERIOD, Gini_weighted, group = NUTS2)) +  # Setter opp tidsserie per NUTS2-region
@@ -448,21 +448,37 @@ figuren_gini_over_tid <- gini %>%
   theme(plot.title = element_text(hjust = 0.5, face = "bold"))    # Midtstiller og gjør tittelen fet
 figuren_gini_over_tid
 ```
-
-
-
-
+@fig-gini_over_tid viser utviklingen i Gini-koeffisienten for hver NUTS2-region i Belgia, Bulgaria, Nederland og Norge i perioden 2000–2023. Hver linje representerer en region, slik at variasjonen innad i landene kan observeres.
+For Norge vises kun en linje, fordi flere norske NUTS2-regioner består av bare en NUTS3-region, dermed ikke får beregnet intern Gini-verdi. I tillegg starter de norske dataene først i 2010, nevte i informasjon om dataene.
+Bulgaria har høyest over 0.2 Gini, viser størst intern ulikhet. Belgia har Gini med relevant stabilte mellom 0.05-0.1 mesteparten av tiden. Mens Norge og Nederland har nesten lavere enn 0.1 Gini, jevn og stabil regional fordeling.
+Resultatene til @fig-gini_over_tid samsvarer med @fig-gini_etter_land, @fig-gini_gjennomsnittlig og @fig-gini_median.
 
 ## Diskusjon
+### Analyse og sammenligning av Gini-resultater
+Basert på analysen av Gini-koeffisientene kan man se at det finnes betydelige forskjeller i regional økonomisk ulikhet mellom Belgia, Bulgaria, Nederland og Norge i perioden 2000–2023. 
+Bulgaria har de høyeste Gini-verdiene, Nederland og Norge de laveste, mens Belgia ligger mellom disse. Dette mønsteret er konsistent på tvers av resultatene for Gini totalt, Gini etter land, gjennomsnittlig Gini og median Gini, noe som viser at analysen har høy stabilitet og konsistens.
+
+Når man ser på utviklingen over tid, har Bulgaria opplevd en tydelig økning i regional ulikhet etter 2010. Maksimumsverdien for Gini er rundt 0.28, noe som indikerer at de økonomiske forskjellene mellom regionene har økt og at den regionale utviklingen er lite balansert. 
+Belgia har Gini-verdier som varierer mellom 0.07 og 0.15, og viser et generelt stabilt nivå, noe som tyder på moderate regionale forskjeller. 
+Nederland har verdier mellom 0.03 og 0.11, med små variasjoner over tid, som indikerer en jevn og balansert regional fordeling. 
+Norge har de laveste og mest stabile verdiene, mellom 0.02 og 0.05, noe som viser svært små økonomiske forskjeller mellom regionene og en balansert regional struktur. Som tidligere nevnt har de norske dataene en spesiell karakter, ettersom flere NUTS2-regioner består av kun én NUTS3-region. Dette fører til at figuren for Norge bare viser én Gini-linje, men dette påvirker ikke gyldigheten av konklusjonene.
+
+Statistisk sett er Bulgarias maksimale Gini-verdi omtrent 0.28, betydelig høyere enn de andre landenes øvre grenser, mens Norges maksimale verdi er bare rundt 0.045, noe som skaper en tydelig kontrast.
+Gjennomsnitts- og medianverdiene er svært like i alle land, noe som viser at dataene er symmetrisk fordelt uten alvorlig skjevhet eller ekstreme verdier. Denne stabiliteten bekrefter ytterligere påliteligheten i beregningen av Gini-koeffisientene.
+
+Basert på betydningen av Gini-koeffisienten [@su13021006], der en verdi nær 1 indikerer høy ulikhet og en verdi nær 0 indikerer full likhet, kan vi se følgende situasjoner: Bulgaria har den høyeste Gini-verdien blant de fire landene, noe som viser at de regionale økonomiske forskjellene er størst og at ulikheten er mest markert. Belgia ligger på et middels nivå og viser en moderat grad av ulikhet. Nederland og Norge har de laveste Gini-verdiene, spesielt Norge, som viser den mest balanserte økonomiske fordelingen mellom regionene og det laveste nivået av ulikhet.
+
+Analysen bekrefter at graden av regional ulikhet varierer betydelig mellom landene og følger et mønster som samsvarer med [@LESSMANN2017110]. Resultatene viser at økonomisk utvikling og ulikhet henger tett sammen, der lavinntektsland som Bulgaria har høyere og økende Gini-verdier, mens høyinntektsland som Nederland og Norge har lavere og mer stabile nivåer. Dette støtter den N-formede sammenhengen mellom utvikling og ulikhet som [@LESSMANN2017110] beskriver.
+
+[@Cappelen2009] peker på at Norge er et ressursrikt og velstående land, der staten har brukt inntektene fra naturressursene til å utvikle og stabilisere økonomien gjennom målrettet politikk og solide institusjoner. I lys av de bestemmende faktorene for regional ulikhet som fremheves av [@LESSMANN2017110] som utvikling, mobilitet, åpenhet, ressurser, institusjoner, overføringer og utdanning, og etnisitet,  kan man se at Norges økonomiske styrke og institusjonelle kvalitet bidrar til lav regional ulikhet. Dette gjenspeiles tydelig i landets lave Gini-koeffisient, som indikerer en balansert og inkluderende økonomisk utvikling.
+
+### Refleksjon
+Denne analysen viser at det i perioden 2000–2023 finnes tydelige forskjeller i regional økonomisk ulikhet mellom Belgia, Bulgaria, Nederland og Norge.
+I henhold til forklaringen av Gini-koeffisienten i [@su13021006] har Bulgaria de høyeste Gini-verdiene, som har økt etter 2010, noe som indikerer større ulikhet mellom regionene. Belgia har en middels Gini-verdi med små endringer over tid, noe som tyder på en stabil grad av regional ulikhet. Nederland og Norge har de laveste og mest stabile Gini-verdiene, noe som viser at ulikheten i disse landene er relativt liten. Som [@LESSMANN2017110] påpeker, har lavinntektsland ofte høyere grad av ulikhet, mens høyinntektsland har lavere nivåer. De høye Gini-verdiene i Bulgaria og de lave verdiene i Norge bekrefter dette mønsteret.
+I tillegg påpeker [@Cappelen2009] at Norge er et ressursrikt og institusjonelt velfungerende land som har oppnådd økonomisk stabilitet gjennom målrettet og effektiv politikk. Dette har bidratt til å opprettholde lave regionale forskjeller. Dette viser også at land med rikelige naturressurser og sterke institusjoner har bedre forutsetninger for å redusere regional ulikhet. Funnene bekrefter dermed at regional ulikhet henger tett sammen med de syv bestemmende faktorene som foreslås av [@LESSMANN2017110], spesielt ressurser, utvikling og institusjoner.
+Samlet sett viser analysen at graden av regional ulikhet ikke bare reflekterer økonomisk utviklingsnivå, men også hvordan land forvalter sine ressurser og institusjoner. Effektiv ressursforvaltning og et velfungerende politisk-institusjonelt system fremstår som avgjørende for å redusere regionale forskjeller, fremme bærekraftig utvikling og motvirke økende ulikhet.
+
+# Del C: Dokumenter bruken min av AI
 
 
-
-
-
-
-
-
-
-# Del C:Dokumenter bruken min av AI
-
-
+# Kilder
