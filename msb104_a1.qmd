@@ -319,6 +319,7 @@ Belgia har ca. minimum 0.010, median 0.078 og maksimum 0.153.
 Bulgaria har ca. minimum 0.046, median 0.103 og maksimum 0.282.
 Nederland har ca. minimum 0.001, median 0.033 og maksimum 0.117.
 Norge har ca. minimum 0.021, median 0.034 og maksimum 0.045.
+Disse standardverdiene viser at forskjellene i Gini-koeffisienten mellom regionene generelt er små i alle landene. Norge fremstår som det mest jevne landet, mens Bulgaria har tydeligere regionale forskjeller.
 Resultatene viser at ulikheten er størst i Bulgaria og minst i Norge og Nederland, mens Belgia ligger midt imellom. Dette betyr at økonomisk aktivitet i Nederland og Norge er jevnere fordelt mellom regionene, mens Bulgaria har større forskjeller i økonomisk aktivitet mellom ulike regionene.
 
 ### Gjennomsnittlig Gini per land per år
@@ -373,39 +374,47 @@ Tabellene viser median Gini og høyeste og laveste verdier for median Gini per l
 Bulgaria har hatt de høyeste verdiene, med maksimum 0.130 i 2022 og minimum 0.084 i 2002. Belgia har hatt moderate og stabile verdier mellom 0.065 (2010) og 0.084 (2016). Nederland og Norge har hatt de laveste forskjellene, med verdier fra henholdsvis 0.019–0.041 og 0.021–0.045.
 
 ## Visualisering
-#### Figuren for gjennomsnittlig Gini per land per år
+### Sammenligning gjonnomsnitt og median Gini
 ```{r}
-#| label: fig-gini_gjennomsnittlig
-#| fig-cap: "Utvikling i gjennomsnittlig Gini (NUTS2) etter land, 2000–2023"
-figuren_gini_gjennomsnittlig <- gini_gjennomsnittlig %>%
-  ggplot(aes(TIME_PERIOD, mean_gini, color = land_full)) +
-  geom_line(linewidth = 1.2) +
-  labs(title = "Utvikling i gjennomsnittlig Gini (NUTS2)",
-       x = "År", y = "Gjennomsnittlig Gini", color = "Land") +
-  theme_minimal(base_size = 13) +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
-figuren_gini_gjennomsnittlig
+#| label: fig-gini_mean_median
+#| fig-cap: "Gjennomsnittlig og median Gini (NUTS2) per land, 2000–2023"
+figuren_gini_mean_median <- ggplot() +
+  # lager linjer for gjennonsmitt-verdier
+  geom_line(
+    data = gini_gjennomsnittlig,
+    aes(x = TIME_PERIOD, y = mean_gini, color = "Gjennomsnitt"),
+    linewidth = 1.1
+  ) +
+  # lager linjer for median-verdier
+  geom_line(
+    data = gini_median,
+    aes(x = TIME_PERIOD, y = median_gini, color = "Median"),
+    linewidth = 1.1,
+    linetype = "dashed"
+  ) +
+  facet_wrap(~ land_full, ncol = 2) +
+  scale_color_manual(
+    values = c("Gjennomsnitt" = "red", "Median" = "cyan")
+  ) +
+  labs(
+    title = "Utvikling i Gini: Gjennomsnitt og median",
+    x = "År",
+    y = "Gini",
+    color = ""
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    legend.position = "bottom",
+    legend.text = element_text(size = 12)
+  )
+figuren_gini_mean_median
 ```
-@fig-gini_gjennomsnittlig viser de samme trendene over tid. Bulgaria ligger klart høyest gini-tred og har hatt en svak økning i ulikheten etter 2010, spesielt 2022. Belgia har et stabilt nivå uten store endringer. Nederland og Norge ligger lavt gjennom hele perioden, med små svingninger og generelt jevn regional fordeling. Norge viser den lavste gjennomsnittlig Gini i 2017.
-Både resultatene til de gjennomsnittlige Gini og @fig-gini_gjennomsnittlig viser at ulikheten mellom regionene har vært mest stabil i Belgia og lavest i Nederland og Norge, spesilt Norge har den laveste ulikheten mellom de fire landene. Bulgaria har hatt den tydeligste økningen i gjennomsnitt Gini, betyr det at Bulgaria har økt ulikheten mellom regionale.
+@fig-gini_mean_median viser at gjennomsnittet og medianen Gini følger nesten samme utvikling over tid for. noe som indikerer at fordelingen av Gini-koeffisienten mellom regionene er forholdsvis symmetrisk, uten tydelige ekstremverdier. Bulgaria ligger klart høyest gini og har hatt en svak økning i ulikheten etter 2010, spesielt 2022. Belgia har et stabilt nivå uten store endringer. Nederland og Norge ligger lavt gjennom hele perioden, med små svingninger og generelt jevn regional fordeling. Norge viser den lavste Gini i 2017, og høyste i 2020, både gjennomsnitt og median.
 
-#### Figuren for median Gini per land per år
-```{r}
-#| label: fig-gini_median
-#| fig-cap: "Utvikling i median Gini (NUTS2) etter land, 2000–2023"
-figuren_gini_median <- gini_median %>% 
-  ggplot(aes(TIME_PERIOD, median_gini, color = land_full)) +
-  geom_line(linewidth = 1.2, linetype = "solid") +
-  labs(title = "Utvikling i median Gini (NUTS2)",
-       x = "År", y = "Median Gini", color = "Land") +
-  theme_minimal(base_size = 13) +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
-figuren_gini_median
+Resultatene til @fig-gini_mean_median viser at ulikheten mellom regionene har vært mest stabil i Belgia og lavest i Nederland og Norge, spesilt Norge har den laveste ulikheten mellom de fire landene. Bulgaria har hatt den tydeligste økningen i gjennomsnitt Gini, betyr det at Bulgaria har økt ulikheten mellom regionale.
 
-```
-@fig-gini_median viser utviklingen i median Gini-koeffisienten for Belgia, Bulgaria, Nederland og Norge i perioden 2000–2023. Utviklingen i median Gini samsvarer i stor grad med resultatene for gjennomsnittlig Gini, der Bulgaria viser den mest markante økningen i ulikhet, mens de øvrige landene holder et stabilt og lavt nivå.
-
-#### Figuren for fordeling av Gini (NUTS2) etter land
+### Figuren for fordeling av Gini (NUTS2) etter land
 ```{r}
 #| label: fig-gini_etter_land
 #| fig-cap: "Fordeling av Gini-koeffisienter (NUTS2) etter land, 2000–2023"
@@ -427,7 +436,7 @@ figuren_gini_etter_land
 Bulgaria har høyest nivå og størst variasjon, noe som viser store forskjeller i regional økonomisk aktivitet. Belgia ligger på et middels nivå med moderat spredning. Nederland har lavere verdier og mer jevn fordeling, mens Norge har de laveste verdiene og minst variasjon mellom regionene.
 Spredningsituasjonen til @fig-gini_etter_land viser stemmer overens med resultatene til både @fig-gini_gjennomsnittlig og @fig-gini_median, der Bulgaria har størst ulikhet og Norge og Nederland viser den mest balanserte regionale fordelingen.
 
-#### Figuren for Gini per NUTS2 over tid (fasettert etter land)"
+### Figuren for Gini per NUTS2 over tid (fasettert etter land)"
 ```{r}
 #| label: fig-gini_over_tid
 #| fig-cap: "Utvikling i Gini per NUTS2 over tid (2000–2023), fasettert etter land"
@@ -465,12 +474,14 @@ Norge har de laveste og mest stabile verdiene, mellom 0.02 og 0.05, noe som vise
 
 Statistisk sett er Bulgarias maksimale Gini-verdi omtrent 0.28, betydelig høyere enn de andre landenes øvre grenser, mens Norges maksimale verdi er bare rundt 0.045, noe som skaper en tydelig kontrast.
 Gjennomsnitts- og medianverdiene er svært like i alle land, noe som viser at dataene er symmetrisk fordelt uten alvorlig skjevhet eller ekstreme verdier. Denne stabiliteten bekrefter ytterligere påliteligheten i beregningen av Gini-koeffisientene.
+Videre viser SD-verdiene at variasjonen mellom regionene generelt er lav, spesielt i Norge og Nederland, noe som indikerer en jevn regional struktur uten store avvik.
+Boksplottet støtter dette funnet, ettersom de fleste land har få eller ingen tydelige uteliggere, med unntak av Bulgaria, som viser enkelte regioner med markant høyere ulikhet enn resten.
 
 Basert på betydningen av Gini-koeffisienten [@su13021006], der en verdi nær 1 indikerer høy ulikhet og en verdi nær 0 indikerer full likhet, kan vi se følgende situasjoner: Bulgaria har den høyeste Gini-verdien blant de fire landene, noe som viser at de regionale økonomiske forskjellene er størst og at ulikheten er mest markert. Belgia ligger på et middels nivå og viser en moderat grad av ulikhet. Nederland og Norge har de laveste Gini-verdiene, spesielt Norge, som viser den mest balanserte økonomiske fordelingen mellom regionene og det laveste nivået av ulikhet.
 
 Analysen bekrefter at graden av regional ulikhet varierer betydelig mellom landene og følger et mønster som samsvarer med [@LESSMANN2017110]. Resultatene viser at økonomisk utvikling og ulikhet henger tett sammen, der lavinntektsland som Bulgaria har høyere og økende Gini-verdier, mens høyinntektsland som Nederland og Norge har lavere og mer stabile nivåer. Dette støtter den N-formede sammenhengen mellom utvikling og ulikhet som [@LESSMANN2017110] beskriver.
 
-[@Cappelen2009] peker på at Norge er et ressursrikt og velstående land, der staten har brukt inntektene fra naturressursene til å utvikle og stabilisere økonomien gjennom målrettet politikk og solide institusjoner. I lys av de bestemmende faktorene for regional ulikhet som fremheves av [@LESSMANN2017110] som utvikling, mobilitet, åpenhet, ressurser, institusjoner, overføringer og utdanning, og etnisitet,  kan man se at Norges økonomiske styrke og institusjonelle kvalitet bidrar til lav regional ulikhet. Dette gjenspeiles tydelig i landets lave Gini-koeffisient, som indikerer en balansert og inkluderende økonomisk utvikling.
+[@Cappelen2009] peker på at Norge er et ressursrikt og velstående land, der staten har brukt inntektene fra naturressursene til å utvikle og stabilisere økonomien gjennom målrettet politikk og solide institusjoner. I lys av de bestemmende faktorene for regional ulikhet som fremheves av [@LESSMANN2017110] som utvikling, mobilitet, åpenhet, ressurser, institusjoner, overføringer og utdanning, og etnisitet, kan man se at Norges økonomiske styrke og institusjonelle kvalitet bidrar til lav regional ulikhet. Dette gjenspeiles tydelig i landets lave Gini-koeffisient, som indikerer en balansert og inkluderende økonomisk utvikling.
 
 ### Refleksjon
 Denne analysen viser at det i perioden 2000–2023 finnes tydelige forskjeller i regional økonomisk ulikhet mellom Belgia, Bulgaria, Nederland og Norge.
