@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="NO_nb" xml:lang="NO_nb"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -82,22 +82,24 @@ div.csl-indent {
 <script src="msb104_a1_files/libs/clipboard/clipboard.min.js"></script>
 <script src="msb104_a1_files/libs/quarto-html/quarto.js" type="module"></script>
 <script src="msb104_a1_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="msb104_a1_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="msb104_a1_files/libs/quarto-html/popper.min.js"></script>
 <script src="msb104_a1_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="msb104_a1_files/libs/quarto-html/anchor.min.js"></script>
 <link href="msb104_a1_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="msb104_a1_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="msb104_a1_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="msb104_a1_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="msb104_a1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="msb104_a1_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="msb104_a1_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="msb104_a1.pdf"><i class="bi bi-file-pdf"></i>Typst</a></li></ul></div></div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -135,9 +137,13 @@ div.csl-indent {
 <section id="datainnsamling" class="level2">
 <h2 class="anchored" data-anchor-id="datainnsamling">Datainnsamling</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pakker</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dineq)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lurt å gi denne label setup. Vil da automatisk </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># bli kjørt før en chunk kjøres. Dette er dårlig dokumentert</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># for quarto, men ser ut til å være arvet fra R Markdown</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># documents</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># pakker</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dineq)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'dplyr'</code></pre>
@@ -152,9 +158,9 @@ Attaching package: 'dplyr'</code></pre>
 
     intersect, setdiff, setequal, union</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ forcats   1.0.0     ✔ readr     2.1.5
@@ -167,25 +173,25 @@ Attaching package: 'dplyr'</code></pre>
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install datapakken "eurostat"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install datapakken "eurostat"</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("eurostat")</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(eurostat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(eurostat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="laster-ned-datasettet-gdp" class="level3">
 <h3 class="anchored" data-anchor-id="laster-ned-datasettet-gdp">Laster ned datasettet GDP</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># laster ned datasettet GDP (nama_10r_3gdp)</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>gdp <span class="ot">&lt;-</span> <span class="fu">get_eurostat</span>(<span class="st">"nama_10r_3gdp"</span>, <span class="at">time_format =</span> <span class="st">"num"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># laster ned datasettet GDP (nama_10r_3gdp)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>gdp <span class="ot">&lt;-</span> <span class="fu">get_eurostat</span>(<span class="st">"nama_10r_3gdp"</span>, <span class="at">time_format =</span> <span class="st">"num"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-[1mindexed[0m [32m0B[0m in [36m 0s[0m, [32m0B/s[0m
-[1mindexed[0m [32m1.00TB[0m in [36m 0s[0m, [32m132.82TB/s[0m
+indexed 0B in  0s, 0B/s
+indexed 1.00TB in  0s, 135.91TB/s
                                                                               </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Table nama_10r_3gdp cached at /var/folders/w2/3p9sptn92814q_8xk2zpybsr0000gn/T//Rtmpf3ZpuO/eurostat/bdd7d007ab15b28b6f8cde7d8fb1e7cc.rds</code></pre>
+<pre><code>Table nama_10r_3gdp cached at /var/folders/6z/cg500fzs0w38623jddbr4c1c0000gn/T//RtmpqZmV6r/eurostat/6b8a2bbeccd40603b564a4477582ed6e.rds</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># velger tidperiod 2000-2023, unit i MIO_EUR (Million euro), og 4 land ("BE", "NL", "BG", "NO")</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># velger tidperiod 2000-2023, unit i MIO_EUR (Million euro), og 4 land ("BE", "NL", "BG", "NO")</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>gdp <span class="ot">&lt;-</span> gdp <span class="sc">%&gt;%</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(unit <span class="sc">==</span> <span class="st">"MIO_EUR"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">TIME_PERIOD =</span> <span class="fu">as.numeric</span>(TIME_PERIOD), <span class="at">geo =</span> <span class="fu">as.character</span>(geo)) <span class="sc">%&gt;%</span></span>
@@ -194,7 +200,7 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">nchar</span>(geo) <span class="sc">==</span> <span class="dv">5</span>)    <span class="co"># velger NUTS3</span></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># viser BNP-datastruktur</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(gdp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(gdp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 2,591
 Columns: 5
@@ -210,18 +216,18 @@ $ values      &lt;dbl&gt; 54681.25, 57619.35, 59500.55, 62125.09, 64604.73, 6537
 <section id="laster-ned-datasettet-population" class="level3">
 <h3 class="anchored" data-anchor-id="laster-ned-datasettet-population">Laster ned datasettet population</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># laster ned datasettet population (demo_r_pjanaggr3)</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>population <span class="ot">&lt;-</span> <span class="fu">get_eurostat</span>(<span class="st">"demo_r_pjanaggr3"</span>, <span class="at">time_format =</span> <span class="st">"num"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># laster ned datasettet population (demo_r_pjanaggr3)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>population <span class="ot">&lt;-</span> <span class="fu">get_eurostat</span>(<span class="st">"demo_r_pjanaggr3"</span>, <span class="at">time_format =</span> <span class="st">"num"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-[1mindexed[0m [32m0B[0m in [36m 0s[0m, [32m0B/s[0m
-[1mindexed[0m [32m1.00TB[0m in [36m 0s[0m, [32m23.23TB/s[0m
+indexed 0B in  0s, 0B/s
+indexed 1.00TB in  0s, 27.60TB/s
                                                                               </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Table demo_r_pjanaggr3 cached at /var/folders/w2/3p9sptn92814q_8xk2zpybsr0000gn/T//Rtmpf3ZpuO/eurostat/f94e765587c3574dd4e61e6f28a2a0f0.rds</code></pre>
+<pre><code>Table demo_r_pjanaggr3 cached at /var/folders/6z/cg500fzs0w38623jddbr4c1c0000gn/T//RtmpqZmV6r/eurostat/096ec194891414276543ab27d10b84e6.rds</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># velger tidperiod 2000-2023, age Total population (Million euro), og 4 land ("BE", "NL", "BG", "NO")</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># velger tidperiod 2000-2023, age Total population (Million euro), og 4 land ("BE", "NL", "BG", "NO")</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>population <span class="ot">&lt;-</span> population <span class="sc">%&gt;%</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">"T"</span>, age <span class="sc">==</span> <span class="st">"TOTAL"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">TIME_PERIOD =</span> <span class="fu">as.numeric</span>(TIME_PERIOD), <span class="at">geo =</span> <span class="fu">as.character</span>(geo)) <span class="sc">%&gt;%</span></span>
@@ -230,7 +236,7 @@ $ values      &lt;dbl&gt; 54681.25, 57619.35, 59500.55, 62125.09, 64604.73, 6537
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">nchar</span>(geo) <span class="sc">==</span> <span class="dv">5</span>)    <span class="co"># velger NUTS3</span></span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># viser population-datastruktur</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(population)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(population)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 3,023
 Columns: 7
@@ -255,7 +261,7 @@ $ values      &lt;dbl&gt; 959318, 964405, 978384, 992041, 999899, 1006749, 10188
 <section id="merger-datasetter-gdp-og-papulation-og-fjerner-manglende-verdier" class="level3">
 <h3 class="anchored" data-anchor-id="merger-datasetter-gdp-og-papulation-og-fjerner-manglende-verdier">Merger datasetter GDP og papulation, og fjerner manglende verdier</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merger datasetter GDP og papulation</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merger datasetter GDP og papulation</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>gdp_pop <span class="ot">&lt;-</span> <span class="fu">left_join</span>(</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  gdp,</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  population,</span>
@@ -263,37 +269,37 @@ $ values      &lt;dbl&gt; 959318, 964405, 978384, 992041, 999899, 1006749, 10188
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">"_gdp"</span>, <span class="st">"_pop"</span>))</span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Teller antall manglende verdier (NA) i hver variabel</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(gdp_pop))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(gdp_pop))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   freq_gdp    unit_gdp         geo TIME_PERIOD  values_gdp    freq_pop 
           0           0           0           0           0         462 
    unit_pop         sex         age  values_pop 
         462         462         462         462 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Viser totalt antall manglende verdier i hele datasettet</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(gdp_pop))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Viser totalt antall manglende verdier i hele datasettet</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(gdp_pop))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2310</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dette steget brukes for å sjekke om datasettet har manglende verdier. De to metodene viser det samme resultatet – 2 310 manglende verdier i datasettet etter merged.</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dette steget brukes for å sjekke om datasettet har manglende verdier. De to metodene viser det samme resultatet – 2 310 manglende verdier i datasettet etter merged.</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fjerner manglende verdier i BNP- og befolkningskolonnene før videre beregninger</span></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>gdp_pop <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(values_gdp, values_pop) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(values_gdp, values_pop) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Samslåing av datasett ble utført her. Datasettet BNP og population ble slått sammen ved hjelp av regionkode (geo) og år (TIME_PERIOD). Så sjekker og fjerner 2 310 manglende verdier i BNP- og befolkningskolonnene før videre beregninger.</p>
 </section>
 <section id="beregner-bnp-per-innbygger-gdpc-etter-å-merge-dataene" class="level3">
 <h3 class="anchored" data-anchor-id="beregner-bnp-per-innbygger-gdpc-etter-å-merge-dataene">Beregner BNP per innbygger (GDPC) etter å merge dataene</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Beregner BNP per innbygger etter å merge dataene</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Beregner BNP per innbygger etter å merge dataene</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>gdp_pop <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">GDPC =</span> (values_gdp <span class="sc">*</span> <span class="fl">1e6</span>) <span class="sc">/</span> values_pop) <span class="sc">%&gt;%</span> <span class="co"># BNP per innbygger (GDPC) er beregnet i euro per person</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(values_pop <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="fu">is.finite</span>(GDPC)) <span class="co"># Fjerner ugyldige eller ekstreme observasjoner</span></span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Sjekker datastrukturen og verdiene etter sammenslåing og beregning</span></span>
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Viser strukturen til datasettet etter beregningen</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(gdp_pop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(gdp_pop)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 2,119
 Columns: 11
@@ -309,8 +315,8 @@ $ age         &lt;chr&gt; "TOTAL", "TOTAL", "TOTAL", "TOTAL", "TOTAL", "TOTAL", 
 $ values_pop  &lt;dbl&gt; 992041, 999899, 1006749, 1018804, 1031215, 1048491, 106853…
 $ GDPC        &lt;dbl&gt; 55119.95, 57625.17, 59101.67, 60978.45, 62649.14, 62352.36…</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Oppsummerer sentrale statistiske mål for å kontrollere verdiene</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gdp_pop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Oppsummerer sentrale statistiske mål for å kontrollere verdiene</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gdp_pop)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   freq_gdp           unit_gdp             geo             TIME_PERIOD  
  Length:2119        Length:2119        Length:2119        Min.   :2000  
@@ -343,7 +349,7 @@ $ GDPC        &lt;dbl&gt; 55119.95, 57625.17, 59101.67, 60978.45, 62649.14, 6235
 <section id="grunnleggende-deskriptiv-statistikk" class="level3">
 <h3 class="anchored" data-anchor-id="grunnleggende-deskriptiv-statistikk">Grunnleggende deskriptiv statistikk</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grunnleggende deskriptiv statistikk for merged datasettet</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grunnleggende deskriptiv statistikk for merged datasettet</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>gdp_pop_summary <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(values_pop <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="fu">is.finite</span>(GDPC)) <span class="sc">%&gt;%</span> </span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
@@ -356,7 +362,7 @@ $ GDPC        &lt;dbl&gt; 55119.95, 57625.17, 59101.67, 60978.45, 62649.14, 6235
 <span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max =</span> <span class="fu">max</span>(GDPC, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD  =</span> <span class="fu">sd</span>(GDPC, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>gdp_pop_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>gdp_pop_summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 8
   n_obs   Min    Q1 Median   Mean     Q3     Max     SD
@@ -366,7 +372,7 @@ $ GDPC        &lt;dbl&gt; 55119.95, 57625.17, 59101.67, 60978.45, 62649.14, 6235
 </div>
 <p>Resultatene for grunnleggende deskriptiv statistikk for merged datasettet gdp_pop viser følgende nøkkeltall: antall observasjoner: 2 119 regioner, minimumsverdi 1 087 euro per person, første kvartil (Q1) 6 061 euro, median 25 632 euro, gjennomsnitt (Mean) 24 551 euro, tredje kvartil (Q3) 35 051 euro, maksimumsverdi 105 721 euro, og standardavvik: 17 452 euro.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>bnp_per_innbygger <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>bnp_per_innbygger <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span> </span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> GDPC)) <span class="sc">+</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">40</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
@@ -374,7 +380,7 @@ $ GDPC        &lt;dbl&gt; 55119.95, 57625.17, 59101.67, 60978.45, 62649.14, 6235
 <span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"BNP per innbygger (euro per person)"</span>,</span>
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Antall regioner"</span></span>
 <span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>bnp_per_innbygger</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>bnp_per_innbygger</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-bnp_per_innbygger" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -393,7 +399,7 @@ Figure&nbsp;1: Fordeling av BNP per innbygger (alle regioner)
 <section id="deskriptiv-statistikk-for-hvert-land" class="level3">
 <h3 class="anchored" data-anchor-id="deskriptiv-statistikk-for-hvert-land">Deskriptiv statistikk for hvert land</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Deskriptiv statistikk for hvert land</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Deskriptiv statistikk for hvert land</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>gdp_pop_land_summary <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(values_pop <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="fu">is.finite</span>(GDPC)) <span class="sc">%&gt;%</span> </span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country =</span> <span class="fu">substr</span>(geo, <span class="dv">1</span>, <span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
@@ -408,7 +414,7 @@ Figure&nbsp;1: Fordeling av BNP per innbygger (alle regioner)
 <span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max =</span> <span class="fu">max</span>(GDPC, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD  =</span> <span class="fu">sd</span>(GDPC, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>gdp_pop_land_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>gdp_pop_land_summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 9
   country n_obs    Min     Q1 Median   Mean     Q3     Max     SD
@@ -421,7 +427,7 @@ Figure&nbsp;1: Fordeling av BNP per innbygger (alle regioner)
 </div>
 <p>Tabellen viser beskrivende statistikk for BNP per innbygger (i euro) i de fire landene Belgia (BE), Bulgaria (BG), Nederland (NL) og Norge (NO). Resultatene viser store forskjeller mellom landene. Belgia har en moderat inntektsfordeling, der medianen ligger på rundt 28 000 euro per person. Maksimumsverdien er omtrent tre ganger enn median. Bulgaria har den laveste verdien blant de fire landene. Medianen er kun 3 763 euro, og både gjennomsnitt og maksimum er langt lavere enn i de andre landene. Maksimumsverdien er omtrent åtte ganger enn median. Nederland ligger betydelig høyere, med en median på omtrent 33 600 euro og et maksimum over 100 000 euro. Maksimumsverdien er omtrent tre ganger enn median. Norge har de høyeste verdiene, med en median på 53 533 euro og et gjennomsnitt på 58 337 euro. Maksimumsverdien er omtrent to ganger enn median.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>bnp_per_innbygger_land  <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>bnp_per_innbygger_land  <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span> </span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">land_full =</span> <span class="fu">recode</span>(<span class="fu">substr</span>(geo, <span class="dv">1</span>, <span class="dv">2</span>),</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"BE"</span> <span class="ot">=</span> <span class="st">"Belgia"</span>,</span>
@@ -439,7 +445,7 @@ Figure&nbsp;1: Fordeling av BNP per innbygger (alle regioner)
 <span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
 <span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
 <span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>bnp_per_innbygger_land</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>bnp_per_innbygger_land</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-bnp_per_innbygger_land" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -459,7 +465,7 @@ Både tabellen og <a href="#fig-bnp_per_innbygger_land" class="quarto-xref">Figu
 <section id="median-bnp-per-innbygger-etter-land-over-tid" class="level3">
 <h3 class="anchored" data-anchor-id="median-bnp-per-innbygger-etter-land-over-tid">Median BNP per innbygger etter land over tid</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>bnp_over_tid_median <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>bnp_over_tid_median <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">land =</span> <span class="fu">substr</span>(geo, <span class="dv">1</span>, <span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(land, TIME_PERIOD) <span class="sc">%&gt;%</span></span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
@@ -487,7 +493,7 @@ Både tabellen og <a href="#fig-bnp_per_innbygger_land" class="quarto-xref">Figu
 <span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
 <span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"right"</span></span>
 <span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>bnp_over_tid_median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>bnp_over_tid_median</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-bnp_over_tid_median" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -514,7 +520,7 @@ Figure&nbsp;3: Utvikling i median BNP per innbygger (2000–2023)
 <section id="beregning-av-gini-koeffisienten-på-nuts2-nivå" class="level2">
 <h2 class="anchored" data-anchor-id="beregning-av-gini-koeffisienten-på-nuts2-nivå">Beregning av Gini-koeffisienten på NUTS2-nivå</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Beregner befolkningsvektet Gini på NUTS2-nivå (basert på GDPC for NUTS3)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Beregner befolkningsvektet Gini på NUTS2-nivå (basert på GDPC for NUTS3)</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>gini <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">NUTS2   =</span> <span class="fu">substr</span>(geo, <span class="dv">1</span>, <span class="dv">4</span>),<span class="co"># Henter NUTS2-kode fra NUTS3 og legger til landkode</span></span>
@@ -535,7 +541,7 @@ Figure&nbsp;3: Utvikling i median BNP per innbygger (2000–2023)
 <span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Sjekker struktur og summary</span></span>
 <span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Sjekker strukturen til Gini-resultatene</span></span>
-<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(gini)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(gini)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 646
 Columns: 5
@@ -545,8 +551,8 @@ $ TIME_PERIOD   &lt;dbl&gt; 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011
 $ n_nuts3       &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 $ Gini_weighted &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Oppsummerer Gini-fordelingen</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gini<span class="sc">$</span>Gini_weighted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Oppsummerer Gini-fordelingen</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gini<span class="sc">$</span>Gini_weighted)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.     NA's 
 0.000948 0.038088 0.067481 0.076888 0.096178 0.282296      173 </code></pre>
@@ -559,7 +565,7 @@ $ Gini_weighted &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
 <section id="statistikk-gini-totalt-og-etter-land" class="level3">
 <h3 class="anchored" data-anchor-id="statistikk-gini-totalt-og-etter-land">Statistikk Gini totalt og etter land</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># statistikk totalt gini</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># statistikk totalt gini</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>gini_totalt <span class="ot">&lt;-</span> gini <span class="sc">%&gt;%</span></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
 <span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_obs =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gini_weighted)),</span>
@@ -571,14 +577,14 @@ $ Gini_weighted &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
 <span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max   =</span> <span class="fu">max</span>(Gini_weighted, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD    =</span> <span class="fu">sd</span>(Gini_weighted, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>gini_totalt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>gini_totalt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 8
   n_obs      Min     Q1 Median   Mean     Q3   Max     SD
   &lt;int&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
 1   473 0.000948 0.0381 0.0675 0.0769 0.0962 0.282 0.0496</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># statistikk gini etter land</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># statistikk gini etter land</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>gini_etter_land <span class="ot">&lt;-</span> gini <span class="sc">%&gt;%</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
@@ -592,7 +598,7 @@ $ Gini_weighted &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
 <span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD    =</span> <span class="fu">sd</span>(Gini_weighted, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
 <span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>gini_etter_land</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>gini_etter_land</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 9
   country n_obs      Min     Q1 Median   Mean     Q3    Max      SD
@@ -608,7 +614,7 @@ $ Gini_weighted &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
 <section id="gjennomsnittlig-gini-per-land-per-år" class="level3">
 <h3 class="anchored" data-anchor-id="gjennomsnittlig-gini-per-land-per-år">Gjennomsnittlig Gini per land per år</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gjennomsnittlig Gini</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gjennomsnittlig Gini</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>gini_gjennomsnittlig <span class="ot">&lt;-</span> gini <span class="sc">%&gt;%</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gini_weighted)) <span class="sc">%&gt;%</span></span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country, TIME_PERIOD) <span class="sc">%&gt;%</span></span>
@@ -616,7 +622,7 @@ $ Gini_weighted &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
 <span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">land_full =</span> <span class="fu">recode</span>(country,</span>
 <span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"BE"</span> <span class="ot">=</span> <span class="st">"Belgia"</span>, <span class="st">"BG"</span> <span class="ot">=</span> <span class="st">"Bulgaria"</span>,</span>
 <span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"NL"</span> <span class="ot">=</span> <span class="st">"Nederland"</span>, <span class="st">"NO"</span> <span class="ot">=</span> <span class="st">"Norge"</span>))</span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>gini_gjennomsnittlig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>gini_gjennomsnittlig</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 77 × 4
    country TIME_PERIOD mean_gini land_full
@@ -633,7 +639,7 @@ $ Gini_weighted &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
 10 BE             2012    0.0784 Belgia   
 # ℹ 67 more rows</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Høyeste og laveste gjennomsnittlig Gini</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Høyeste og laveste gjennomsnittlig Gini</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>gini_max_min <span class="ot">&lt;-</span> gini_gjennomsnittlig <span class="sc">%&gt;%</span></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
 <span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
@@ -641,7 +647,7 @@ $ Gini_weighted &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
 <span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_max =</span> TIME_PERIOD[<span class="fu">which.max</span>(mean_gini)],</span>
 <span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_gini =</span> <span class="fu">min</span>(mean_gini, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_min =</span> TIME_PERIOD[<span class="fu">which.min</span>(mean_gini)])</span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>gini_max_min</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>gini_max_min</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 5
   country max_gini year_max min_gini year_min
@@ -657,7 +663,7 @@ $ Gini_weighted &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
 <section id="median-gini-per-land-per-år" class="level3">
 <h3 class="anchored" data-anchor-id="median-gini-per-land-per-år">Median Gini per land per år</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Median Gini per land per år</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Median Gini per land per år</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>gini_median <span class="ot">&lt;-</span> gini <span class="sc">%&gt;%</span></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gini_weighted)) <span class="sc">%&gt;%</span></span>
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country, TIME_PERIOD) <span class="sc">%&gt;%</span></span>
@@ -665,7 +671,7 @@ $ Gini_weighted &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
 <span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">land_full =</span> <span class="fu">recode</span>(country,</span>
 <span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"BE"</span> <span class="ot">=</span> <span class="st">"Belgia"</span>, <span class="st">"BG"</span> <span class="ot">=</span> <span class="st">"Bulgaria"</span>,</span>
 <span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"NL"</span> <span class="ot">=</span> <span class="st">"Nederland"</span>, <span class="st">"NO"</span> <span class="ot">=</span> <span class="st">"Norge"</span>))</span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>gini_median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>gini_median</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 77 × 4
    country TIME_PERIOD median_gini land_full
@@ -682,7 +688,7 @@ $ Gini_weighted &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
 10 BE             2012      0.0806 Belgia   
 # ℹ 67 more rows</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Høyeste og laveste median Gini per land (med år)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Høyeste og laveste median Gini per land (med år)</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>gini_median_max_min <span class="ot">&lt;-</span> gini_median <span class="sc">%&gt;%</span></span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
 <span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
@@ -690,7 +696,7 @@ $ Gini_weighted &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
 <span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_max =</span> TIME_PERIOD[<span class="fu">which.max</span>(median_gini)],</span>
 <span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_median_gini =</span> <span class="fu">min</span>(median_gini, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_min =</span> TIME_PERIOD[<span class="fu">which.min</span>(median_gini)])</span>
-<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>gini_median_max_min</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>gini_median_max_min</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 5
   country max_median_gini year_max min_median_gini year_min
@@ -709,7 +715,7 @@ $ Gini_weighted &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
 <section id="sammenligning-gjonnomsnitt-og-median-gini" class="level3">
 <h3 class="anchored" data-anchor-id="sammenligning-gjonnomsnitt-og-median-gini">Sammenligning gjonnomsnitt og median Gini</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>figuren_gini_mean_median <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>figuren_gini_mean_median <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># lager linjer for gjennonsmitt-verdier</span></span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
 <span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> gini_gjennomsnittlig,</span>
@@ -739,7 +745,7 @@ $ Gini_weighted &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
 <span id="cb51-28"><a href="#cb51-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
 <span id="cb51-29"><a href="#cb51-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>)</span>
 <span id="cb51-30"><a href="#cb51-30" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb51-31"><a href="#cb51-31" aria-hidden="true" tabindex="-1"></a>figuren_gini_mean_median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb51-31"><a href="#cb51-31" aria-hidden="true" tabindex="-1"></a>figuren_gini_mean_median</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-gini_mean_median" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -759,7 +765,7 @@ Figure&nbsp;4: Gjennomsnittlig og median Gini (NUTS2) per land, 2000–2023
 <section id="figuren-for-fordeling-av-gini-nuts2-etter-land" class="level3">
 <h3 class="anchored" data-anchor-id="figuren-for-fordeling-av-gini-nuts2-etter-land">Figuren for fordeling av Gini (NUTS2) etter land</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>figuren_gini_etter_land <span class="ot">&lt;-</span> gini <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>figuren_gini_etter_land <span class="ot">&lt;-</span> gini <span class="sc">%&gt;%</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gini_weighted)) <span class="sc">%&gt;%</span></span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">land_full =</span> <span class="fu">recode</span>(country,</span>
 <span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"BE"</span> <span class="ot">=</span> <span class="st">"Belgia"</span>, <span class="st">"BG"</span> <span class="ot">=</span> <span class="st">"Bulgaria"</span>,</span>
@@ -771,7 +777,7 @@ Figure&nbsp;4: Gjennomsnittlig og median Gini (NUTS2) per land, 2000–2023
 <span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
 <span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
 <span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>figuren_gini_etter_land</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>figuren_gini_etter_land</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-gini_etter_land" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -790,7 +796,7 @@ Figure&nbsp;5: Fordeling av Gini-koeffisienter (NUTS2) etter land, 2000–2023
 <section id="figuren-for-gini-per-nuts2-over-tid-fasettert-etter-land" class="level3">
 <h3 class="anchored" data-anchor-id="figuren-for-gini-per-nuts2-over-tid-fasettert-etter-land">Figuren for Gini per NUTS2 over tid (fasettert etter land)”</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>figuren_gini_over_tid <span class="ot">&lt;-</span> gini <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>figuren_gini_over_tid <span class="ot">&lt;-</span> gini <span class="sc">%&gt;%</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gini_weighted)) <span class="sc">%&gt;%</span>        <span class="co"># Fjerner rader med manglende Gini (NA)</span></span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(TIME_PERIOD, Gini_weighted, <span class="at">group =</span> NUTS2)) <span class="sc">+</span>  <span class="co"># Setter opp tidsserie per NUTS2-region</span></span>
 <span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span>                <span class="co"># Tegner tynne linjer for hver NUTS2-region (gjennomsiktighet 25%)</span></span>
@@ -805,7 +811,7 @@ Figure&nbsp;5: Fordeling av Gini-koeffisienter (NUTS2) etter land, 2000–2023
 <span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Gini-koeffisient"</span>) <span class="sc">+</span></span>
 <span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
 <span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>))    <span class="co"># Midtstiller og gjør tittelen fet</span></span>
-<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>figuren_gini_over_tid</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>figuren_gini_over_tid</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-gini_over_tid" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -917,13 +923,14 @@ Lessmann, Christian, and André Seidel. 2017. <span>“Regional Inequality, Conv
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

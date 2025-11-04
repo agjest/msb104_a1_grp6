@@ -1,0 +1,9 @@
+---
+title: "ag_comments"
+format: html
+editor: visual
+---
+
+-   Assignmentet er primært designet ut fra at en skulle bruke eurostats web-app og laste ned datafiler i excel eller csv format. Jeg ser at du har valgt å gå direkte for api-en (som vi skal bruke senere).
+-   Gitt at du bruker en api vil jeg foreslå pakken `restatapi` og funksjonen `get_eurostat_data()`. Med denne har en større fleksibilitet (enn `get_eurostat() fra eurostat pakken).
+-   Med `eurostat::get_eurostat()` (ca. 700.000 rekker) må en hente ned hele tabellen før en så filtrerer ut den informasjonen man ønsker. Med `restatapi::get_eurostat_data()` kan en temmelig detaljert angi hvilke data en ønsker (ca. 3.000 rekker).
