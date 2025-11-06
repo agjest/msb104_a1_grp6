@@ -24,6 +24,7 @@ library(readxl)
 library(broom)
 library(lmtest)   # Inneholder dwtest(), bptest()
 library(car)      # oen diagnostiske verktøy
+library(ggfortify)
 
 
 # Følgende datasettene gdp_pop og gini fra assignment 1 
@@ -34,38 +35,58 @@ gini <- read_excel("/Users/liang/Desktop/msb104/msb104_a2/gini.xlsx", sheet = "S
 
 # Del A
 
-## Laster ned og slår sammen datasettene
+## Laster ned og slår sammen datasettene for 2017
 
 ```{r}
-# Beregner 2017-endringen per innbygger, og opprett et nytt datasett
-gdp_pop_change_2017 <- gdp_pop %>%
-  mutate(NUTS2 = substr(geo, 1, 4)) %>% # Aggreger NUTS3-nivået til NUTS2
-  arrange(NUTS2, TIME_PERIOD) %>%
-  group_by(NUTS2) %>%  # grupper etter NUTS2
-  mutate(change_GDPC = GDPC - lag(GDPC)) %>%
-  filter(TIME_PERIOD == 2017) %>%
-  ungroup()
+#  henter bnp og population for 2016 og 2017
+gdp_pop <- gdp_pop %>%
+  mutate(NUTS2 = substr(geo, 1, 4)) %>%                  
+  filter(
+    TIME_PERIOD %in% c(2016, 2017),
+    unit_gdp == "MIO_EUR",
+    unit_pop == "NR",
+    sex == "T", age == "TOTAL"
+  ) %>%
+  group_by(NUTS2, TIME_PERIOD) %>%
+  summarise(
+    values_gdp = sum(values_gdp, na.rm = TRUE),   # Beholder opprinnelig kolonnenavn
+    values_pop = sum(values_pop, na.rm = TRUE),   # Beholder opprinnelig kolonnenavn
+    .groups = "drop"
+  ) %>% # Summerer BNP og befolkning for hver NUTS2-region og år
+  mutate(GDPC = (values_gdp * 1e6) / values_pop)   # BNP per innbygger (i euro)
+gdp_pop
 
-# Velger Gini-verdien for 2017
+# beregner endring i 2017
+gdp_pop_change_2017 <- gdp_pop %>%
+  arrange(NUTS2, TIME_PERIOD) %>%        # Sorterer etter region og år
+  group_by(NUTS2) %>%                    # Beregner endring per region
+  mutate(
+    change_GDPC_pct = (GDPC / lag(GDPC) - 1) * 100   # Prosentvis endring (%)  
+  ) %>%
+  filter(TIME_PERIOD == 2017) %>%        # Beholder kun endringen for 2017
+  ungroup()
+gdp_pop_change_2017
+
+
+# Velger Gini-vektene for 2017
 gini_2017 <- gini %>%
   mutate(TIME_PERIOD = as.integer(TIME_PERIOD)) %>%  # Konverterer kolonnen TIME_PERIOD til heltallstype
   filter(TIME_PERIOD == 2017) 
 
-# Slå sammen datasettet og kall det data_2017, fjern observasjoner der Gini eller change_GDPC mangler
-data_2017 <- gdp_pop_change_2017 %>%
+# Slå sammen datasettet og kall det data_2017
+data_2017_a <- gdp_pop_change_2017 %>%
   left_join(gini_2017, by = "NUTS2") %>% 
-  filter(!is.na(Gini_weighted), !is.na(change_GDPC))
+  filter(!is.na(Gini_weighted))
 ```
 
-## Enkel lineær regresjon
+## Enkel lineær regresjonsmodell
 
 ```{r}
 # Avhengig variabel: Gini_weighted
-# Uavhengig variabel: change_GDPC
-model_simple <- lm(Gini_weighted ~ change_GDPC, data = data_2017)
-```
+# Uavhengig variabel: change_GDPC_pct
+# Enkel lineær regresjonsmodell
+model_simple <- lm(Gini_weighted ~ change_GDPC_pct, data = data_2017_a)
 
-```{r}
 # Sjekker dataene direkte
 summary(model_simple)
 
@@ -83,52 +104,54 @@ glance(model_simple)
 ## OLS
 
 ```{r}
-# 1 (Residualplott)
-plot(data_2017$change_GDPC, resid(model_simple),
+# (1) Residualplott
+plot(data_2017_a$change_GDPC_pct, resid(model_simple),
      main = "Residualer vs. tilpassede verdier (sjekk for linearitet)",
      xlab = "Endring i BNP per innbygger",
      ylab = "Residualer")
 abline(h = 0, col = "red", lwd = 2)
 
-# 2 Uavhengighet av residualer
+# (2) Uavhengighet av residualer
 # Durbin–Watson-test (nullhypotese: ingen autokorrelasjon)
 dwtest(model_simple)
 
-# 3 Homoskedastisitet
+# (3) Homoskedastisitet
 # Breusch–Pagan-test (sjekker for konstant varians)
 bptest(model_simple)
 
-# 4 Ingen multikollinearitet
+# (4) Ingen multikollinearitet
 # Denne modellen har kun én uavhengig variabel, så dette kravet er automatisk oppfylt.
 # For multippel regresjon kan du bruke:
 # vif(model_multiple)
 
-# 5 Normalfordeling av residualer
+# (5) Normalfordeling av residualer
 # QQ-plott + Shapiro–Wilk-test for normalitet
 qqnorm(resid(model_simple))
 qqline(resid(model_simple), col = "red", lwd = 2)
 shapiro.test(resid(model_simple))
 
+# Diagnostiske plott for OLS-modellen
+autoplot(model_simple)
+
 ```
 
-```{r}
-plot(model_simple)
-```
 
-## visuzlization
+
+## Visuzlization
 
 ```{r, message=FALSE}
 
-#| label: fig-bivar-plot
-#| fig-cap: "Relationship between regional development and regional inequality, 2017 (NUTS2)"
+#| label: fig-forholdet-utvikling-ulikhet
+#| fig-cap: "Forholdet mellom regional utvikling og regional ulikhet, 2017 (NUTS2)
 
-ggplot(data_2017, aes(x = change_GDPC, y = Gini_weighted)) +
+figur_utvikling_ulikhet <- data_2017_a %>%
+  ggplot(aes(x = change_GDPC_pct, y = Gini_weighted)) +
   geom_point(color = "darkblue") +
   geom_smooth(
     method = "lm",
-    se = TRUE,             # Viser konfidensintervall som skygge
+    se = TRUE,       # Viser konfidensintervall som skygge
     color = "red",
-    fill = "grey70",       # skyggen grå
+    fill = "grey70", # skyggen grå
     linewidth = 1
   ) +
   labs(
@@ -137,9 +160,167 @@ ggplot(data_2017, aes(x = change_GDPC, y = Gini_weighted)) +
     y = "Regional ulikhet (Gini-koeffisient)"
   ) +
   theme_minimal()
+figur_utvikling_ulikhet
 
 ```
 
 # Del B
+
+## Datainnsamling av tre passende variabler
+
+### Utdanning (høy utdanning)
+```{r}
+# Laster ned utdanningsdatasettet fra Eurostat
+utdanning <- get_eurostat("edat_lfse_04", time_format = "num") 
+
+utdanning_2017_høynivå <- utdanning %>%
+  filter(
+    TIME_PERIOD == 2017,
+    isced11 == "ED5-8",    # Utdanningsnivå: høyere utdanning (nivå 5–8)
+    sex == "T",            # Begge kjønn
+    age == "Y25-64",       # Aldersgruppen 25–64 år
+    unit == "PC",          # Enhet: prosent av befolkningen
+    nchar(geo) == 4,       # Beholder kun NUTS2-nivå (fire tegn)
+    substr(geo, 1, 2) %in% c("BE","NL","BG","NO")  
+  ) %>%
+  select(sex, unit, geo, values)
+utdanning_2017_høynivå
+
+# Kolonnen 'values' er målt i prosent (unit = "PC") og kan brukes direkte i analysen
+```
+
+
+### Transport (veitetthet)
+```{r}
+# Laster ned transportdatasettet fra Eurostat
+transport <- get_eurostat("tran_r_net", time_format = "num")
+
+transport_2017 <- transport %>%
+  filter(
+    TIME_PERIOD == 2017,           
+    tra_infr == "MWAY",         # Variabel: motorveinett (motorways)
+    unit == "KM",             # Enhet: kilometer (total lengde)
+    nchar(geo) == 4,               
+    substr(geo, 1, 2) %in% c("BE","BG","NL","NO")  
+  ) %>%
+  select(tra_infr, unit, geo, values)
+transport_2017
+
+# Her er variabelen 'values' lengden på motorveinettet (i km).
+# Laster også ned arealdata for regionene, for å sammenligne regioner, må vi beregne tetthet (km per km²),
+
+# Laster ned arealdata fra Eurostat
+area <- get_eurostat("reg_area3", time_format = "num")
+area_2017 <- area %>%
+  filter(TIME_PERIOD == 2017,
+         unit == "KM2",
+         nchar(geo) == 4,
+         substr(geo,1,2) %in% c("BE","BG","NL","NO")) %>%
+  group_by(geo) %>%
+  summarise(area_km2 = max(values, na.rm = TRUE), .groups = "drop") %>% # Tar største verdi hvis duplikater finnes
+  mutate(area_km2 = ifelse(is.infinite(area_km2), NA, area_km2)) %>%  # Erstatter -Inf med NA
+  filter(!is.na(area_km2))   # Fjerner manglende verdier
+area_2017
+
+# Beregner veitetthet = motorveilengde / areal * 1000 (for å få km per 1000 km²)
+transport_2017tetthet <- transport_2017 %>%
+  left_join(area_2017, by = "geo") %>%
+  mutate(tetthet = values / area_km2 * 1000) %>%  # Veilengde ÷ areal × 1000
+  select(geo, tetthet)%>%
+  filter(is.finite(tetthet)) # Fjerner uendelige eller manglende verdier
+transport_2017tetthet
+```
+
+### Population (andel av befolkningen 65 år og eldre)
+
+```{r}
+# Laster ned demografidatasettet fra Eurostat
+population <- get_eurostat("demo_r_pjangrp3", time_format = "num") 
+
+population_2017_over65 <- population %>% 
+  filter(
+    TIME_PERIOD == 2017,            
+    sex == "T",                      
+    nchar(geo) == 4,                
+    substr(geo, 1, 2) %in% c("BE", "BG", "NL", "NO")  
+  ) %>%
+  group_by(geo) %>%    # Grupperer etter region
+  summarise(
+    pop_over65 = sum(values[age %in% c("Y65-69","Y70-74","Y75-79","Y80-84","Y85-89","Y_GE85")], na.rm = TRUE),
+    pop_total = sum(values[age == "TOTAL"], na.rm = TRUE)
+  ) %>%
+  # Beregner andelen personer 65 år og eldre (i prosent)
+  mutate(andelen_over65 = pop_over65 / pop_total * 100) %>%
+  ungroup() %>%
+  filter(is.finite(andelen_over65)) #Fjerner manglende eller uendelige verdier
+population_2017_over65
+
+
+# Her beregnes andelen av befolkningen som er 65 år eller eldre.
+# Siden befolkningsstørrelsen varierer mye mellom regionene
+# analyserer vi ikke antall personer direkte, men prosentandelen eldre i befolkningen.
+# Dette er en sentral strukturell faktor som kan påvirke inntektsulikhet.
+
+
+```
+### Begrunner valgene mine (200–400 ord)
+
+
+## Multippel lineær regresjonsmodell
+
+```{r}
+# Velger relevante variabler fra hvert datasett og slår dem sammen
+
+# Velger endring i BNP per innbygger (%) og vektet Gini-koeffisient
+data_2017_a <- data_2017_a %>%
+  select(NUTS2, country, change_GDPC_pct, Gini_weighted)
+
+# Utdanningsdata (andel av befolkningen med høyere utdanning)
+utdanning_2017_høynivå <- utdanning_2017_høynivå %>%
+  rename(NUTS2 = geo, utdanning_hoy = values) %>% 
+  select(NUTS2, utdanning_hoy)
+
+# Transportdata (veitetthet)）
+transport_2017tetthet <- transport_2017tetthet %>%
+  rename(NUTS2 = geo, vei_tetthet = tetthet) 
+
+# Demografidata (andel av befolkningen over 65 år)）
+population_2017_over65 <- population_2017_over65 %>%
+  rename(NUTS2 = geo) %>%
+  select(NUTS2, andelen_over65)
+
+# Slår sammen alle datasettene basert på NUTS2
+data_2017_b <- data_2017_a %>%
+  left_join(utdanning_2017_høynivå, by = "NUTS2") %>%
+  left_join(transport_2017tetthet, by = "NUTS2") %>%
+  left_join(population_2017_over65, by = "NUTS2")
+
+# Estimerer en multippel lineær regresjonsmodell
+model_multiple <- lm(
+  Gini_weighted ~ change_GDPC_pct + utdanning_hoy + vei_tetthet + andelen_over65,
+  data = data_2017_b
+)
+
+summary(model_multiple)
+
+# Viser resultatene i tabellform (til bruk i rapporten)
+tidy(model_multiple)   # Koeffisienter, standardfeil og p-verdier
+glance(model_multiple) # R², justert R² og F-statistikk
+
+```
+
+### begrunner modellspesifikasjonen min 200-400ord
+
+
+
+## Modelltolkning
+
+###Forklar koeffisientene
+
+
+###Reflekter
+
+
+
 
 # Del C
