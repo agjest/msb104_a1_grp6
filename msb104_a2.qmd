@@ -13,7 +13,7 @@ bibliography: references.bib
 
 # Introduksjon
 
-Denne oppgaven undersøker sammenhengen mellom regional utvikling og ulikhet ved hjelp av tverrsnittsdata for året 2017, basert på datasettene gdp_pop og gini fra Assignment 1.
+Denne oppgaven undersøker sammenhengen mellom regional utvikling og ulikhet for de fire landene Belgia (BE), Nederland (NL), Bulgaria (BG) og Norge (NO), ved hjelp av tverrsnittsdata for året 2017, basert på datasettene gdp_pop og gini fra Assignment 1.
 
 ```{r}
 # Parkker
@@ -25,7 +25,6 @@ library(broom)
 library(lmtest)   # Inneholder dwtest(), bptest()
 library(car)      # oen diagnostiske verktøy
 library(ggfortify)
-
 
 # Følgende datasettene gdp_pop og gini fra assignment 1 
 # leser excel gdp_pop og gini
@@ -56,7 +55,7 @@ gdp_pop <- gdp_pop %>%
   mutate(GDPC = (values_gdp * 1e6) / values_pop)   # BNP per innbygger (i euro)
 gdp_pop
 
-# beregner endring i 2017
+# beregner endringsprosenten
 gdp_pop_change_2017 <- gdp_pop %>%
   arrange(NUTS2, TIME_PERIOD) %>%        # Sorterer etter region og år
   group_by(NUTS2) %>%                    # Beregner endring per region
@@ -72,14 +71,22 @@ gdp_pop_change_2017
 gini_2017 <- gini %>%
   mutate(TIME_PERIOD = as.integer(TIME_PERIOD)) %>%  # Konverterer kolonnen TIME_PERIOD til heltallstype
   filter(TIME_PERIOD == 2017) 
+gini_2017
 
 # Slå sammen datasettet og kall det data_2017
 data_2017_a <- gdp_pop_change_2017 %>%
   left_join(gini_2017, by = "NUTS2") %>% 
   filter(!is.na(Gini_weighted))
+data_2017_a
 ```
+Først henter data for BNP og population for årene 2016 og 2017 fra datasettet gdp_pop. 
+Deretter beregnes endringen og endringsprosenten av BNP per innbygger i hver NUTS2-region fra 2016 til 2017.  
+Gini-koeffisientene for 2017 hentes fra datasettet gini, og disse kobles sammen med BNP-dataene ved hjelp av NUTS2-koden som felles nøkkel.
+Resultatet er et kombinert datasett data_2017_a for den videre enkel lineær regresjonsanalysen.
 
 ## Enkel lineær regresjonsmodell
+
+Her bruker den avhengige variabelen er Gini_weighted og den uavhengige variabelen er change_GDPC_pct til å skape en enkel lineær regresjonsmodell.
 
 ```{r}
 # Avhengig variabel: Gini_weighted
@@ -101,9 +108,33 @@ glance(model_simple)
 
 ```
 
-## OLS
+### Modellspesifikasjon
+
+Den enkle lineære regresjonsmodellen analyserer hvordan regional økonomisk utvikling påvirker inntektsulikhet på NUTS2-nivå i 2017. Den avhengige variabelen er Gini, som måler inntektsulikheten, jo høyere Gini-koeffisienten er, desto større er graden av ulikhet. Den uavhengige variabelen er prosentvis endring i BNP per innbygger fra 2016 til 2017 og representerer regional økonomisk endring i 2017, som dimensjonen utvikling i modellen til @LESSMANN2017110. Den måler økonomisk vekst og brukes som indikator på regional utvikling, og denne faktoren kan påvirke ulikhet avhengig av regionens utviklingsnivå.
+
+@LESSMANN2017110 peker ut at forholdet mellom økonomisk utvikling og ulikhet følger et N-formet mønster, der ulikheten øker i lavinntektsland, reduseres i mellominntektsland og stiger svakt igjen i høyinntektsland. Dette innebærer at økonomisk vekst ikke automatisk fører til mindre ulikhet. Ulikhet bestemmes ikke bare av økonomisk vekst, men påvirkes også av flere strukturelle faktorer. Ifølge @LESSMANN2017110 avhenger graden av ulikhet av syv hoveddimensjoner: utvikling, mobilitet, åpenhet, ressurser, institusjoner, overføringer og utdanning, og etnisitet. Disse faktorene virker sammen og kan forklare hvorfor regionale forskjeller i ulikhet oppstår, utover effekten av selve den økonomiske veksten.
+
+I tråd med teorien om en N-formet sammenheng forventes koeffisienten for prosentvis endring i BNP per innbygger å være svakt positiv. Dette vil si at regioner med høyere økonomisk vekst kan få noe større ulikhet dersom veksten hovedsakelig skjer i enkelte sektorer eller byområder. En svak eller ikke-signifikant sammenheng kan derimot tyde på at mange regioner allerede opplever inntektskonvergens, der forskjellene mellom regionene gradvis blir mindre.
+
+## Modelldiagnostikk
+
+@tbl-model_stats viser en R-squared på 0.2869 og en justert R-squared på 0.2529. 
+R-squared viser hvor stor andel av variasjonen i den avhengige variabelen (Gini) som forklares av modellen.Den justerte R-squared korrigerer denne verdien for antall forklaringsvariabler i modellen og gir et mer presist mål på modellens forklaringskraft. 
+En justert R-squared på 0.2529 betyr at når man tar hensyn til modellens kompleksitet, forklarer modellen fortsatt om lag 25 prosent av variasjonen i Gini-koeffisienten mellom NUTS2-regionene i 2017.
+Selv om forklaringskraften er moderat, er den tilfredsstillende for årlige tverrsnittsdata.
+
+@tbl-model_stats viser også statistic 8.447, og  p-verdien 0.008441. Det betyr at modellen som helhet er statistisk signifikant, noe som innebærer at den uavhengige variabelen prosentvis endring i BNP per innbygger (change_GDPC_pct) bidrar til å forklare variasjonen i inntektsulikhet (gini) i regional av de fire landene.
+
+Den standardiserte feilen 0.04598 fra summary, indikerer at avvikene mellom observerte og predikerte verdier er relativt små, noe som støtter at modellen gir en rimelig god tilpasning til dataene.
+
+Samlet sett tyder disse resultatene på at modellen har en tilfredsstillende forklaringskraft, og at endring i BNP per innbygger spiller en signifikant rolle i å forklare variasjoner i regional ulikhet i 2017.
+
+### OLS
 
 ```{r}
+
+#| label: fig-redidualpott
+#| fig-cap: "Residualplott for enkel lineær regresjon"
 # (1) Residualplott
 plot(data_2017_a$change_GDPC_pct, resid(model_simple),
      main = "Residualer vs. tilpassede verdier (sjekk for linearitet)",
@@ -111,31 +142,59 @@ plot(data_2017_a$change_GDPC_pct, resid(model_simple),
      ylab = "Residualer")
 abline(h = 0, col = "red", lwd = 2)
 
+#| label: tbl-Uavhengighet
+#| tbl-cap: "Durbin–Watson-test for uavhengighet av residualer"
 # (2) Uavhengighet av residualer
 # Durbin–Watson-test (nullhypotese: ingen autokorrelasjon)
 dwtest(model_simple)
 
+#| label: tbl-Homoskedastisitet
+#| tbl-cap: "Breusch–Pagan-test for homoskedastisitet (konstant varians)"
 # (3) Homoskedastisitet
 # Breusch–Pagan-test (sjekker for konstant varians)
 bptest(model_simple)
 
 # (4) Ingen multikollinearitet
-# Denne modellen har kun én uavhengig variabel, så dette kravet er automatisk oppfylt.
-# For multippel regresjon kan du bruke:
+# Denne modellen har kun en uavhengig variabel, så dette kravet er automatisk oppfylt.
+# For multippel regresjon:
 # vif(model_multiple)
 
+#| label: fig-QQ
+#| fig-cap: "QQ-plott av residualene"
 # (5) Normalfordeling av residualer
 # QQ-plott + Shapiro–Wilk-test for normalitet
 qqnorm(resid(model_simple))
 qqline(resid(model_simple), col = "red", lwd = 2)
+
+#| label: tbl-Shapiro 
+#| tbl-cap: "Shapiro–Wilk-test"
 shapiro.test(resid(model_simple))
 
+#| label: fig-diagnostiske
+#| fig-cap: "Diagnostiske plott for OLS-modellen"
 # Diagnostiske plott for OLS-modellen
 autoplot(model_simple)
 
 ```
 
+Her vurderes de fem hovedforutsetningene for OLS: linearitet, uavhengighet, homoskedastisitet, fravær av multikollinearitet og normalfordeling av residualer.
 
+@fig-redidualpott viser en svak, men ikke systematisk kurveform. Punktene er jevnt spredt rundt null-linjen, noe som tyder på et tilnærmet lineært forhold mellom den avhengige variabelen Gini og den uavhengige variabelen endringsprosenten i BNP per innbygger. Dette støtter antakelsen om lineæritet i modellen.
+
+@tbl-Uavhengighet gir DW 1.3995 og p-verdien 0.0498, som indikerer en svak positiv autokorrelasjon i residualene. Dette betyr at observasjoner fra nærliggende regioner kan være delvis avhengige av hverandre.
+
+@tbl-Homoskedastisitet gir p = 0.0699, som er litt over signifikansnivået. Dette betyr at vi ikke forkaster nullhypotesen om konstant varians.Scale–Location-plottet i @fig-diagnostiske viser også en jevn spredning av punkter og en forholdsvis flat blå linje, noe som støtter antakelsen om homoskedastisitet i modellen.
+
+Modellen har kun en uavhengig variabel, derfor er multikollinearitet ikke et problem i denne analysen.
+
+@fig-QQ eksisterer noe avvik i endene, mens viser at residualene følger godt linjen.
+@tbl-Shapiro gir p = 0.0715, som er større enn 0.05, og dermed kan residualene anses å være tilnærmet normalfordelte.
+
+@fig-diagnostiske indikerer at observasjonene 10 og 14 har noe høy innflytelse, men ingen alvorlige avvik ble observert. Dette betyr at enkelte regioner påvirker modellen mer enn andre, men ikke i en grad som endrer hovedresultatene.
+
+De fleste OLS-forutsetningene er tilfredsstillende oppfylt. Modellen viser et lineært forhold, ingen alvorlig heteroskedastisitet, og residualene er tilnærmet normalfordelte. Dette tyder på at modellen er pålitelig og gir gyldige estimater. 
+
+Hvis forutsetningene ikke er oppfylt, kan beregningene av standardfeil bli unøyaktige. Dette kan føre til at testen for signifikans ikke blir helt pålitelig. For å løse dette kan man bruke robuste standardfeil, eller lage en mer detaljert modell med flere forklaringsvariabler som tar hensyn til forskjeller mellom regionene.
 
 ## Visuzlization
 
@@ -148,15 +207,15 @@ figur_utvikling_ulikhet <- data_2017_a %>%
   ggplot(aes(x = change_GDPC_pct, y = Gini_weighted)) +
   geom_point(color = "darkblue") +
   geom_smooth(
-    method = "lm",
-    se = TRUE,       # Viser konfidensintervall som skygge
+    method = "lm", # viser en lineær regresjonsmodell
+    se = TRUE,       # et bånd rundt regresjonslinjen som representerer standardfeilen (95 % konfidensintervall)
     color = "red",
     fill = "grey70", # skyggen grå
     linewidth = 1
   ) +
   labs(
     title = "Regional utvikling og ulikhet (2017)",
-    x = "Endring i BNP per innbygger",
+    x = "Endringprosentvis i BNP per innbygger",
     y = "Regional ulikhet (Gini-koeffisient)"
   ) +
   theme_minimal()
@@ -164,9 +223,16 @@ figur_utvikling_ulikhet
 
 ```
 
+@fig-forholdet-utvikling-ulikhet viser sammenhengen mellom økonomisk vekst (endringprosentvis i BNP per innbygger) og regional ulikhet (Gini-koeffisient) på NUTS2-nivå i 2017. Hver prikk representerer en region, mens den røde linjen viser den estimerte lineære sammenhengen, og det grå området er 95 % konfidensintervall.
+
+Den røde linjen viser en positiv sammenheng mellom økonomisk vekst og ulikhet. Regioner med høyere vekst har som regel høyere Gini-koeffisient. Sammenhengen er moderat, men stemmer med regresjonsresultatet der koeffisienten for change_GDPC_pct er positiv og signifikant (p = 0.0084). Dette tyder på at økonomisk vekst ikke nødvendigvis fører til mindre ulikhet, men kan bidra til større forskjeller mellom regioner.
+
+
 # Del B
 
 ## Datainnsamling av tre passende variabler
+
+
 
 ### Utdanning (høy utdanning)
 ```{r}
@@ -188,7 +254,6 @@ utdanning_2017_høynivå
 
 # Kolonnen 'values' er målt i prosent (unit = "PC") og kan brukes direkte i analysen
 ```
-
 
 ### Transport (veitetthet)
 ```{r}
@@ -316,6 +381,8 @@ glance(model_multiple) # R², justert R² og F-statistikk
 ## Modelltolkning
 
 ###Forklar koeffisientene
+@tbl-model_simple viser at konstantleddet (intercept) har en estimert verdi på 0.0326, noe som indikerer at når den økonomiske veksten (change_GDPC_pct) er null, forventes den gjennomsnittlige Gini-koeffisienten å være omtrent 0.033. Dette representerer et lavt, men positivt nivå av inntektsulikhet.
+Koeffisienten for change_GDPC_pct er 0.0097 og er statistisk signifikant på 1 %-nivå (p = 0.0084). Dette betyr at en økning på 1 prosentpoeng i BNP per innbygger er assosiert med en økning på omtrent 0.0097 enheter i Gini-koeffisienten, alt annet likt. Koeffisientens positive fortegn tyder på at regioner med høyere økonomisk vekst i gjennomsnitt også har høyere grad av inntektsulikhet.
 
 
 ###Reflekter
