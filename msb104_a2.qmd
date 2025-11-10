@@ -13,7 +13,7 @@ bibliography: references.bib
 
 # Introduksjon
 
-Denne oppgaven undersøker sammenhengen mellom regional utvikling og ulikhet for de fire landene Belgia (BE), Nederland (NL), Bulgaria (BG) og Norge (NO), ved hjelp av tverrsnittsdata for året 2017, basert på datasettene gdp_pop og gini fra Assignment 1.
+Denne oppgaven undersøker fortsatt sammenhengen mellom regional utvikling og ulikhet i de fire landene Belgia (BE), Nederland (NL), Bulgaria (BG) og Norge (NO). Analysen bygger delvis videre på datasettene gdp_pop og gini fra Assignment 1, men inkluderer også nye variabler og data for året 2017.
 
 ```{r}
 # Parkker
@@ -79,14 +79,14 @@ data_2017_a <- gdp_pop_change_2017 %>%
   filter(!is.na(Gini_weighted))
 data_2017_a
 ```
-Først henter data for BNP og population for årene 2016 og 2017 fra datasettet gdp_pop. 
-Deretter beregnes endringen og endringsprosenten av BNP per innbygger i hver NUTS2-region fra 2016 til 2017.  
+Først hentes data for BNP og population for årene 2016 og 2017 fra datasettet gdp_pop. 
+Deretter beregnes endringen og den prosentvise endringen av BNP per innbygger i hver NUTS2-region fra 2016 til 2017.  
 Gini-koeffisientene for 2017 hentes fra datasettet gini, og disse kobles sammen med BNP-dataene ved hjelp av NUTS2-koden som felles nøkkel.
-Resultatet er et kombinert datasett data_2017_a for den videre enkel lineær regresjonsanalysen.
+Resultatet er et kombinert datasett data_2017_a som brukes i den videre enkle lineære regresjonsanalysen
 
 ## Enkel lineær regresjonsmodell
 
-Her bruker den avhengige variabelen er Gini_weighted og den uavhengige variabelen er change_GDPC_pct til å skape en enkel lineær regresjonsmodell.
+Her brukes den avhengige variabelen Gini_weighted og den uavhengige variabelen change_GDPC_pct for å estimere en enkel lineær regresjonsmodell.
 
 ```{r}
 # Avhengig variabel: Gini_weighted
@@ -110,22 +110,21 @@ glance(model_simple)
 
 ### Modellspesifikasjon
 
-Den enkle lineære regresjonsmodellen analyserer hvordan regional økonomisk utvikling påvirker inntektsulikhet på NUTS2-nivå i 2017. Den avhengige variabelen er Gini, som måler inntektsulikheten, jo høyere Gini-koeffisienten er, desto større er graden av ulikhet. Den uavhengige variabelen er prosentvis endring i BNP per innbygger fra 2016 til 2017 og representerer regional økonomisk endring i 2017, som dimensjonen utvikling i modellen til @LESSMANN2017110. Den måler økonomisk vekst og brukes som indikator på regional utvikling, og denne faktoren kan påvirke ulikhet avhengig av regionens utviklingsnivå.
+Den enkle lineære regresjonsmodellen analyserer hvordan regional økonomisk utvikling påvirker inntektsulikhet på NUTS2-nivå i 2017. Den avhengige variabelen er Gini_weighted, som måler inntektsulikheten, jo høyere Gini-koeffisienten er, desto større er graden av ulikhet. Den uavhengige variabelen er den prosentvise endringen i BNP per innbygger fra 2016 til 2017, som representerer regional økonomisk utvikling. Dette tilsvarer en av syv dimensjonener utvikling i modellen til @LESSMANN2017110. Variabelen måler økonomisk vekst og brukes som en indikator på regional utvikling, som igjen kan påvirke ulikhet avhengig av regionens utviklingsnivå.
 
-@LESSMANN2017110 peker ut at forholdet mellom økonomisk utvikling og ulikhet følger et N-formet mønster, der ulikheten øker i lavinntektsland, reduseres i mellominntektsland og stiger svakt igjen i høyinntektsland. Dette innebærer at økonomisk vekst ikke automatisk fører til mindre ulikhet. Ulikhet bestemmes ikke bare av økonomisk vekst, men påvirkes også av flere strukturelle faktorer. Ifølge @LESSMANN2017110 avhenger graden av ulikhet av syv hoveddimensjoner: utvikling, mobilitet, åpenhet, ressurser, institusjoner, overføringer og utdanning, og etnisitet. Disse faktorene virker sammen og kan forklare hvorfor regionale forskjeller i ulikhet oppstår, utover effekten av selve den økonomiske veksten.
+@LESSMANN2017110 peker på at forholdet mellom økonomisk utvikling og ulikhet følger et N-formet mønster, der ulikheten øker i lavinntektsland, reduseres i mellominntektsland og stiger svakt igjen i høyinntektsland. Dette innebærer at økonomisk vekst ikke automatisk fører til mindre ulikhet. Ulikhet bestemmes ikke bare av økonomisk vekst, men påvirkes også av flere strukturelle faktorer. Ifølge @LESSMANN2017110 avhenger graden av ulikhet av syv hoveddimensjoner: utvikling, mobilitet, åpenhet, ressurser, institusjoner, overføringer og utdanning, og etnisitet. Disse faktorene virker sammen og kan forklare hvorfor regionale forskjeller i ulikhet oppstår, utover effekten av selve den økonomiske veksten.
 
-I tråd med teorien om en N-formet sammenheng forventes koeffisienten for prosentvis endring i BNP per innbygger å være svakt positiv. Dette vil si at regioner med høyere økonomisk vekst kan få noe større ulikhet dersom veksten hovedsakelig skjer i enkelte sektorer eller byområder. En svak eller ikke-signifikant sammenheng kan derimot tyde på at mange regioner allerede opplever inntektskonvergens, der forskjellene mellom regionene gradvis blir mindre.
+I tråd med teorien om en N-formet i sammenheng forventes koeffisienten for prosentvis endring i BNP per innbygger å være svakt positiv. Dette vil si at regioner med høyere økonomisk vekst kan få noe større ulikhet dersom veksten hovedsakelig skjer i enkelte sektorer eller byområder. En svak eller ikke-signifikant sammenheng kan derimot tyde på at mange regioner allerede opplever inntektskonvergens, der forskjellene mellom regionene gradvis blir mindre.
 
 ## Modelldiagnostikk
 
-@tbl-model_stats viser en R-squared på 0.2869 og en justert R-squared på 0.2529. 
-R-squared viser hvor stor andel av variasjonen i den avhengige variabelen (Gini) som forklares av modellen.Den justerte R-squared korrigerer denne verdien for antall forklaringsvariabler i modellen og gir et mer presist mål på modellens forklaringskraft. 
-En justert R-squared på 0.2529 betyr at når man tar hensyn til modellens kompleksitet, forklarer modellen fortsatt om lag 25 prosent av variasjonen i Gini-koeffisienten mellom NUTS2-regionene i 2017.
-Selv om forklaringskraften er moderat, er den tilfredsstillende for årlige tverrsnittsdata.
+Den enkel lineær regresjonsmodellen analyserer hvordan økonomisk utvikling(endringen i BNP per innbygger) påvirker regional inntektsulikhet målt ved Gini-koeffisienten på NUTS2-nivå i 2017.  
 
-@tbl-model_stats viser også statistic 8.447, og  p-verdien 0.008441. Det betyr at modellen som helhet er statistisk signifikant, noe som innebærer at den uavhengige variabelen prosentvis endring i BNP per innbygger (change_GDPC_pct) bidrar til å forklare variasjonen i inntektsulikhet (gini) i regional av de fire landene.
+@tbl-model_stats viser en R-squared på 0.2869 og en justert R-squared på 0.2529. R-squared viser at variabelen endringen i BNP per innbygger forklarer om lag 28.7 % av ulikheten mellom regionene. En justert R-squared på 0.2529 betyr at, etter justering for antall variabler, modellen forklarer om lag 25 % av ulikheten mellom NUTS2-regionene i 2017. Selv om forklaringskraften er moderat, er den tilfredsstillende for tverrsnittsdata på regionalt nivå.
 
-Den standardiserte feilen 0.04598 fra summary, indikerer at avvikene mellom observerte og predikerte verdier er relativt små, noe som støtter at modellen gir en rimelig god tilpasning til dataene.
+En p-verdi på ca. 0.008 vist i @tbl-model_simple indikerer at modellen som helhet er statistisk signifikant. Det betyr at den uavhengige variabelen den prosentvise endringen i BNP per innbygger (change_GDPC_pct)  bidrar signifikant til å forklare variasjonen i ulikhet (Gini_weighted) mellom regionene i de fire landene.
+
+Den esiduelle standardfeilen på 0.04598 fra summary, indikerer at avvikene mellom observerte og predikerte verdier er relativt små, noe som støtter at modellen gir en rimelig god tilpasning til dataene.
 
 Samlet sett tyder disse resultatene på at modellen har en tilfredsstillende forklaringskraft, og at endring i BNP per innbygger spiller en signifikant rolle i å forklare variasjoner i regional ulikhet i 2017.
 
@@ -133,7 +132,7 @@ Samlet sett tyder disse resultatene på at modellen har en tilfredsstillende for
 
 ```{r}
 
-#| label: fig-redidualpott
+#| label: fig-residual
 #| fig-cap: "Residualplott for enkel lineær regresjon"
 # (1) Residualplott
 plot(data_2017_a$change_GDPC_pct, resid(model_simple),
@@ -179,16 +178,15 @@ autoplot(model_simple)
 
 Her vurderes de fem hovedforutsetningene for OLS: linearitet, uavhengighet, homoskedastisitet, fravær av multikollinearitet og normalfordeling av residualer.
 
-@fig-redidualpott viser en svak, men ikke systematisk kurveform. Punktene er jevnt spredt rundt null-linjen, noe som tyder på et tilnærmet lineært forhold mellom den avhengige variabelen Gini og den uavhengige variabelen endringsprosenten i BNP per innbygger. Dette støtter antakelsen om lineæritet i modellen.
+@fig-residual viser en svak, men ikke systematisk kurveform. Punktene er jevnt spredt rundt null-linjen, noe som tyder på et tilnærmet lineært forhold mellom den avhengige variabelen Gini og den uavhengige variabelen endringsprosenten i BNP per innbygger. Dette støtter antakelsen om linearitet i modellen.
 
-@tbl-Uavhengighet gir DW 1.3995 og p-verdien 0.0498, som indikerer en svak positiv autokorrelasjon i residualene. Dette betyr at observasjoner fra nærliggende regioner kan være delvis avhengige av hverandre.
+@tbl-Uavhengighet gir DW på 1.3995 og p-verdien på 0.0498, som indikerer en svak positiv autokorrelasjon i residualene. Dette betyr at observasjoner fra nærliggende regioner kan være delvis avhengige av hverandre.
 
-@tbl-Homoskedastisitet gir p = 0.0699, som er litt over signifikansnivået. Dette betyr at vi ikke forkaster nullhypotesen om konstant varians.Scale–Location-plottet i @fig-diagnostiske viser også en jevn spredning av punkter og en forholdsvis flat blå linje, noe som støtter antakelsen om homoskedastisitet i modellen.
+@tbl-Homoskedastisitet gir p-verdien på 0.0699, som er litt over signifikansnivået. Dette betyr at vi ikke forkaster nullhypotesen om konstant varians.Scale–Location-plottet i @fig-diagnostiske viser også en jevn spredning av punkter og en forholdsvis flat blå linje, noe som støtter antakelsen om homoskedastisitet i modellen.
 
 Modellen har kun en uavhengig variabel, derfor er multikollinearitet ikke et problem i denne analysen.
 
-@fig-QQ eksisterer noe avvik i endene, mens viser at residualene følger godt linjen.
-@tbl-Shapiro gir p = 0.0715, som er større enn 0.05, og dermed kan residualene anses å være tilnærmet normalfordelte.
+@fig-QQ viser noe avvik i endene, men residualene følger for øvrig linjen godt. @tbl-Shapiro gir p-verdien på 0.0715, som er større enn 0.05, og dermed kan residualene anses å være tilnærmet normalfordelte.
 
 @fig-diagnostiske indikerer at observasjonene 10 og 14 har noe høy innflytelse, men ingen alvorlige avvik ble observert. Dette betyr at enkelte regioner påvirker modellen mer enn andre, men ikke i en grad som endrer hovedresultatene.
 
@@ -223,16 +221,16 @@ figur_utvikling_ulikhet
 
 ```
 
-@fig-forholdet-utvikling-ulikhet viser sammenhengen mellom økonomisk vekst (endringprosentvis i BNP per innbygger) og regional ulikhet (Gini-koeffisient) på NUTS2-nivå i 2017. Hver prikk representerer en region, mens den røde linjen viser den estimerte lineære sammenhengen, og det grå området er 95 % konfidensintervall.
+@fig-forholdet-utvikling-ulikhet viser sammenhengen mellom økonomisk vekst (prosentvis endringen i BNP per innbygger) og regional ulikhet (Gini-koeffisient) på NUTS2-nivå i 2017. Hver prikk representerer en region, mens den røde linjen viser den estimerte lineære sammenhengen, og det grå området er 95% konfidensintervallet.
 
-Den røde linjen viser en positiv sammenheng mellom økonomisk vekst og ulikhet. Regioner med høyere vekst har som regel høyere Gini-koeffisient. Sammenhengen er moderat, men stemmer med regresjonsresultatet der koeffisienten for change_GDPC_pct er positiv og signifikant (p = 0.0084). Dette tyder på at økonomisk vekst ikke nødvendigvis fører til mindre ulikhet, men kan bidra til større forskjeller mellom regioner.
+Den røde linjen viser en positiv sammenheng mellom økonomisk vekst og ulikhet. Regioner med høyere vekst har som regel høyere Gini-koeffisient. Sammenhengen er moderat, men statistisk signifikant, i tråd med regresjonsresultatet der koeffisienten for change_GDPC_pct er positiv og signifikant (p = 0.0084). Dette tyder på at økonomisk vekst ikke nødvendigvis fører til mindre ulikhet, men tvert imot kan bidra til større forskjeller mellom regionene.
 
 
 # Del B
 
 ## Datainnsamling av tre passende variabler
 
-
+Her lastet jeg ned datasettene fra Eurostat for utdanning, transport og population, og valgte én variabel fra hvert datasett for videre analyse. Datasettene dekker regioner på NUTS2-nivå i Belgia, Bulgaria, Nederland og Norge.
 
 ### Utdanning (høy utdanning)
 ```{r}
@@ -254,6 +252,7 @@ utdanning_2017_høynivå
 
 # Kolonnen 'values' er målt i prosent (unit = "PC") og kan brukes direkte i analysen
 ```
+Datasettet utdanning (edat_lfse_04) er hentet fra Eurostat, og variabelen andel personer med høyere utdanning (ISCED 5–8) er valgt. Datasettet ble filtrert slik at det omfatter begge kjønn, personer i alderen 25–64 år og verdier målt i prosent av befolkningen. Deretter ble datasettet utdanning_2017_høynivå opprettet.
 
 ### Transport (veitetthet)
 ```{r}
@@ -295,6 +294,10 @@ transport_2017tetthet <- transport_2017 %>%
   filter(is.finite(tetthet)) # Fjerner uendelige eller manglende verdier
 transport_2017tetthet
 ```
+Datasettet transport (tran_r_net) er hentet fra Eurostat, og variabelen motorveinett (MWAY) ble valgt. Datasettet ble filtrert slik at det omfatter regioner på NUTS2-nivå i Belgia, Bulgaria, Nederland og Norge, og verdiene viser den totale lengden av motorveinettet (KM) i 2017.
+Siden denne variabelen måler absolutt lengde i kilometer, egner den seg ikke direkte til videre analyse. Derfor ble datasettet areal (reg_area3) hentet fra Eurostat, som inneholder informasjon om arealet til hver region (målt i km²). Deretter ble det filtrert slik at det kun omfatter NUTS2-regionene i Belgia, Bulgaria, Nederland og Norge, og dannet datasettet area_2017.
+Dette ble brukt til å beregne veitetthet (tetthet) som motorveilengde ÷ areal × 1000 (km per 1000 km²).Deretter ble datasettet transport_2017tetthet dannet, som viser veinettetets tetthet i hver region.
+
 
 ### Population (andel av befolkningen 65 år og eldre)
 
@@ -314,25 +317,34 @@ population_2017_over65 <- population %>%
     pop_over65 = sum(values[age %in% c("Y65-69","Y70-74","Y75-79","Y80-84","Y85-89","Y_GE85")], na.rm = TRUE),
     pop_total = sum(values[age == "TOTAL"], na.rm = TRUE)
   ) %>%
-  # Beregner andelen personer 65 år og eldre (i prosent)
+  # Beregner andelen av befolkningen som 65 år og eldre (i prosent)
   mutate(andelen_over65 = pop_over65 / pop_total * 100) %>%
   ungroup() %>%
   filter(is.finite(andelen_over65)) #Fjerner manglende eller uendelige verdier
 population_2017_over65
 
-
 # Her beregnes andelen av befolkningen som er 65 år eller eldre.
 # Siden befolkningsstørrelsen varierer mye mellom regionene
-# analyserer vi ikke antall personer direkte, men prosentandelen eldre i befolkningen.
+# analyserer ikke antall personer direkte, men prosentandelen eldre i befolkningen.
 # Dette er en sentral strukturell faktor som kan påvirke inntektsulikhet.
-
-
 ```
+
+Datasettet population (demo_r_pjangrp3) er hentet fra Eurostat og inneholder demografisk informasjon for europeiske regioner. Datasettet ble filtrert slik at det omfatter regioner på NUTS2-nivå i Belgia, Bulgaria, Nederland og Norge i 2017, og inkluderer begge kjønn.
+Ettersom befolkningsstørrelsen varierer betydelig mellom regionene, analyseres ikke antall personer direkte, men prosentandelen eldre i befolkningen. Variabelen måler andelen av befolkningen som er 65 år og eldre, beregnet som antall personer over 65 år delt på totalbefolkningen i regionen, multiplisert med 100 for å få prosent. Datasettet population_2017_over65 ble dermed dannet for videre analyse.
+
 ### Begrunner valgene mine (200–400 ord)
 
+Jeg velger andelen personer med høyere utdanning som analysevariabel, fordi  @Coady2017Income viser studien at den positive sammenhengen mellom utdanningsulikhet og inntektsulikhet blir betydelig sterkere, og bekrefter at utvidelse av utdanning reduserer inntektsulikhet ved å redusere ulikheten i utdanning. Dermed forventes andelen personer med høyere utdanning å ha en negativ sammenheng med Gini-koeffisienten, ettersom et høyere utdanningsnivå bidrar til å utjevne inntektsforskjeller og redusere ulikheten mellom regioner. Dermed representerer andelen personer med høyere utdanning utdanningsdata for videre analyser, der det antas at denne variabelen kan påvirke regional ulikhet.
+
+Jeg velger veitetthet som analysevariabel, fordi @Calderon2004Infrastructure viser at de to sentrale resultatene er at økonomisk vekst påvirkes positivt av beholdningen av infrastrukturaktiva, og at inntektsulikhet reduseres når mengden og kvaliteten på infrastrukturen øker. Videre viser @Calderon2004Infrastructure også at veinettets tetthet har en tydelig negativ sammenheng med inntektsulikhet, og peker at Gini-koeffisienten er negativt korrelert med infrastrukturnivået for veier (-0,48). Dermed forventes variabelen veitetthet å ha en negativ sammenheng med Gini-koeffisienten. Dette tyder på at bedre og tettere transportinfrastruktur kan bidra til lavere regional ulikhet. Dermed representerer veitetthet transportdata for videre analyser av hvordan jeg antar at det kan påvirke regional ulikhet.
+
+Jeg velger andelen av befolkningen som er 65 år og eldre som analysevariabel, fordi @Dolls2019Demographic viser at demografiske endringer sannsynligvis vil føre til økende ulikhet, og at en større andel eldre i befolkningen har en tendens til å øke den samlede inntektsulikheten. Dette innebærer at en økende andel eldre kan bidra til høyere inntektsforskjeller. Dermed representerer andelen personer over 65 år populationdata for videre analyser av hvordan demografiske endringer kan påvirke regional ulikhet.
+
+Samlet sett har jeg valgt disse tre variablene, andelen personer med høyere utdanning (utdanning), veitetthet (transport) og andelen av befolkningen som er 65 år og eldre (population), for å inkluderes i en multippel lineær regresjonsmodell for å analysere hvordan disse tre faktorene kan påvirke regional ulikhet.
 
 ## Multippel lineær regresjonsmodell
 
+### Slår sammen datasettene
 ```{r}
 # Velger relevante variabler fra hvert datasett og slår dem sammen
 
@@ -360,34 +372,75 @@ data_2017_b <- data_2017_a %>%
   left_join(transport_2017tetthet, by = "NUTS2") %>%
   left_join(population_2017_over65, by = "NUTS2")
 
+```
+
+Her velges hovedvariabler fra hvert datasett, og alle de relevante datasettene for året 2017 slås sammen på NUTS2-nivå, slik at variablene kan analyseres i ett felles datasett.
+Datasettet data_2017_a beholder prosentvis endringen i BNP per innbygger og den vektede Gini-koeffisienten. Videre hentes variabelen for andelen av befolkningen med høyere utdanning fra utdanningsdataene, variabelen for veitetthet fra transportdataene, og variabelen for andelen av befolkningen som er 65 år og eldre fra populationdataene.
+Etter at datasettene er slått sammen, dannes datasettet data_2017_b, som inneholder alle variablene som skal brukes i multippel lineær regresjonsanalyse.
+
+### Multippel lineær regresjonsmodell
+```{r}
 # Estimerer en multippel lineær regresjonsmodell
 model_multiple <- lm(
   Gini_weighted ~ change_GDPC_pct + utdanning_hoy + vei_tetthet + andelen_over65,
   data = data_2017_b
 )
-
 summary(model_multiple)
 
 # Viser resultatene i tabellform (til bruk i rapporten)
+#| label: tbl-model_multiple
+#| tbl-cap: "Resultater fra multippel lineær regresjonsmodell for 2017 (NUTS2)"
 tidy(model_multiple)   # Koeffisienter, standardfeil og p-verdier
-glance(model_multiple) # R², justert R² og F-statistikk
+
+#| label: tbl-model__multiple_stats
+#| tbl-cap: "Modelltilpasningsstatistikk for multippel lineær regresjonen i 2017"
+glance(model_multiple) # R², justert R² og statistikk
 
 ```
 
-### begrunner modellspesifikasjonen min 200-400ord
+### Dokumenter og begrunner modellspesifikasjonen min (200–400 ord)
 
+Den multippel lineære regresjonsmodellen analyserer hvordan økonomisk utvikling (endringen i BNP per innbygger), utdanning (andelen av befolkningen med høyere utdanning), transport (veitetthet ) og population (andelen av befolkningen som er 65 år og eldre) påvirker regional inntektsulikhet målt ved Gini-koeffisienten på NUTS2-nivå i 2017.  
 
+Variabelen for høyere utdanning har en positiv og signifikant koeffisient, og er den mest signifikante variabelen i modellen. Dette samsvarer med @Coady2017Income, som viser at et høyere utdanningsnivå bidrar til å redusere inntektsforskjeller.
+
+Variabelen veitetthet har en negativ estimate og en signifikant koeffisient. Dette er i tråd med teorien til @Calderon2004Infrastructure, som viser at transportinfrastruktur fremmer økonomisk integrasjon og kan bidra til å redusere ulikhet.
+
+@tbl-model_multiple viser at den økonomiske vekstvariabelen har en svak positiv sammenheng med ulikhet, som kan tyde på at økonomisk vekst på kort sikt ikke nødvendigvis er likt fordelt mellom regioner.
+
+Variabelen andelen av befolkningen som er 65 år og eldre er ikke signifikant, men ifølge @Dolls2019Demographic peker at population endringer, særlig aldring, kan bidra til økende ulikhet over tid.
+
+P-verdien på 0.003 i @tbl-model__multiple_stats indikerer at modellen samlet sett er statistisk signifikant. Videre @tbl-model__multiple_stats viser R.squared 0.59 og justert R.squared 0.49. Der betyr R.squared at de fire varibalene, økonomisk utvikling, utdanning, transport og population forklarer om lag 59 % av ulikheten mellom regionene. Mens justert R.squared 0.49, som betyr at etter justering for antall variabler, modellen forklarer omtrent 49 % av variasjonen i Gini-koeffisienten. Modellen viser moderat forklaringskraft. Dette indikerer at modellen fanger opp noen strukturelle påvirkningsfaktorer, men andre faktorer kan fortsatt bidra til regional ulikhet.
 
 ## Modelltolkning
 
 ###Forklar koeffisientene
-@tbl-model_simple viser at konstantleddet (intercept) har en estimert verdi på 0.0326, noe som indikerer at når den økonomiske veksten (change_GDPC_pct) er null, forventes den gjennomsnittlige Gini-koeffisienten å være omtrent 0.033. Dette representerer et lavt, men positivt nivå av inntektsulikhet.
-Koeffisienten for change_GDPC_pct er 0.0097 og er statistisk signifikant på 1 %-nivå (p = 0.0084). Dette betyr at en økning på 1 prosentpoeng i BNP per innbygger er assosiert med en økning på omtrent 0.0097 enheter i Gini-koeffisienten, alt annet likt. Koeffisientens positive fortegn tyder på at regioner med høyere økonomisk vekst i gjennomsnitt også har høyere grad av inntektsulikhet.
 
+Den multiple lineære regresjonsmodellen estimerer hvordan økonomisk utvikling, utdanning, transport og population påvirker regional ulikhet på NUTS2-nivå i 2017. I den multiple lineære regresjonsmodellen er utdanning den mest signifikante variabelen, veitetthet har en moderat signifikant effekt, økonomisk utvikling er svakt signifikant, mens population ikke er signifikant.
+
+Koeffisienten for økonomisk utvikling (den prosentvise endringen av BNP per innbygger) er positiv og svakt signifikant (om lag p-verdien på 0.057). Dette innebærer at en økning på en prosent i BNP per innbygger i gjennomsnitt er assosiert med et svakt signifikant i Gini-koeffisienten, når de andre variablene holdes konstante. Dette stemmer med hypotesen i @LESSMANN2017110 om en N-formet sammenheng mellom utvikling og ulikhet, raskere økonomisk vekst kan bidra til økte regionale forskjeller.
+
+Koeffisienten for utdanning (andelen av befolkningen med høyere utdanning) er positiv og statistisk signifikant på 1 %-nivået (om lag p-verdien på 0.01). Dette betyr at regioner med en høyere andel personer med høyere utdanning har lavere inntektsulikhet, alt annet likt. Dette stemmer overens med funnene fra @Coady2017Income, som viser at høyere utdanningsnivå reduserer ulikhet.
+
+Koeffisienten for transport (veitetthet) er negativ, med en p-verdi på om lag 0.039. En økning i veinettets tetthet er assosiert med lavere Gini-koeffisient, noe som indikerer at bedre transportinfrastruktur kan redusere ulikhet. Dette stemmer overens med funnene i @Calderon2004Infrastructure, som viser at infrastruktur av høy kvalitet bidrar til å redusere inntektsforskjeller mellom regioner.
+
+Koeffisienten for population (andelen av befolkningen som er 65 år og over) er negativ, men ikke signifikant (om lag p-verdi 0.516). Dette betyr at det ikke finnes tilstrekkelig statistisk grunnlag til å hevde at andelen eldre har en direkte effekt på ulikhet i denne modellen. @Dolls2019Demographic påpeker imidlertid at demografiske endringer, særlig en økende andel eldre i befolkningen, over tid kan føre til høyere inntektsulikhet.
+
+Samlet sett viser resultatene at utdanning har en sterk og signifikant positiv effekt på ulikhet, mens veitetthet har en moderat, men signifikant negativ effekt. Økonomisk vekst har en svakt signifikant positiv effekt på ulikhet, mens aldringseffekten er statistisk ubetydelig. Dette antyder at investeringer i utdanning og transportinfrastruktur kan være effektive virkemidler for å redusere regionale ulikheter.
 
 ###Reflekter
 
+Den multiple lineære regresjonsmodellen har en moderat forklaringskraft. Dette kan se fra justert R.squared på om lag 0.49. Det vil si at de fire variblene i modellen min forklarer rundt halvparten av variasjonen i regional ulikhet mellom NUTS2-regionene for de fire landene Belgia, Nederland, Bulgaria og Norge.
+
+Utdanning på høyt nivå har størst betydning for å forklare ulikhet, og viser en sterk og signifikant positiv sammenheng. Dette betyr at regioner med høyere utdanningsnivå har større inntektsulikhet. Transport (veitetthet) bidrar også signifikant, men i motsatt retning, der høyere veinettstetthet reduserer ulikhet. Økonomisk utvikling har en svak positiv effekt og viser at rask vekst ikke nødvendigvis gir jevnere fordeling mellom regioner. Population (65 år og over) har en negativ koeffisient, men er statistisk ubetydelig i modellen min. Likevel kan dette ikke si at denne faktoren ikke har noen innvirkning på ulikhet, ettersom demografiske endringer kan ha effekter som ikke fanges opp av modellen.
+
+Modellen har en tilfredsstillende, men moderat forklaringskraft og fanger opp sentrale faktorer som utdanning og transportinfrastruktur bak regional ulikhet. Selv om modellen forklarer en del av ulikheten, viser den også at forhold som ikke er inkludert i modellen, fortsatt kan ha viktige effekter. Derfor forklarer modellen ikke fullt ut variasjonen i ulikhet. For å oppnå en dypere forståelse av årsakene til ulikhet og øke modellens forklaringskraft, kreves det bredere og mer detaljerte analyser.  
+
+# Del C: Dokumenter din bruk av AI
 
 
 
-# Del C
+
+
+
+
