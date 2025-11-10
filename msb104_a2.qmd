@@ -1,14 +1,17 @@
 ---
 title: "Assignment 2, MSB104-gruppe 6 2025"
-format: html
-editor: visual
 author: Karin Liang
 format:
   html:
     fig-cap-location: bottom
     fig-number: true
 lang: NO_nb
+editor: visual
 bibliography: references.bib
+execute:
+  warning: false
+  message: false
+  error: false
 ---
 
 # Introduksjon
@@ -96,16 +99,18 @@ model_simple <- lm(Gini_weighted ~ change_GDPC_pct, data = data_2017_a)
 
 # Sjekker dataene direkte
 summary(model_simple)
+```
 
-# tabler
+```{r}
 #| label: tbl-model_simple
 #| tbl-cap: "Resultater fra enkel lineær regresjon for 2017 (NUTS2)"
 tidy(model_simple)
+```
 
+```{r}
 #| label: tbl-model_stats
 #| tbl-cap: "Modelltilpasningsstatistikk for regresjonen i 2017"
 glance(model_simple)
-
 ```
 
 ### Modellspesifikasjon
@@ -130,8 +135,9 @@ Samlet sett tyder disse resultatene på at modellen har en tilfredsstillende for
 
 ### OLS
 
-```{r}
+Her vurderes de fem hovedforutsetningene for OLS: linearitet, uavhengighet, homoskedastisitet, fravær av multikollinearitet og normalfordeling av residualer.
 
+```{r}
 #| label: fig-residual
 #| fig-cap: "Residualplott for enkel lineær regresjon"
 # (1) Residualplott
@@ -140,53 +146,58 @@ plot(data_2017_a$change_GDPC_pct, resid(model_simple),
      xlab = "Endring i BNP per innbygger",
      ylab = "Residualer")
 abline(h = 0, col = "red", lwd = 2)
+```
+@fig-residual viser en svak, men ikke systematisk kurveform. Punktene er jevnt spredt rundt null-linjen, noe som tyder på et tilnærmet lineært forhold mellom den avhengige variabelen Gini og den uavhengige variabelen endringsprosenten i BNP per innbygger. Dette støtter antakelsen om linearitet i modellen.
 
+```{r}
 #| label: tbl-Uavhengighet
 #| tbl-cap: "Durbin–Watson-test for uavhengighet av residualer"
 # (2) Uavhengighet av residualer
 # Durbin–Watson-test (nullhypotese: ingen autokorrelasjon)
 dwtest(model_simple)
+```
+@tbl-Uavhengighet gir DW på 1.3995 og p-verdien på 0.0498, som indikerer en svak positiv autokorrelasjon i residualene. Dette betyr at observasjoner fra nærliggende regioner kan være delvis avhengige av hverandre.
 
+```{r}
 #| label: tbl-Homoskedastisitet
 #| tbl-cap: "Breusch–Pagan-test for homoskedastisitet (konstant varians)"
 # (3) Homoskedastisitet
 # Breusch–Pagan-test (sjekker for konstant varians)
 bptest(model_simple)
+```
+@tbl-Homoskedastisitet gir p-verdien på 0.0699, som er litt over signifikansnivået. Dette betyr at vi ikke forkaster nullhypotesen om konstant varians.Scale–Location-plottet i @fig-diagnostiske viser også en jevn spredning av punkter og en forholdsvis flat blå linje, noe som støtter antakelsen om homoskedastisitet i modellen.
 
+```{r}
 # (4) Ingen multikollinearitet
 # Denne modellen har kun en uavhengig variabel, så dette kravet er automatisk oppfylt.
 # For multippel regresjon:
 # vif(model_multiple)
+```
 
+Modellen har kun en uavhengig variabel, derfor er multikollinearitet ikke et problem i denne analysen.
+
+```{r}
 #| label: fig-QQ
 #| fig-cap: "QQ-plott av residualene"
 # (5) Normalfordeling av residualer
 # QQ-plott + Shapiro–Wilk-test for normalitet
 qqnorm(resid(model_simple))
 qqline(resid(model_simple), col = "red", lwd = 2)
+```
 
+```{r}
 #| label: tbl-Shapiro 
 #| tbl-cap: "Shapiro–Wilk-test"
 shapiro.test(resid(model_simple))
+```
+@fig-QQ viser noe avvik i endene, men residualene følger for øvrig linjen godt. @tbl-Shapiro gir p-verdien på 0.0715, som er større enn 0.05, og dermed kan residualene anses å være tilnærmet normalfordelte.
 
+```{r}
 #| label: fig-diagnostiske
 #| fig-cap: "Diagnostiske plott for OLS-modellen"
 # Diagnostiske plott for OLS-modellen
 autoplot(model_simple)
-
 ```
-
-Her vurderes de fem hovedforutsetningene for OLS: linearitet, uavhengighet, homoskedastisitet, fravær av multikollinearitet og normalfordeling av residualer.
-
-@fig-residual viser en svak, men ikke systematisk kurveform. Punktene er jevnt spredt rundt null-linjen, noe som tyder på et tilnærmet lineært forhold mellom den avhengige variabelen Gini og den uavhengige variabelen endringsprosenten i BNP per innbygger. Dette støtter antakelsen om linearitet i modellen.
-
-@tbl-Uavhengighet gir DW på 1.3995 og p-verdien på 0.0498, som indikerer en svak positiv autokorrelasjon i residualene. Dette betyr at observasjoner fra nærliggende regioner kan være delvis avhengige av hverandre.
-
-@tbl-Homoskedastisitet gir p-verdien på 0.0699, som er litt over signifikansnivået. Dette betyr at vi ikke forkaster nullhypotesen om konstant varians.Scale–Location-plottet i @fig-diagnostiske viser også en jevn spredning av punkter og en forholdsvis flat blå linje, noe som støtter antakelsen om homoskedastisitet i modellen.
-
-Modellen har kun en uavhengig variabel, derfor er multikollinearitet ikke et problem i denne analysen.
-
-@fig-QQ viser noe avvik i endene, men residualene følger for øvrig linjen godt. @tbl-Shapiro gir p-verdien på 0.0715, som er større enn 0.05, og dermed kan residualene anses å være tilnærmet normalfordelte.
 
 @fig-diagnostiske indikerer at observasjonene 10 og 14 har noe høy innflytelse, men ingen alvorlige avvik ble observert. Dette betyr at enkelte regioner påvirker modellen mer enn andre, men ikke i en grad som endrer hovedresultatene.
 
@@ -196,10 +207,9 @@ Hvis forutsetningene ikke er oppfylt, kan beregningene av standardfeil bli unøy
 
 ## Visuzlization
 
-```{r, message=FALSE}
-
+```{r}
 #| label: fig-forholdet-utvikling-ulikhet
-#| fig-cap: "Forholdet mellom regional utvikling og regional ulikhet, 2017 (NUTS2)
+#| fig-cap: "Forholdet mellom regional utvikling og regional ulikhet, 2017 (NUTS2)"
 
 figur_utvikling_ulikhet <- data_2017_a %>%
   ggplot(aes(x = change_GDPC_pct, y = Gini_weighted)) +
@@ -218,7 +228,6 @@ figur_utvikling_ulikhet <- data_2017_a %>%
   ) +
   theme_minimal()
 figur_utvikling_ulikhet
-
 ```
 
 @fig-forholdet-utvikling-ulikhet viser sammenhengen mellom økonomisk vekst (prosentvis endringen i BNP per innbygger) og regional ulikhet (Gini-koeffisient) på NUTS2-nivå i 2017. Hver prikk representerer en region, mens den røde linjen viser den estimerte lineære sammenhengen, og det grå området er 95% konfidensintervallet.
@@ -338,7 +347,7 @@ Jeg velger andelen personer med høyere utdanning som analysevariabel, fordi  @C
 
 Jeg velger veitetthet som analysevariabel, fordi @Calderon2004Infrastructure viser at de to sentrale resultatene er at økonomisk vekst påvirkes positivt av beholdningen av infrastrukturaktiva, og at inntektsulikhet reduseres når mengden og kvaliteten på infrastrukturen øker. Videre viser @Calderon2004Infrastructure også at veinettets tetthet har en tydelig negativ sammenheng med inntektsulikhet, og peker at Gini-koeffisienten er negativt korrelert med infrastrukturnivået for veier (-0,48). Dermed forventes variabelen veitetthet å ha en negativ sammenheng med Gini-koeffisienten. Dette tyder på at bedre og tettere transportinfrastruktur kan bidra til lavere regional ulikhet. Dermed representerer veitetthet transportdata for videre analyser av hvordan jeg antar at det kan påvirke regional ulikhet.
 
-Jeg velger andelen av befolkningen som er 65 år og eldre som analysevariabel, fordi @Dolls2019Demographic viser at demografiske endringer sannsynligvis vil føre til økende ulikhet, og at en større andel eldre i befolkningen har en tendens til å øke den samlede inntektsulikheten. Dette innebærer at en økende andel eldre kan bidra til høyere inntektsforskjeller. Dermed representerer andelen personer over 65 år populationdata for videre analyser av hvordan demografiske endringer kan påvirke regional ulikhet.
+Jeg velger andelen av befolkningen som er 65 år og eldre som analysevariabel, fordi @dolls2019demographic viser at demografiske endringer sannsynligvis vil føre til økende ulikhet, og at en større andel eldre i befolkningen har en tendens til å øke den samlede inntektsulikheten. Dette innebærer at en økende andel eldre kan bidra til høyere inntektsforskjeller. Dermed representerer andelen personer over 65 år populationdata for videre analyser av hvordan demografiske endringer kan påvirke regional ulikhet.
 
 Samlet sett har jeg valgt disse tre variablene, andelen personer med høyere utdanning (utdanning), veitetthet (transport) og andelen av befolkningen som er 65 år og eldre (population), for å inkluderes i en multippel lineær regresjonsmodell for å analysere hvordan disse tre faktorene kan påvirke regional ulikhet.
 
@@ -383,19 +392,20 @@ Etter at datasettene er slått sammen, dannes datasettet data_2017_b, som inneho
 # Estimerer en multippel lineær regresjonsmodell
 model_multiple <- lm(
   Gini_weighted ~ change_GDPC_pct + utdanning_hoy + vei_tetthet + andelen_over65,
-  data = data_2017_b
-)
+  data = data_2017_b)
 summary(model_multiple)
+```
 
-# Viser resultatene i tabellform (til bruk i rapporten)
+```{r}
 #| label: tbl-model_multiple
 #| tbl-cap: "Resultater fra multippel lineær regresjonsmodell for 2017 (NUTS2)"
 tidy(model_multiple)   # Koeffisienter, standardfeil og p-verdier
+```
 
+```{r}
 #| label: tbl-model__multiple_stats
 #| tbl-cap: "Modelltilpasningsstatistikk for multippel lineær regresjonen i 2017"
 glance(model_multiple) # R², justert R² og statistikk
-
 ```
 
 ### Dokumenter og begrunner modellspesifikasjonen min (200–400 ord)
@@ -408,13 +418,13 @@ Variabelen veitetthet har en negativ estimate og en signifikant koeffisient. Det
 
 @tbl-model_multiple viser at den økonomiske vekstvariabelen har en svak positiv sammenheng med ulikhet, som kan tyde på at økonomisk vekst på kort sikt ikke nødvendigvis er likt fordelt mellom regioner.
 
-Variabelen andelen av befolkningen som er 65 år og eldre er ikke signifikant, men ifølge @Dolls2019Demographic peker at population endringer, særlig aldring, kan bidra til økende ulikhet over tid.
+Variabelen andelen av befolkningen som er 65 år og eldre er ikke signifikant, men ifølge @dolls2019demographic peker at population endringer, særlig aldring, kan bidra til økende ulikhet over tid.
 
 P-verdien på 0.003 i @tbl-model__multiple_stats indikerer at modellen samlet sett er statistisk signifikant. Videre @tbl-model__multiple_stats viser R.squared 0.59 og justert R.squared 0.49. Der betyr R.squared at de fire varibalene, økonomisk utvikling, utdanning, transport og population forklarer om lag 59 % av ulikheten mellom regionene. Mens justert R.squared 0.49, som betyr at etter justering for antall variabler, modellen forklarer omtrent 49 % av variasjonen i Gini-koeffisienten. Modellen viser moderat forklaringskraft. Dette indikerer at modellen fanger opp noen strukturelle påvirkningsfaktorer, men andre faktorer kan fortsatt bidra til regional ulikhet.
 
 ## Modelltolkning
 
-###Forklar koeffisientene
+### Forklar koeffisientene
 
 Den multiple lineære regresjonsmodellen estimerer hvordan økonomisk utvikling, utdanning, transport og population påvirker regional ulikhet på NUTS2-nivå i 2017. I den multiple lineære regresjonsmodellen er utdanning den mest signifikante variabelen, veitetthet har en moderat signifikant effekt, økonomisk utvikling er svakt signifikant, mens population ikke er signifikant.
 
@@ -424,11 +434,11 @@ Koeffisienten for utdanning (andelen av befolkningen med høyere utdanning) er p
 
 Koeffisienten for transport (veitetthet) er negativ, med en p-verdi på om lag 0.039. En økning i veinettets tetthet er assosiert med lavere Gini-koeffisient, noe som indikerer at bedre transportinfrastruktur kan redusere ulikhet. Dette stemmer overens med funnene i @Calderon2004Infrastructure, som viser at infrastruktur av høy kvalitet bidrar til å redusere inntektsforskjeller mellom regioner.
 
-Koeffisienten for population (andelen av befolkningen som er 65 år og over) er negativ, men ikke signifikant (om lag p-verdi 0.516). Dette betyr at det ikke finnes tilstrekkelig statistisk grunnlag til å hevde at andelen eldre har en direkte effekt på ulikhet i denne modellen. @Dolls2019Demographic påpeker imidlertid at demografiske endringer, særlig en økende andel eldre i befolkningen, over tid kan føre til høyere inntektsulikhet.
+Koeffisienten for population (andelen av befolkningen som er 65 år og over) er negativ, men ikke signifikant (om lag p-verdi 0.516). Dette betyr at det ikke finnes tilstrekkelig statistisk grunnlag til å hevde at andelen eldre har en direkte effekt på ulikhet i denne modellen. @dolls2019demographic påpeker imidlertid at demografiske endringer, særlig en økende andel eldre i befolkningen, over tid kan føre til høyere inntektsulikhet.
 
 Samlet sett viser resultatene at utdanning har en sterk og signifikant positiv effekt på ulikhet, mens veitetthet har en moderat, men signifikant negativ effekt. Økonomisk vekst har en svakt signifikant positiv effekt på ulikhet, mens aldringseffekten er statistisk ubetydelig. Dette antyder at investeringer i utdanning og transportinfrastruktur kan være effektive virkemidler for å redusere regionale ulikheter.
 
-###Reflekter
+### Reflekter
 
 Den multiple lineære regresjonsmodellen har en moderat forklaringskraft. Dette kan se fra justert R.squared på om lag 0.49. Det vil si at de fire variblene i modellen min forklarer rundt halvparten av variasjonen i regional ulikhet mellom NUTS2-regionene for de fire landene Belgia, Nederland, Bulgaria og Norge.
 
@@ -438,8 +448,11 @@ Modellen har en tilfredsstillende, men moderat forklaringskraft og fanger opp se
 
 # Del C: Dokumenter din bruk av AI
 
+I denne A2-oppgaven brukte jeg OpenAI ChatGPT (GPT-5-modellen) som et støtteverktøy i arbeidsprosessen. Verktøyet ble brukt til å rette kodefeil, oversette språk, forstå fagbegreper og faglig kunnskap, finne og oppsummere litteratur, tolke datainnhold samt forbedre struktur og språklig klarhet i teksten, og øke kvaliteten på den skriftlige framstillingen. 
 
+ChatGPT hjalp meg med å hente, forstå og bearbeide ulike datasett fra Eurostat, spesielt i del B da jeg hentet nye datasett og skulle sammenstille og aggregere informasjon. Verktøyet utvidet perspektivet mitt på hvordan slike data kan struktureres og analyseres. Det hjalp meg også med å tolke hvordan variabler som veitetthet og andel personer med høyere utdanning påvirker regional ulikhet, samt med å forstå resultatene fra den multiple lineære regresjonsmodellen.
 
+I tillegg bidro KI-verktøyet til å forbedre strukturen og den norske språkføringen i rapporten, slik at teksten ble mer presis og sammenhengende. Jeg brukte en trinnvis og målrettet spørrestrategi, der jeg kombinerte norsk og kinesisk for å få tydelige og presise uttrykk. Jeg kontrollerte og redigerte  alltid innholdet for å forhindre overredigering, og for å sikre at alle analyser og konklusjoner bygget på min egen forståelse og mine data.  
 
 
 

@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="NO_nb" xml:lang="NO_nb"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Karin Liang">
+
+<title>Assignment 2, MSB104-gruppe 6 2025</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="msb104_a2_files/libs/clipboard/clipboard.min.js"></script>
+<script src="msb104_a2_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="msb104_a2_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="msb104_a2_files/libs/quarto-html/popper.min.js"></script>
+<script src="msb104_a2_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="msb104_a2_files/libs/quarto-html/anchor.min.js"></script>
+<link href="msb104_a2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="msb104_a2_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="msb104_a2_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="msb104_a2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="msb104_a2_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Assignment 2, MSB104-gruppe 6 2025</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Karin Liang </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduksjon" class="level1">
+<h1>Introduksjon</h1>
+<p>Denne oppgaven undersøker fortsatt sammenhengen mellom regional utvikling og ulikhet i de fire landene Belgia (BE), Nederland (NL), Bulgaria (BG) og Norge (NO). Analysen bygger delvis videre på datasettene gdp_pop og gini fra Assignment 1, men inkluderer også nye variabler og data for året 2017.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parkker</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(eurostat)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)   <span class="co"># Inneholder dwtest(), bptest()</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)      <span class="co"># oen diagnostiske verktøy</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Følgende datasettene gdp_pop og gini fra assignment 1 </span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># leser excel gdp_pop og gini</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>gdp_pop <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"/Users/liang/Desktop/msb104/msb104_a2/gdp_pop.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"Sheet 1"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>gini <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"/Users/liang/Desktop/msb104/msb104_a2/gini.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"Sheet 1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="del-a" class="level1">
+<h1>Del A</h1>
+<section id="laster-ned-og-slår-sammen-datasettene-for-2017" class="level2">
+<h2 class="anchored" data-anchor-id="laster-ned-og-slår-sammen-datasettene-for-2017">Laster ned og slår sammen datasettene for 2017</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  henter bnp og population for 2016 og 2017</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>gdp_pop <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">NUTS2 =</span> <span class="fu">substr</span>(geo, <span class="dv">1</span>, <span class="dv">4</span>)) <span class="sc">%&gt;%</span>                  </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    TIME_PERIOD <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2016</span>, <span class="dv">2017</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    unit_gdp <span class="sc">==</span> <span class="st">"MIO_EUR"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    unit_pop <span class="sc">==</span> <span class="st">"NR"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    sex <span class="sc">==</span> <span class="st">"T"</span>, age <span class="sc">==</span> <span class="st">"TOTAL"</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NUTS2, TIME_PERIOD) <span class="sc">%&gt;%</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_gdp =</span> <span class="fu">sum</span>(values_gdp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),   <span class="co"># Beholder opprinnelig kolonnenavn</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_pop =</span> <span class="fu">sum</span>(values_pop, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),   <span class="co"># Beholder opprinnelig kolonnenavn</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="co"># Summerer BNP og befolkning for hver NUTS2-region og år</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">GDPC =</span> (values_gdp <span class="sc">*</span> <span class="fl">1e6</span>) <span class="sc">/</span> values_pop)   <span class="co"># BNP per innbygger (i euro)</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>gdp_pop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 66 × 5
+   NUTS2 TIME_PERIOD values_gdp values_pop   GDPC
+   &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;
+ 1 BE10         2016     80092.    1201285 66672.
+ 2 BE10         2017     82258.    1199095 68600.
+ 3 BE21         2016     82295.    1828927 44996.
+ 4 BE21         2017     85078.    1838863 46266.
+ 5 BE22         2016     26782.     866970 30891.
+ 6 BE22         2017     27865.     869664 32042.
+ 7 BE23         2016     52027.    1489084 34939.
+ 8 BE23         2017     54304.    1498483 36240.
+ 9 BE24         2016     46550.    1122600 41467.
+10 BE24         2017     48159.    1130644 42594.
+# ℹ 56 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># beregner endringsprosenten</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>gdp_pop_change_2017 <span class="ot">&lt;-</span> gdp_pop <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(NUTS2, TIME_PERIOD) <span class="sc">%&gt;%</span>        <span class="co"># Sorterer etter region og år</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NUTS2) <span class="sc">%&gt;%</span>                    <span class="co"># Beregner endring per region</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">change_GDPC_pct =</span> (GDPC <span class="sc">/</span> <span class="fu">lag</span>(GDPC) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span>   <span class="co"># Prosentvis endring (%)  </span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(TIME_PERIOD <span class="sc">==</span> <span class="dv">2017</span>) <span class="sc">%&gt;%</span>        <span class="co"># Beholder kun endringen for 2017</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>gdp_pop_change_2017</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 33 × 6
+   NUTS2 TIME_PERIOD values_gdp values_pop   GDPC change_GDPC_pct
+   &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;           &lt;dbl&gt;
+ 1 BE10         2017     82258.    1199095 68600.            2.89
+ 2 BE21         2017     85078.    1838863 46266.            2.82
+ 3 BE22         2017     27865.     869664 32042.            3.73
+ 4 BE23         2017     54304.    1498483 36240.            3.72
+ 5 BE24         2017     48159.    1130644 42594.            2.72
+ 6 BE25         2017     45242.    1188407 38069.            3.10
+ 7 BE31         2017     18176.     399735 45470.            4.37
+ 8 BE32         2017     33010.    1342053 24596.            2.92
+ 9 BE33         2017     30800.    1106039 27847.            3.48
+10 BE34         2017      6864.     284617 24118.            3.41
+# ℹ 23 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Velger Gini-vektene for 2017</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>gini_2017 <span class="ot">&lt;-</span> gini <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">TIME_PERIOD =</span> <span class="fu">as.integer</span>(TIME_PERIOD)) <span class="sc">%&gt;%</span>  <span class="co"># Konverterer kolonnen TIME_PERIOD til heltallstype</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(TIME_PERIOD <span class="sc">==</span> <span class="dv">2017</span>) </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>gini_2017</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 33 × 5
+   country NUTS2 TIME_PERIOD n_nuts3 Gini_weighted
+   &lt;chr&gt;   &lt;chr&gt;       &lt;int&gt;   &lt;dbl&gt;         &lt;dbl&gt;
+ 1 BE      BE10         2017       1       NA     
+ 2 BE      BE21         2017       3        0.0266
+ 3 BE      BE22         2017       3        0.112 
+ 4 BE      BE23         2017       6        0.139 
+ 5 BE      BE24         2017       2        0.0626
+ 6 BE      BE25         2017       8        0.0659
+ 7 BE      BE31         2017       1       NA     
+ 8 BE      BE32         2017       7        0.0795
+ 9 BE      BE33         2017       5        0.0675
+10 BE      BE34         2017       5        0.0883
+# ℹ 23 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Slå sammen datasettet og kall det data_2017</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>data_2017_a <span class="ot">&lt;-</span> gdp_pop_change_2017 <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(gini_2017, <span class="at">by =</span> <span class="st">"NUTS2"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gini_weighted))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>data_2017_a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23 × 10
+   NUTS2 TIME_PERIOD.x values_gdp values_pop   GDPC change_GDPC_pct country
+   &lt;chr&gt;         &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;           &lt;dbl&gt; &lt;chr&gt;  
+ 1 BE21           2017     85078.    1838863 46266.            2.82 BE     
+ 2 BE22           2017     27865.     869664 32042.            3.73 BE     
+ 3 BE23           2017     54304.    1498483 36240.            3.72 BE     
+ 4 BE24           2017     48159.    1130644 42594.            2.72 BE     
+ 5 BE25           2017     45242.    1188407 38069.            3.10 BE     
+ 6 BE32           2017     33010.    1342053 24596.            2.92 BE     
+ 7 BE33           2017     30800.    1106039 27847.            3.48 BE     
+ 8 BE34           2017      6864.     284617 24118.            3.41 BE     
+ 9 BE35           2017     13103.     494127 26517.            2.44 BE     
+10 BG31           2017      3540.     753059  4701.           12.1  BG     
+# ℹ 13 more rows
+# ℹ 3 more variables: TIME_PERIOD.y &lt;int&gt;, n_nuts3 &lt;dbl&gt;, Gini_weighted &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Først hentes data for BNP og population for årene 2016 og 2017 fra datasettet gdp_pop. Deretter beregnes endringen og den prosentvise endringen av BNP per innbygger i hver NUTS2-region fra 2016 til 2017.<br>
+Gini-koeffisientene for 2017 hentes fra datasettet gini, og disse kobles sammen med BNP-dataene ved hjelp av NUTS2-koden som felles nøkkel. Resultatet er et kombinert datasett data_2017_a som brukes i den videre enkle lineære regresjonsanalysen</p>
+</section>
+<section id="enkel-lineær-regresjonsmodell" class="level2">
+<h2 class="anchored" data-anchor-id="enkel-lineær-regresjonsmodell">Enkel lineær regresjonsmodell</h2>
+<p>Her brukes den avhengige variabelen Gini_weighted og den uavhengige variabelen change_GDPC_pct for å estimere en enkel lineær regresjonsmodell.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Avhengig variabel: Gini_weighted</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Uavhengig variabel: change_GDPC_pct</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Enkel lineær regresjonsmodell</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>model_simple <span class="ot">&lt;-</span> <span class="fu">lm</span>(Gini_weighted <span class="sc">~</span> change_GDPC_pct, <span class="at">data =</span> data_2017_a)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Sjekker dataene direkte</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_simple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Gini_weighted ~ change_GDPC_pct, data = data_2017_a)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.06377 -0.03334 -0.01026  0.02047  0.13044 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)     0.032586   0.018641   1.748  0.09505 . 
+change_GDPC_pct 0.009746   0.003353   2.906  0.00844 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.04598 on 21 degrees of freedom
+Multiple R-squared:  0.2869,    Adjusted R-squared:  0.2529 
+F-statistic: 8.447 on 1 and 21 DF,  p-value: 0.008441</code></pre>
+</div>
+</div>
+<div id="tbl-model_simple" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-model_simple-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Resultater fra enkel lineær regresjon for 2017 (NUTS2)
+</figcaption>
+<div aria-describedby="tbl-model_simple-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(model_simple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term            estimate std.error statistic p.value
+  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)      0.0326    0.0186       1.75 0.0951 
+2 change_GDPC_pct  0.00975   0.00335      2.91 0.00844</code></pre>
+</div>
+</div>
+</figure>
+</div>
+<div id="tbl-model_stats" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-model_stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Modelltilpasningsstatistikk for regresjonen i 2017
+</figcaption>
+<div aria-describedby="tbl-model_stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(model_simple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 12
+  r.squared adj.r.squared  sigma statistic p.value    df logLik   AIC   BIC
+      &lt;dbl&gt;         &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     0.287         0.253 0.0460      8.45 0.00844     1   39.2 -72.5 -69.1
+# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+</div>
+</div>
+</figure>
+</div>
+<section id="modellspesifikasjon" class="level3">
+<h3 class="anchored" data-anchor-id="modellspesifikasjon">Modellspesifikasjon</h3>
+<p>Den enkle lineære regresjonsmodellen analyserer hvordan regional økonomisk utvikling påvirker inntektsulikhet på NUTS2-nivå i 2017. Den avhengige variabelen er Gini_weighted, som måler inntektsulikheten, jo høyere Gini-koeffisienten er, desto større er graden av ulikhet. Den uavhengige variabelen er den prosentvise endringen i BNP per innbygger fra 2016 til 2017, som representerer regional økonomisk utvikling. Dette tilsvarer en av syv dimensjonener utvikling i modellen til <span class="citation" data-cites="LESSMANN2017110">Lessmann and Seidel (<a href="#ref-LESSMANN2017110" role="doc-biblioref">2017</a>)</span>. Variabelen måler økonomisk vekst og brukes som en indikator på regional utvikling, som igjen kan påvirke ulikhet avhengig av regionens utviklingsnivå.</p>
+<p><span class="citation" data-cites="LESSMANN2017110">Lessmann and Seidel (<a href="#ref-LESSMANN2017110" role="doc-biblioref">2017</a>)</span> peker på at forholdet mellom økonomisk utvikling og ulikhet følger et N-formet mønster, der ulikheten øker i lavinntektsland, reduseres i mellominntektsland og stiger svakt igjen i høyinntektsland. Dette innebærer at økonomisk vekst ikke automatisk fører til mindre ulikhet. Ulikhet bestemmes ikke bare av økonomisk vekst, men påvirkes også av flere strukturelle faktorer. Ifølge <span class="citation" data-cites="LESSMANN2017110">Lessmann and Seidel (<a href="#ref-LESSMANN2017110" role="doc-biblioref">2017</a>)</span> avhenger graden av ulikhet av syv hoveddimensjoner: utvikling, mobilitet, åpenhet, ressurser, institusjoner, overføringer og utdanning, og etnisitet. Disse faktorene virker sammen og kan forklare hvorfor regionale forskjeller i ulikhet oppstår, utover effekten av selve den økonomiske veksten.</p>
+<p>I tråd med teorien om en N-formet i sammenheng forventes koeffisienten for prosentvis endring i BNP per innbygger å være svakt positiv. Dette vil si at regioner med høyere økonomisk vekst kan få noe større ulikhet dersom veksten hovedsakelig skjer i enkelte sektorer eller byområder. En svak eller ikke-signifikant sammenheng kan derimot tyde på at mange regioner allerede opplever inntektskonvergens, der forskjellene mellom regionene gradvis blir mindre.</p>
+</section>
+</section>
+<section id="modelldiagnostikk" class="level2">
+<h2 class="anchored" data-anchor-id="modelldiagnostikk">Modelldiagnostikk</h2>
+<p>Den enkel lineær regresjonsmodellen analyserer hvordan økonomisk utvikling(endringen i BNP per innbygger) påvirker regional inntektsulikhet målt ved Gini-koeffisienten på NUTS2-nivå i 2017.</p>
+<p><a href="#tbl-model_stats" class="quarto-xref">Table&nbsp;2</a> viser en R-squared på 0.2869 og en justert R-squared på 0.2529. R-squared viser at variabelen endringen i BNP per innbygger forklarer om lag 28.7 % av ulikheten mellom regionene. En justert R-squared på 0.2529 betyr at, etter justering for antall variabler, modellen forklarer om lag 25 % av ulikheten mellom NUTS2-regionene i 2017. Selv om forklaringskraften er moderat, er den tilfredsstillende for tverrsnittsdata på regionalt nivå.</p>
+<p>En p-verdi på ca. 0.008 vist i <a href="#tbl-model_simple" class="quarto-xref">Table&nbsp;1</a> indikerer at modellen som helhet er statistisk signifikant. Det betyr at den uavhengige variabelen den prosentvise endringen i BNP per innbygger (change_GDPC_pct) bidrar signifikant til å forklare variasjonen i ulikhet (Gini_weighted) mellom regionene i de fire landene.</p>
+<p>Den esiduelle standardfeilen på 0.04598 fra summary, indikerer at avvikene mellom observerte og predikerte verdier er relativt små, noe som støtter at modellen gir en rimelig god tilpasning til dataene.</p>
+<p>Samlet sett tyder disse resultatene på at modellen har en tilfredsstillende forklaringskraft, og at endring i BNP per innbygger spiller en signifikant rolle i å forklare variasjoner i regional ulikhet i 2017.</p>
+<section id="ols" class="level3">
+<h3 class="anchored" data-anchor-id="ols">OLS</h3>
+<p>Her vurderes de fem hovedforutsetningene for OLS: linearitet, uavhengighet, homoskedastisitet, fravær av multikollinearitet og normalfordeling av residualer.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (1) Residualplott</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data_2017_a<span class="sc">$</span>change_GDPC_pct, <span class="fu">resid</span>(model_simple),</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Residualer vs. tilpassede verdier (sjekk for linearitet)"</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Endring i BNP per innbygger"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Residualer"</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-residual" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-residual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="msb104_a2_files/figure-html/fig-residual-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-residual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Residualplott for enkel lineær regresjon
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-residual" class="quarto-xref">Figure&nbsp;1</a> viser en svak, men ikke systematisk kurveform. Punktene er jevnt spredt rundt null-linjen, noe som tyder på et tilnærmet lineært forhold mellom den avhengige variabelen Gini og den uavhengige variabelen endringsprosenten i BNP per innbygger. Dette støtter antakelsen om linearitet i modellen.</p>
+<div id="tbl-Uavhengighet" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-Uavhengighet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Durbin–Watson-test for uavhengighet av residualer
+</figcaption>
+<div aria-describedby="tbl-Uavhengighet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (2) Uavhengighet av residualer</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Durbin–Watson-test (nullhypotese: ingen autokorrelasjon)</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(model_simple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  model_simple
+DW = 1.3995, p-value = 0.04983
+alternative hypothesis: true autocorrelation is greater than 0</code></pre>
+</div>
+</div>
+</figure>
+</div>
+<p><a href="#tbl-Uavhengighet" class="quarto-xref">Table&nbsp;3</a> gir DW på 1.3995 og p-verdien på 0.0498, som indikerer en svak positiv autokorrelasjon i residualene. Dette betyr at observasjoner fra nærliggende regioner kan være delvis avhengige av hverandre.</p>
+<div id="tbl-Homoskedastisitet" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-Homoskedastisitet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: Breusch–Pagan-test for homoskedastisitet (konstant varians)
+</figcaption>
+<div aria-describedby="tbl-Homoskedastisitet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (3) Homoskedastisitet</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Breusch–Pagan-test (sjekker for konstant varians)</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(model_simple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    studentized Breusch-Pagan test
+
+data:  model_simple
+BP = 3.286, df = 1, p-value = 0.06987</code></pre>
+</div>
+</div>
+</figure>
+</div>
+<p><a href="#tbl-Homoskedastisitet" class="quarto-xref">Table&nbsp;4</a> gir p-verdien på 0.0699, som er litt over signifikansnivået. Dette betyr at vi ikke forkaster nullhypotesen om konstant varians.Scale–Location-plottet i <a href="#fig-diagnostiske" class="quarto-xref">Figure&nbsp;3</a> viser også en jevn spredning av punkter og en forholdsvis flat blå linje, noe som støtter antakelsen om homoskedastisitet i modellen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (4) Ingen multikollinearitet</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Denne modellen har kun en uavhengig variabel, så dette kravet er automatisk oppfylt.</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># For multippel regresjon:</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># vif(model_multiple)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Modellen har kun en uavhengig variabel, derfor er multikollinearitet ikke et problem i denne analysen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (5) Normalfordeling av residualer</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># QQ-plott + Shapiro–Wilk-test for normalitet</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">resid</span>(model_simple))</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">resid</span>(model_simple), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-QQ" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-QQ-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="msb104_a2_files/figure-html/fig-QQ-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-QQ-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: QQ-plott av residualene
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="tbl-Shapiro" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-Shapiro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5: Shapiro–Wilk-test
+</figcaption>
+<div aria-describedby="tbl-Shapiro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">resid</span>(model_simple))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  resid(model_simple)
+W = 0.92144, p-value = 0.07153</code></pre>
+</div>
+</div>
+</figure>
+</div>
+<p><a href="#fig-QQ" class="quarto-xref">Figure&nbsp;2</a> viser noe avvik i endene, men residualene følger for øvrig linjen godt. <a href="#tbl-Shapiro" class="quarto-xref">Table&nbsp;5</a> gir p-verdien på 0.0715, som er større enn 0.05, og dermed kan residualene anses å være tilnærmet normalfordelte.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnostiske plott for OLS-modellen</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(model_simple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-diagnostiske" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-diagnostiske-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="msb104_a2_files/figure-html/fig-diagnostiske-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-diagnostiske-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Diagnostiske plott for OLS-modellen
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-diagnostiske" class="quarto-xref">Figure&nbsp;3</a> indikerer at observasjonene 10 og 14 har noe høy innflytelse, men ingen alvorlige avvik ble observert. Dette betyr at enkelte regioner påvirker modellen mer enn andre, men ikke i en grad som endrer hovedresultatene.</p>
+<p>De fleste OLS-forutsetningene er tilfredsstillende oppfylt. Modellen viser et lineært forhold, ingen alvorlig heteroskedastisitet, og residualene er tilnærmet normalfordelte. Dette tyder på at modellen er pålitelig og gir gyldige estimater.</p>
+<p>Hvis forutsetningene ikke er oppfylt, kan beregningene av standardfeil bli unøyaktige. Dette kan føre til at testen for signifikans ikke blir helt pålitelig. For å løse dette kan man bruke robuste standardfeil, eller lage en mer detaljert modell med flere forklaringsvariabler som tar hensyn til forskjeller mellom regionene.</p>
+</section>
+</section>
+<section id="visuzlization" class="level2">
+<h2 class="anchored" data-anchor-id="visuzlization">Visuzlization</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>figur_utvikling_ulikhet <span class="ot">&lt;-</span> data_2017_a <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> change_GDPC_pct, <span class="at">y =</span> Gini_weighted)) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"darkblue"</span>) <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"lm"</span>, <span class="co"># viser en lineær regresjonsmodell</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">se =</span> <span class="cn">TRUE</span>,       <span class="co"># et bånd rundt regresjonslinjen som representerer standardfeilen (95 % konfidensintervall)</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"red"</span>,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"grey70"</span>, <span class="co"># skyggen grå</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Regional utvikling og ulikhet (2017)"</span>,</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Endringprosentvis i BNP per innbygger"</span>,</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Regional ulikhet (Gini-koeffisient)"</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>figur_utvikling_ulikhet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-forholdet-utvikling-ulikhet" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-forholdet-utvikling-ulikhet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="msb104_a2_files/figure-html/fig-forholdet-utvikling-ulikhet-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-forholdet-utvikling-ulikhet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Forholdet mellom regional utvikling og regional ulikhet, 2017 (NUTS2)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-forholdet-utvikling-ulikhet" class="quarto-xref">Figure&nbsp;4</a> viser sammenhengen mellom økonomisk vekst (prosentvis endringen i BNP per innbygger) og regional ulikhet (Gini-koeffisient) på NUTS2-nivå i 2017. Hver prikk representerer en region, mens den røde linjen viser den estimerte lineære sammenhengen, og det grå området er 95% konfidensintervallet.</p>
+<p>Den røde linjen viser en positiv sammenheng mellom økonomisk vekst og ulikhet. Regioner med høyere vekst har som regel høyere Gini-koeffisient. Sammenhengen er moderat, men statistisk signifikant, i tråd med regresjonsresultatet der koeffisienten for change_GDPC_pct er positiv og signifikant (p = 0.0084). Dette tyder på at økonomisk vekst ikke nødvendigvis fører til mindre ulikhet, men tvert imot kan bidra til større forskjeller mellom regionene.</p>
+</section>
+</section>
+<section id="del-b" class="level1">
+<h1>Del B</h1>
+<section id="datainnsamling-av-tre-passende-variabler" class="level2">
+<h2 class="anchored" data-anchor-id="datainnsamling-av-tre-passende-variabler">Datainnsamling av tre passende variabler</h2>
+<p>Her lastet jeg ned datasettene fra Eurostat for utdanning, transport og population, og valgte én variabel fra hvert datasett for videre analyse. Datasettene dekker regioner på NUTS2-nivå i Belgia, Bulgaria, Nederland og Norge.</p>
+<section id="utdanning-høy-utdanning" class="level3">
+<h3 class="anchored" data-anchor-id="utdanning-høy-utdanning">Utdanning (høy utdanning)</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Laster ned utdanningsdatasettet fra Eurostat</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>utdanning <span class="ot">&lt;-</span> <span class="fu">get_eurostat</span>(<span class="st">"edat_lfse_04"</span>, <span class="at">time_format =</span> <span class="st">"num"</span>) </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>utdanning_2017_høynivå <span class="ot">&lt;-</span> utdanning <span class="sc">%&gt;%</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    TIME_PERIOD <span class="sc">==</span> <span class="dv">2017</span>,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    isced11 <span class="sc">==</span> <span class="st">"ED5-8"</span>,    <span class="co"># Utdanningsnivå: høyere utdanning (nivå 5–8)</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    sex <span class="sc">==</span> <span class="st">"T"</span>,            <span class="co"># Begge kjønn</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    age <span class="sc">==</span> <span class="st">"Y25-64"</span>,       <span class="co"># Aldersgruppen 25–64 år</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    unit <span class="sc">==</span> <span class="st">"PC"</span>,          <span class="co"># Enhet: prosent av befolkningen</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nchar</span>(geo) <span class="sc">==</span> <span class="dv">4</span>,       <span class="co"># Beholder kun NUTS2-nivå (fire tegn)</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">substr</span>(geo, <span class="dv">1</span>, <span class="dv">2</span>) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"BE"</span>,<span class="st">"NL"</span>,<span class="st">"BG"</span>,<span class="st">"NO"</span>)  </span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sex, unit, geo, values)</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>utdanning_2017_høynivå</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 35 × 4
+   sex   unit  geo   values
+   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+ 1 T     PC    BE10    46.6
+ 2 T     PC    BE21    38.2
+ 3 T     PC    BE22    35.4
+ 4 T     PC    BE23    42.6
+ 5 T     PC    BE24    50.7
+ 6 T     PC    BE25    37.4
+ 7 T     PC    BE31    57.1
+ 8 T     PC    BE32    31.1
+ 9 T     PC    BE33    35.6
+10 T     PC    BE34    37.1
+# ℹ 25 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Kolonnen 'values' er målt i prosent (unit = "PC") og kan brukes direkte i analysen</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Datasettet utdanning (edat_lfse_04) er hentet fra Eurostat, og variabelen andel personer med høyere utdanning (ISCED 5–8) er valgt. Datasettet ble filtrert slik at det omfatter begge kjønn, personer i alderen 25–64 år og verdier målt i prosent av befolkningen. Deretter ble datasettet utdanning_2017_høynivå opprettet.</p>
+</section>
+<section id="transport-veitetthet" class="level3">
+<h3 class="anchored" data-anchor-id="transport-veitetthet">Transport (veitetthet)</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Laster ned transportdatasettet fra Eurostat</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>transport <span class="ot">&lt;-</span> <span class="fu">get_eurostat</span>(<span class="st">"tran_r_net"</span>, <span class="at">time_format =</span> <span class="st">"num"</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>transport_2017 <span class="ot">&lt;-</span> transport <span class="sc">%&gt;%</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    TIME_PERIOD <span class="sc">==</span> <span class="dv">2017</span>,           </span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    tra_infr <span class="sc">==</span> <span class="st">"MWAY"</span>,         <span class="co"># Variabel: motorveinett (motorways)</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    unit <span class="sc">==</span> <span class="st">"KM"</span>,             <span class="co"># Enhet: kilometer (total lengde)</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nchar</span>(geo) <span class="sc">==</span> <span class="dv">4</span>,               </span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">substr</span>(geo, <span class="dv">1</span>, <span class="dv">2</span>) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"BE"</span>,<span class="st">"BG"</span>,<span class="st">"NL"</span>,<span class="st">"NO"</span>)  </span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tra_infr, unit, geo, values)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>transport_2017</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 40 × 4
+   tra_infr unit  geo   values
+   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+ 1 MWAY     KM    BE10      11
+ 2 MWAY     KM    BE21     220
+ 3 MWAY     KM    BE22     106
+ 4 MWAY     KM    BE23     196
+ 5 MWAY     KM    BE24     175
+ 6 MWAY     KM    BE25     187
+ 7 MWAY     KM    BE31      63
+ 8 MWAY     KM    BE32     284
+ 9 MWAY     KM    BE33     266
+10 MWAY     KM    BE34     154
+# ℹ 30 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Her er variabelen 'values' lengden på motorveinettet (i km).</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Laster også ned arealdata for regionene, for å sammenligne regioner, må vi beregne tetthet (km per km²),</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Laster ned arealdata fra Eurostat</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>area <span class="ot">&lt;-</span> <span class="fu">get_eurostat</span>(<span class="st">"reg_area3"</span>, <span class="at">time_format =</span> <span class="st">"num"</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>area_2017 <span class="ot">&lt;-</span> area <span class="sc">%&gt;%</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(TIME_PERIOD <span class="sc">==</span> <span class="dv">2017</span>,</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>         unit <span class="sc">==</span> <span class="st">"KM2"</span>,</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>         <span class="fu">nchar</span>(geo) <span class="sc">==</span> <span class="dv">4</span>,</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>         <span class="fu">substr</span>(geo,<span class="dv">1</span>,<span class="dv">2</span>) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"BE"</span>,<span class="st">"BG"</span>,<span class="st">"NL"</span>,<span class="st">"NO"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(geo) <span class="sc">%&gt;%</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">area_km2 =</span> <span class="fu">max</span>(values, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span> <span class="co"># Tar største verdi hvis duplikater finnes</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area_km2 =</span> <span class="fu">ifelse</span>(<span class="fu">is.infinite</span>(area_km2), <span class="cn">NA</span>, area_km2)) <span class="sc">%&gt;%</span>  <span class="co"># Erstatter -Inf med NA</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(area_km2))   <span class="co"># Fjerner manglende verdier</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>area_2017</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 36 × 2
+   geo   area_km2
+   &lt;chr&gt;    &lt;dbl&gt;
+ 1 BE10       162
+ 2 BE21      2876
+ 3 BE22      2428
+ 4 BE23      3008
+ 5 BE24      2119
+ 6 BE25      3167
+ 7 BE31      1097
+ 8 BE32      3814
+ 9 BE33      3858
+10 BE34      4460
+# ℹ 26 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Beregner veitetthet = motorveilengde / areal * 1000 (for å få km per 1000 km²)</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>transport_2017tetthet <span class="ot">&lt;-</span> transport_2017 <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(area_2017, <span class="at">by =</span> <span class="st">"geo"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tetthet =</span> values <span class="sc">/</span> area_km2 <span class="sc">*</span> <span class="dv">1000</span>) <span class="sc">%&gt;%</span>  <span class="co"># Veilengde ÷ areal × 1000</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(geo, tetthet)<span class="sc">%&gt;%</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.finite</span>(tetthet)) <span class="co"># Fjerner uendelige eller manglende verdier</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>transport_2017tetthet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 36 × 2
+   geo   tetthet
+   &lt;chr&gt;   &lt;dbl&gt;
+ 1 BE10     67.9
+ 2 BE21     76.5
+ 3 BE22     43.7
+ 4 BE23     65.2
+ 5 BE24     82.6
+ 6 BE25     59.0
+ 7 BE31     57.4
+ 8 BE32     74.5
+ 9 BE33     68.9
+10 BE34     34.5
+# ℹ 26 more rows</code></pre>
+</div>
+</div>
+<p>Datasettet transport (tran_r_net) er hentet fra Eurostat, og variabelen motorveinett (MWAY) ble valgt. Datasettet ble filtrert slik at det omfatter regioner på NUTS2-nivå i Belgia, Bulgaria, Nederland og Norge, og verdiene viser den totale lengden av motorveinettet (KM) i 2017. Siden denne variabelen måler absolutt lengde i kilometer, egner den seg ikke direkte til videre analyse. Derfor ble datasettet areal (reg_area3) hentet fra Eurostat, som inneholder informasjon om arealet til hver region (målt i km²). Deretter ble det filtrert slik at det kun omfatter NUTS2-regionene i Belgia, Bulgaria, Nederland og Norge, og dannet datasettet area_2017. Dette ble brukt til å beregne veitetthet (tetthet) som motorveilengde ÷ areal × 1000 (km per 1000 km²).Deretter ble datasettet transport_2017tetthet dannet, som viser veinettetets tetthet i hver region.</p>
+</section>
+<section id="population-andel-av-befolkningen-65-år-og-eldre" class="level3">
+<h3 class="anchored" data-anchor-id="population-andel-av-befolkningen-65-år-og-eldre">Population (andel av befolkningen 65 år og eldre)</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Laster ned demografidatasettet fra Eurostat</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>population <span class="ot">&lt;-</span> <span class="fu">get_eurostat</span>(<span class="st">"demo_r_pjangrp3"</span>, <span class="at">time_format =</span> <span class="st">"num"</span>) </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>population_2017_over65 <span class="ot">&lt;-</span> population <span class="sc">%&gt;%</span> </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    TIME_PERIOD <span class="sc">==</span> <span class="dv">2017</span>,            </span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    sex <span class="sc">==</span> <span class="st">"T"</span>,                      </span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nchar</span>(geo) <span class="sc">==</span> <span class="dv">4</span>,                </span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">substr</span>(geo, <span class="dv">1</span>, <span class="dv">2</span>) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"BE"</span>, <span class="st">"BG"</span>, <span class="st">"NL"</span>, <span class="st">"NO"</span>)  </span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(geo) <span class="sc">%&gt;%</span>    <span class="co"># Grupperer etter region</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop_over65 =</span> <span class="fu">sum</span>(values[age <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Y65-69"</span>,<span class="st">"Y70-74"</span>,<span class="st">"Y75-79"</span>,<span class="st">"Y80-84"</span>,<span class="st">"Y85-89"</span>,<span class="st">"Y_GE85"</span>)], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop_total =</span> <span class="fu">sum</span>(values[age <span class="sc">==</span> <span class="st">"TOTAL"</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Beregner andelen av befolkningen som 65 år og eldre (i prosent)</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">andelen_over65 =</span> pop_over65 <span class="sc">/</span> pop_total <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.finite</span>(andelen_over65)) <span class="co">#Fjerner manglende eller uendelige verdier</span></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>population_2017_over65</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 39 × 4
+   geo   pop_over65 pop_total andelen_over65
+   &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;          &lt;dbl&gt;
+ 1 BE10      173045   1199095           14.4
+ 2 BE21      381090   1838863           20.7
+ 3 BE22      182124    869664           20.9
+ 4 BE23      318912   1498483           21.3
+ 5 BE24      235760   1130644           20.9
+ 6 BE25      296196   1188407           24.9
+ 7 BE31       79882    399735           20.0
+ 8 BE32      266344   1342053           19.8
+ 9 BE33      220696   1106039           20.0
+10 BE34       51433    284617           18.1
+# ℹ 29 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Her beregnes andelen av befolkningen som er 65 år eller eldre.</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Siden befolkningsstørrelsen varierer mye mellom regionene</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># analyserer ikke antall personer direkte, men prosentandelen eldre i befolkningen.</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Dette er en sentral strukturell faktor som kan påvirke inntektsulikhet.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Datasettet population (demo_r_pjangrp3) er hentet fra Eurostat og inneholder demografisk informasjon for europeiske regioner. Datasettet ble filtrert slik at det omfatter regioner på NUTS2-nivå i Belgia, Bulgaria, Nederland og Norge i 2017, og inkluderer begge kjønn. Ettersom befolkningsstørrelsen varierer betydelig mellom regionene, analyseres ikke antall personer direkte, men prosentandelen eldre i befolkningen. Variabelen måler andelen av befolkningen som er 65 år og eldre, beregnet som antall personer over 65 år delt på totalbefolkningen i regionen, multiplisert med 100 for å få prosent. Datasettet population_2017_over65 ble dermed dannet for videre analyse.</p>
+</section>
+<section id="begrunner-valgene-mine-200400-ord" class="level3">
+<h3 class="anchored" data-anchor-id="begrunner-valgene-mine-200400-ord">Begrunner valgene mine (200–400 ord)</h3>
+<p>Jeg velger andelen personer med høyere utdanning som analysevariabel, fordi <span class="citation" data-cites="Coady2017Income">Coady and Dizioli (<a href="#ref-Coady2017Income" role="doc-biblioref">2017</a>)</span> viser studien at den positive sammenhengen mellom utdanningsulikhet og inntektsulikhet blir betydelig sterkere, og bekrefter at utvidelse av utdanning reduserer inntektsulikhet ved å redusere ulikheten i utdanning. Dermed forventes andelen personer med høyere utdanning å ha en negativ sammenheng med Gini-koeffisienten, ettersom et høyere utdanningsnivå bidrar til å utjevne inntektsforskjeller og redusere ulikheten mellom regioner. Dermed representerer andelen personer med høyere utdanning utdanningsdata for videre analyser, der det antas at denne variabelen kan påvirke regional ulikhet.</p>
+<p>Jeg velger veitetthet som analysevariabel, fordi <span class="citation" data-cites="Calderon2004Infrastructure">Calderón and Servén (<a href="#ref-Calderon2004Infrastructure" role="doc-biblioref">2004</a>)</span> viser at de to sentrale resultatene er at økonomisk vekst påvirkes positivt av beholdningen av infrastrukturaktiva, og at inntektsulikhet reduseres når mengden og kvaliteten på infrastrukturen øker. Videre viser <span class="citation" data-cites="Calderon2004Infrastructure">Calderón and Servén (<a href="#ref-Calderon2004Infrastructure" role="doc-biblioref">2004</a>)</span> også at veinettets tetthet har en tydelig negativ sammenheng med inntektsulikhet, og peker at Gini-koeffisienten er negativt korrelert med infrastrukturnivået for veier (-0,48). Dermed forventes variabelen veitetthet å ha en negativ sammenheng med Gini-koeffisienten. Dette tyder på at bedre og tettere transportinfrastruktur kan bidra til lavere regional ulikhet. Dermed representerer veitetthet transportdata for videre analyser av hvordan jeg antar at det kan påvirke regional ulikhet.</p>
+<p>Jeg velger andelen av befolkningen som er 65 år og eldre som analysevariabel, fordi <span class="citation" data-cites="dolls2019demographic">Dolls et al. (<a href="#ref-dolls2019demographic" role="doc-biblioref">2019</a>)</span> viser at demografiske endringer sannsynligvis vil føre til økende ulikhet, og at en større andel eldre i befolkningen har en tendens til å øke den samlede inntektsulikheten. Dette innebærer at en økende andel eldre kan bidra til høyere inntektsforskjeller. Dermed representerer andelen personer over 65 år populationdata for videre analyser av hvordan demografiske endringer kan påvirke regional ulikhet.</p>
+<p>Samlet sett har jeg valgt disse tre variablene, andelen personer med høyere utdanning (utdanning), veitetthet (transport) og andelen av befolkningen som er 65 år og eldre (population), for å inkluderes i en multippel lineær regresjonsmodell for å analysere hvordan disse tre faktorene kan påvirke regional ulikhet.</p>
+</section>
+</section>
+<section id="multippel-lineær-regresjonsmodell" class="level2">
+<h2 class="anchored" data-anchor-id="multippel-lineær-regresjonsmodell">Multippel lineær regresjonsmodell</h2>
+<section id="slår-sammen-datasettene" class="level3">
+<h3 class="anchored" data-anchor-id="slår-sammen-datasettene">Slår sammen datasettene</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Velger relevante variabler fra hvert datasett og slår dem sammen</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Velger endring i BNP per innbygger (%) og vektet Gini-koeffisient</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>data_2017_a <span class="ot">&lt;-</span> data_2017_a <span class="sc">%&gt;%</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(NUTS2, country, change_GDPC_pct, Gini_weighted)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Utdanningsdata (andel av befolkningen med høyere utdanning)</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>utdanning_2017_høynivå <span class="ot">&lt;-</span> utdanning_2017_høynivå <span class="sc">%&gt;%</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">NUTS2 =</span> geo, <span class="at">utdanning_hoy =</span> values) <span class="sc">%&gt;%</span> </span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(NUTS2, utdanning_hoy)</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Transportdata (veitetthet)）</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>transport_2017tetthet <span class="ot">&lt;-</span> transport_2017tetthet <span class="sc">%&gt;%</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">NUTS2 =</span> geo, <span class="at">vei_tetthet =</span> tetthet) </span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Demografidata (andel av befolkningen over 65 år)）</span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>population_2017_over65 <span class="ot">&lt;-</span> population_2017_over65 <span class="sc">%&gt;%</span></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">NUTS2 =</span> geo) <span class="sc">%&gt;%</span></span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(NUTS2, andelen_over65)</span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Slår sammen alle datasettene basert på NUTS2</span></span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>data_2017_b <span class="ot">&lt;-</span> data_2017_a <span class="sc">%&gt;%</span></span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(utdanning_2017_høynivå, <span class="at">by =</span> <span class="st">"NUTS2"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(transport_2017tetthet, <span class="at">by =</span> <span class="st">"NUTS2"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(population_2017_over65, <span class="at">by =</span> <span class="st">"NUTS2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Her velges hovedvariabler fra hvert datasett, og alle de relevante datasettene for året 2017 slås sammen på NUTS2-nivå, slik at variablene kan analyseres i ett felles datasett. Datasettet data_2017_a beholder prosentvis endringen i BNP per innbygger og den vektede Gini-koeffisienten. Videre hentes variabelen for andelen av befolkningen med høyere utdanning fra utdanningsdataene, variabelen for veitetthet fra transportdataene, og variabelen for andelen av befolkningen som er 65 år og eldre fra populationdataene. Etter at datasettene er slått sammen, dannes datasettet data_2017_b, som inneholder alle variablene som skal brukes i multippel lineær regresjonsanalyse.</p>
+</section>
+<section id="multippel-lineær-regresjonsmodell-1" class="level3">
+<h3 class="anchored" data-anchor-id="multippel-lineær-regresjonsmodell-1">Multippel lineær regresjonsmodell</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimerer en multippel lineær regresjonsmodell</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>model_multiple <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  Gini_weighted <span class="sc">~</span> change_GDPC_pct <span class="sc">+</span> utdanning_hoy <span class="sc">+</span> vei_tetthet <span class="sc">+</span> andelen_over65,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_2017_b)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_multiple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Gini_weighted ~ change_GDPC_pct + utdanning_hoy + 
+    vei_tetthet + andelen_over65, data = data_2017_b)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.056288 -0.021771 -0.008074  0.018879  0.067027 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)     -0.0141580  0.1171323  -0.121  0.90521   
+change_GDPC_pct  0.0112649  0.0055265   2.038  0.05738 . 
+utdanning_hoy    0.0043338  0.0014869   2.915  0.00966 **
+vei_tetthet     -0.0009082  0.0004069  -2.232  0.03934 * 
+andelen_over65  -0.0028665  0.0043247  -0.663  0.51634   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.03782 on 17 degrees of freedom
+  (1 observation deleted due to missingness)
+Multiple R-squared:  0.5861,    Adjusted R-squared:  0.4888 
+F-statistic: 6.019 on 4 and 17 DF,  p-value: 0.003313</code></pre>
+</div>
+</div>
+<div id="tbl-model_multiple" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-model_multiple-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6: Resultater fra multippel lineær regresjonsmodell for 2017 (NUTS2)
+</figcaption>
+<div aria-describedby="tbl-model_multiple-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(model_multiple)   <span class="co"># Koeffisienter, standardfeil og p-verdier</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 5
+  term             estimate std.error statistic p.value
+  &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)     -0.0142    0.117       -0.121 0.905  
+2 change_GDPC_pct  0.0113    0.00553      2.04  0.0574 
+3 utdanning_hoy    0.00433   0.00149      2.91  0.00966
+4 vei_tetthet     -0.000908  0.000407    -2.23  0.0393 
+5 andelen_over65  -0.00287   0.00432     -0.663 0.516  </code></pre>
+</div>
+</div>
+</figure>
+</div>
+<div id="tbl-model__multiple_stats" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-model__multiple_stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;7: Modelltilpasningsstatistikk for multippel lineær regresjonen i 2017
+</figcaption>
+<div aria-describedby="tbl-model__multiple_stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(model_multiple) <span class="co"># R², justert R² og statistikk</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 12
+  r.squared adj.r.squared  sigma statistic p.value    df logLik   AIC   BIC
+      &lt;dbl&gt;         &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     0.586         0.489 0.0378      6.02 0.00331     4   43.7 -75.3 -68.8
+# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+</div>
+</div>
+</figure>
+</div>
+</section>
+<section id="dokumenter-og-begrunner-modellspesifikasjonen-min-200400-ord" class="level3">
+<h3 class="anchored" data-anchor-id="dokumenter-og-begrunner-modellspesifikasjonen-min-200400-ord">Dokumenter og begrunner modellspesifikasjonen min (200–400 ord)</h3>
+<p>Den multippel lineære regresjonsmodellen analyserer hvordan økonomisk utvikling (endringen i BNP per innbygger), utdanning (andelen av befolkningen med høyere utdanning), transport (veitetthet ) og population (andelen av befolkningen som er 65 år og eldre) påvirker regional inntektsulikhet målt ved Gini-koeffisienten på NUTS2-nivå i 2017.</p>
+<p>Variabelen for høyere utdanning har en positiv og signifikant koeffisient, og er den mest signifikante variabelen i modellen. Dette samsvarer med <span class="citation" data-cites="Coady2017Income">Coady and Dizioli (<a href="#ref-Coady2017Income" role="doc-biblioref">2017</a>)</span>, som viser at et høyere utdanningsnivå bidrar til å redusere inntektsforskjeller.</p>
+<p>Variabelen veitetthet har en negativ estimate og en signifikant koeffisient. Dette er i tråd med teorien til <span class="citation" data-cites="Calderon2004Infrastructure">Calderón and Servén (<a href="#ref-Calderon2004Infrastructure" role="doc-biblioref">2004</a>)</span>, som viser at transportinfrastruktur fremmer økonomisk integrasjon og kan bidra til å redusere ulikhet.</p>
+<p><a href="#tbl-model_multiple" class="quarto-xref">Table&nbsp;6</a> viser at den økonomiske vekstvariabelen har en svak positiv sammenheng med ulikhet, som kan tyde på at økonomisk vekst på kort sikt ikke nødvendigvis er likt fordelt mellom regioner.</p>
+<p>Variabelen andelen av befolkningen som er 65 år og eldre er ikke signifikant, men ifølge <span class="citation" data-cites="dolls2019demographic">Dolls et al. (<a href="#ref-dolls2019demographic" role="doc-biblioref">2019</a>)</span> peker at population endringer, særlig aldring, kan bidra til økende ulikhet over tid.</p>
+<p>P-verdien på 0.003 i <a href="#tbl-model__multiple_stats" class="quarto-xref">Table&nbsp;7</a> indikerer at modellen samlet sett er statistisk signifikant. Videre <a href="#tbl-model__multiple_stats" class="quarto-xref">Table&nbsp;7</a> viser R.squared 0.59 og justert R.squared 0.49. Der betyr R.squared at de fire varibalene, økonomisk utvikling, utdanning, transport og population forklarer om lag 59 % av ulikheten mellom regionene. Mens justert R.squared 0.49, som betyr at etter justering for antall variabler, modellen forklarer omtrent 49 % av variasjonen i Gini-koeffisienten. Modellen viser moderat forklaringskraft. Dette indikerer at modellen fanger opp noen strukturelle påvirkningsfaktorer, men andre faktorer kan fortsatt bidra til regional ulikhet.</p>
+</section>
+</section>
+<section id="modelltolkning" class="level2">
+<h2 class="anchored" data-anchor-id="modelltolkning">Modelltolkning</h2>
+<section id="forklar-koeffisientene" class="level3">
+<h3 class="anchored" data-anchor-id="forklar-koeffisientene">Forklar koeffisientene</h3>
+<p>Den multiple lineære regresjonsmodellen estimerer hvordan økonomisk utvikling, utdanning, transport og population påvirker regional ulikhet på NUTS2-nivå i 2017. I den multiple lineære regresjonsmodellen er utdanning den mest signifikante variabelen, veitetthet har en moderat signifikant effekt, økonomisk utvikling er svakt signifikant, mens population ikke er signifikant.</p>
+<p>Koeffisienten for økonomisk utvikling (den prosentvise endringen av BNP per innbygger) er positiv og svakt signifikant (om lag p-verdien på 0.057). Dette innebærer at en økning på en prosent i BNP per innbygger i gjennomsnitt er assosiert med et svakt signifikant i Gini-koeffisienten, når de andre variablene holdes konstante. Dette stemmer med hypotesen i <span class="citation" data-cites="LESSMANN2017110">Lessmann and Seidel (<a href="#ref-LESSMANN2017110" role="doc-biblioref">2017</a>)</span> om en N-formet sammenheng mellom utvikling og ulikhet, raskere økonomisk vekst kan bidra til økte regionale forskjeller.</p>
+<p>Koeffisienten for utdanning (andelen av befolkningen med høyere utdanning) er positiv og statistisk signifikant på 1 %-nivået (om lag p-verdien på 0.01). Dette betyr at regioner med en høyere andel personer med høyere utdanning har lavere inntektsulikhet, alt annet likt. Dette stemmer overens med funnene fra <span class="citation" data-cites="Coady2017Income">Coady and Dizioli (<a href="#ref-Coady2017Income" role="doc-biblioref">2017</a>)</span>, som viser at høyere utdanningsnivå reduserer ulikhet.</p>
+<p>Koeffisienten for transport (veitetthet) er negativ, med en p-verdi på om lag 0.039. En økning i veinettets tetthet er assosiert med lavere Gini-koeffisient, noe som indikerer at bedre transportinfrastruktur kan redusere ulikhet. Dette stemmer overens med funnene i <span class="citation" data-cites="Calderon2004Infrastructure">Calderón and Servén (<a href="#ref-Calderon2004Infrastructure" role="doc-biblioref">2004</a>)</span>, som viser at infrastruktur av høy kvalitet bidrar til å redusere inntektsforskjeller mellom regioner.</p>
+<p>Koeffisienten for population (andelen av befolkningen som er 65 år og over) er negativ, men ikke signifikant (om lag p-verdi 0.516). Dette betyr at det ikke finnes tilstrekkelig statistisk grunnlag til å hevde at andelen eldre har en direkte effekt på ulikhet i denne modellen. <span class="citation" data-cites="dolls2019demographic">Dolls et al. (<a href="#ref-dolls2019demographic" role="doc-biblioref">2019</a>)</span> påpeker imidlertid at demografiske endringer, særlig en økende andel eldre i befolkningen, over tid kan føre til høyere inntektsulikhet.</p>
+<p>Samlet sett viser resultatene at utdanning har en sterk og signifikant positiv effekt på ulikhet, mens veitetthet har en moderat, men signifikant negativ effekt. Økonomisk vekst har en svakt signifikant positiv effekt på ulikhet, mens aldringseffekten er statistisk ubetydelig. Dette antyder at investeringer i utdanning og transportinfrastruktur kan være effektive virkemidler for å redusere regionale ulikheter.</p>
+</section>
+<section id="reflekter" class="level3">
+<h3 class="anchored" data-anchor-id="reflekter">Reflekter</h3>
+<p>Den multiple lineære regresjonsmodellen har en moderat forklaringskraft. Dette kan se fra justert R.squared på om lag 0.49. Det vil si at de fire variblene i modellen min forklarer rundt halvparten av variasjonen i regional ulikhet mellom NUTS2-regionene for de fire landene Belgia, Nederland, Bulgaria og Norge.</p>
+<p>Utdanning på høyt nivå har størst betydning for å forklare ulikhet, og viser en sterk og signifikant positiv sammenheng. Dette betyr at regioner med høyere utdanningsnivå har større inntektsulikhet. Transport (veitetthet) bidrar også signifikant, men i motsatt retning, der høyere veinettstetthet reduserer ulikhet. Økonomisk utvikling har en svak positiv effekt og viser at rask vekst ikke nødvendigvis gir jevnere fordeling mellom regioner. Population (65 år og over) har en negativ koeffisient, men er statistisk ubetydelig i modellen min. Likevel kan dette ikke si at denne faktoren ikke har noen innvirkning på ulikhet, ettersom demografiske endringer kan ha effekter som ikke fanges opp av modellen.</p>
+<p>Modellen har en tilfredsstillende, men moderat forklaringskraft og fanger opp sentrale faktorer som utdanning og transportinfrastruktur bak regional ulikhet. Selv om modellen forklarer en del av ulikheten, viser den også at forhold som ikke er inkludert i modellen, fortsatt kan ha viktige effekter. Derfor forklarer modellen ikke fullt ut variasjonen i ulikhet. For å oppnå en dypere forståelse av årsakene til ulikhet og øke modellens forklaringskraft, kreves det bredere og mer detaljerte analyser.</p>
+</section>
+</section>
+</section>
+<section id="del-c-dokumenter-din-bruk-av-ai" class="level1">
+<h1>Del C: Dokumenter din bruk av AI</h1>
+<p>I denne A2-oppgaven brukte jeg OpenAI ChatGPT (GPT-5-modellen) som et støtteverktøy i arbeidsprosessen. Verktøyet ble brukt til å rette kodefeil, oversette språk, forstå fagbegreper og faglig kunnskap, finne og oppsummere litteratur, tolke datainnhold samt forbedre struktur og språklig klarhet i teksten, og øke kvaliteten på den skriftlige framstillingen.</p>
+<p>ChatGPT hjalp meg med å hente, forstå og bearbeide ulike datasett fra Eurostat, spesielt i del B da jeg hentet nye datasett og skulle sammenstille og aggregere informasjon. Verktøyet utvidet perspektivet mitt på hvordan slike data kan struktureres og analyseres. Det hjalp meg også med å tolke hvordan variabler som veitetthet og andel personer med høyere utdanning påvirker regional ulikhet, samt med å forstå resultatene fra den multiple lineære regresjonsmodellen.</p>
+<p>I tillegg bidro KI-verktøyet til å forbedre strukturen og den norske språkføringen i rapporten, slik at teksten ble mer presis og sammenhengende. Jeg brukte en trinnvis og målrettet spørrestrategi, der jeg kombinerte norsk og kinesisk for å få tydelige og presise uttrykk. Jeg kontrollerte og redigerte alltid innholdet for å forhindre overredigering, og for å sikre at alle analyser og konklusjoner bygget på min egen forståelse og mine data.</p>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Calderon2004Infrastructure" class="csl-entry" role="listitem">
+Calderón, César, and Luis Servén. 2004. <span>“The Effects of Infrastructure Development on Growth and Income Distribution.”</span> Policy Research Working Paper 3400. Washington, D.C.: World Bank. <a href="https://hdl.handle.net/10986/14136">https://hdl.handle.net/10986/14136</a>.
+</div>
+<div id="ref-Coady2017Income" class="csl-entry" role="listitem">
+Coady, David, and Allan Dizioli. 2017. <span>“Income <span>Inequality</span> and <span>Education</span> <span>Revisited</span>: Persistence, <span>Endogeneity</span>, and <span>Heterogeneity</span>.”</span> <em>IMF Working Papers</em> 17 (126): 1. <a href="https://doi.org/10.5089/9781475595741.001">https://doi.org/10.5089/9781475595741.001</a>.
+</div>
+<div id="ref-dolls2019demographic" class="csl-entry" role="listitem">
+Dolls, Mathias, Karina Doorley, Alari Paulus, Hilmar Schneider, and Eric Sommer. 2019. <span>“Demographic Change and the European Income Distribution.”</span> <em>The Journal of Economic Inequality</em> 17 (3): 337–57.
+</div>
+<div id="ref-LESSMANN2017110" class="csl-entry" role="listitem">
+Lessmann, Christian, and André Seidel. 2017. <span>“Regional Inequality, Convergence, and Its Determinants – a View from Outer Space.”</span> <em>European Economic Review</em> 92: 110–32. https://doi.org/<a href="https://doi.org/10.1016/j.euroecorev.2016.11.009">https://doi.org/10.1016/j.euroecorev.2016.11.009</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
