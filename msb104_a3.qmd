@@ -1,0 +1,138 @@
+---
+title: "Assignment 3, MSB104-gruppe 6 2025"
+author: Karin Liang
+format:
+  html:
+    fig-cap-location: bottom
+    fig-number: true
+lang: NO_nb
+editor: visual
+bibliography: references.bib
+execute:
+  warning: false
+  message: false
+  error: false
+---
+
+# Introduksjon
+
+Denne oppgaven har som mål å utforske alternative funksjonelle former og bruke panelestimater for å analysere forholdet mellom regional utvikling og inntektsulikhet i Belgia, Bulgaria, Nederland og Norge.
+
+```{r}
+# pakker
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(broom)
+```
+
+# Del A: Testing av utviklingseffekter på tvers av delmengder
+
+## Delmengdeanalyse
+
+Resultatene fra del B i oppgave 2 viser at utdanning er den mest signifikante faktoren i den multiple lineære regresjonsmodellen. Derfor velger jeg å bruke utdanning som grunnlag for å teste delutvalg (subset) i denne analysen.
+
+### Datainnsamling
+
+```{r}
+# Laster ned utdanningsdatasettet fra Eurostat
+utdanning <- get_eurostat("edat_lfse_04", time_format = "num") 
+
+# Viser unike utdanningsnivåkoder i variabelen isced11
+unique(utdanning$isced11)
+```
+
+```{r}
+# Filtrerer utdanningsdata for 2017 og grupperer regionene etter lav, middels og høy utdanning
+utdanning_2017 <- utdanning %>%
+  filter(
+    TIME_PERIOD == 2017,
+    sex == "T",            # Begge kjønn
+    age == "Y25-64",       # Aldersgruppen 25–64 år
+    unit == "PC",          # Enhet: prosent av befolkningen
+    nchar(geo) == 4,       # Beholder kun NUTS2-nivå (fire tegn)
+    substr(geo, 1, 2) %in% c("BE","NL","BG","NO"),
+    isced11 != "ED3-8"
+  )%>%
+  mutate(edu_group = case_when(
+    isced11 == "ED0-2" ~ "Low",
+    isced11 %in% c("ED3_4", "ED3_4GEN", "ED3_4VOC") ~ "Medium",
+    isced11 == "ED5-8" ~ "High",
+    TRUE ~ NA_character_
+  )) # lager tre utdanningsnivå (lav, middels, høy)
+utdanning_2017
+```
+
+```{r}
+# Gjør utdanningsdata om til bredt format med tre kolonner for lav, middels og høy utdanning per region
+utdanning_2017_trenivå <- utdanning_2017 %>%
+  select(geo, edu_group, values) %>%
+  pivot_wider(names_from = edu_group, values_from = values) %>%
+  rename(
+    `Lav_utdanning`     = Low,
+    `Middels_utdanning` = Medium,
+    `Høy_utdanning`     = High
+  )
+utdanning_2017_trenivå
+```
+
+```{r}
+# leser excel data_2017_b som brukt i assignment 2 del b
+data_2017_b <- read_excel("/Users/liang/Desktop/msb104/msb104_a3/data_2017_b.xlsx", sheet = "data_2017_b")
+
+# Slå sammen med hoveddatasettet (NUTS2 <-> geo)
+data_2017 <- data_2017_b %>%
+  left_join(utdanning_2017_trenivå, by = c("NUTS2" = "geo"))%>%
+  select(-utdanning_hoy)
+data_2017
+```
+
+### Estimering av effekten av tre utdanningsnivåer på ulikhet
+
+```{r}
+# lav utdanning
+model_lav  <- lm(Gini_weighted ~ change_GDPC_pct + vei_tetthet + andelen_over65 + Lav_utdanning, data = data_2017)
+summary(model_lav)
+```
+
+```{r}
+# middels utdanning
+model_middels  <- lm(Gini_weighted ~ change_GDPC_pct + vei_tetthet + andelen_over65 + Middels_utdanning, data = data_2017)
+summary(model_middels)
+```
+
+```{r}
+# høy utdanning
+model_hoy  <- lm(Gini_weighted ~ change_GDPC_pct + vei_tetthet + andelen_over65 + Høy_utdanning, data = data_2017)
+summary(model_hoy)
+```
+
+## Diskusjon om delmengdeanalyse: (200–400 ord)
+
+Når de andre tre variablene holdes konstante, viser resultatene at ulike utdanningsnivåer som lavt, middels og høyt påvirker inntektsulikheten på forskjellige måter.
+
+I regioner med lav utdanning er utviklingseffekten (change_GDPC_pct) positiv, men ikke signifikant (omtrent estimate 0.003 og p 0.567), noe som tyder på at økonomisk vekst alene ikke reduserer ulikheten. Lav utdanning har en negativ og signifikant effekt (omtrent estimate −0.0046 og p 0.046), som betyr at økt utdanningsnivå i lavt utdannede regioner bidrar til å redusere forskjeller. Her spiller utdanning en sterkere rolle enn både økonomisk utvikling og infrastruktur.
+
+I regioner med middels utdanning er utviklingseffekten svak positiv (omtrent p 0.098), mens middels utdanning har en negativ, men ikke signifikant effekt (p 0.124). Veitetthet viser derimot en tydelig negativ og signifikant effekt (p = 0.043). Dette indikerer at infrastruktur har større forklaringskraft enn utdanning i disse områdene, og at bedre tilkobling mellom regioner kan bidra mer effektivt til å redusere inntektsulikhet enn økt utdanningsnivå.
+
+I regioner med høy utdanning er både økonomisk utvikling (p = 0.057) og høy utdanning (p = 0.0097) positivt og signifikant knyttet til ulikhet. Veitetthet har derimot en negativ og signifikant effekt (estimate −0.0009, p 0.039), noe som tyder på at bedre infrastruktur kan bidra til å dempe forskjeller som ellers øker med økonomisk vekst og høyt utdanningsnivå. Dette antyder at når utdanningsnivået allerede er høyt, fører videre vekst og utdanning til at inntektsforskjellene øker, sannsynligvis fordi gevinsten av utviklingen tilfaller de mest kvalifiserte gruppene.
+
+Samlet viser analysen at utdanning reduserer ulikhet i lavt utdannede regioner, men kan forsterke forskjeller i høyt utdannede regioner, mens infrastruktur spiller størst rolle for å utjevne ulikhet i mellomgruppen.
+
+# Del B: Utforsking av alternative funksjonsformer
+
+## Utforsk alternative funksjonsformer
+
+```{r}
+# logaritmiske, kvadratiske, kubiske
+
+
+
+
+
+
+```
+
+## Estimering og visualisering
+
+## Tolkning av resultater
