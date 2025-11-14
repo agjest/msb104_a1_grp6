@@ -1,0 +1,290 @@
+---
+title: "Assignment 3, MSB104-gruppe 6 2025"
+author: Karin Liang
+format:
+  html:
+    fig-cap-location: bottom
+    fig-number: true
+lang: NO_nb
+editor: visual
+bibliography: references.bib
+execute:
+  warning: false
+  message: false
+  error: false
+---
+
+# Introduksjon
+
+Denne oppgaven har som mål å utforske alternative funksjonelle former og bruke panelestimater for å analysere forholdet mellom regional utvikling og inntektsulikhet i Belgia, Bulgaria, Nederland og Norge.
+
+```{r}
+# Pakker
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(broom)
+library(eurostat)
+library(readxl) 
+library(lmtest)     # For bptest og coeftest
+library(car)        # For ncvTest (score-test)
+library(tibble)     # For å lage tabeller
+library(fixest)
+
+
+#install pakker om ikke har hatt
+#install.packages("eurostat")
+#install.packages("readxl") 
+#install.packages("fixest")    
+```
+
+# Del A: Testing av utviklingseffekter på tvers av delmengder
+
+## Delmengdeanalyse
+
+Resultatene fra del B i oppgave 2 viser at utdanning er den mest signifikante faktoren i den multiple lineære regresjonsmodellen. Derfor velger jeg å bruke utdanning som grunnlag for å teste delutvalg (subset) i denne analysen.
+
+### Datainnsamling
+
+```{r}
+# Laster ned utdanningsdatasettet fra Eurostat
+utdanning <- get_eurostat("edat_lfse_04", time_format = "num") 
+
+# Viser unike utdanningsnivåkoder i variabelen isced11
+unique(utdanning$isced11)
+```
+
+```{r}
+# Filtrerer utdanningsdata for 2017 og grupperer regionene etter lav, middels og høy utdanning
+utdanning_2017 <- utdanning %>%
+  filter(
+    TIME_PERIOD == 2017,
+    sex == "T",            # Begge kjønn
+    age == "Y25-64",       # Aldersgruppen 25–64 år
+    unit == "PC",          # Enhet: prosent av befolkningen
+    nchar(geo) == 4,       # Beholder kun NUTS2-nivå (fire tegn)
+    substr(geo, 1, 2) %in% c("BE","NL","BG","NO"),
+    isced11 != "ED3-8"
+  )%>%
+  mutate(edu_group = case_when(
+    isced11 == "ED0-2" ~ "Low",
+    isced11 %in% c("ED3_4", "ED3_4GEN", "ED3_4VOC") ~ "Medium",
+    isced11 == "ED5-8" ~ "High",
+    TRUE ~ NA_character_
+  )) # lager tre utdanningsnivå (lav, middels, høy)
+utdanning_2017
+```
+
+```{r}
+# Gjør utdanningsdata om til bredt format med tre kolonner for lav, middels og høy utdanning per region
+utdanning_2017_trenivå <- utdanning_2017 %>%
+  select(geo, edu_group, values) %>%
+  pivot_wider(names_from = edu_group, values_from = values) %>%
+  rename(
+    `Lav_utdanning`     = Low,
+    `Middels_utdanning` = Medium,
+    `Høy_utdanning`     = High
+  )
+utdanning_2017_trenivå
+```
+
+```{r}
+# leser excel data_2017_b som brukt i assignment 2 del b
+data_2017_b <- read_excel("/Users/liang/Desktop/msb104/msb104_a3/data_2017_b.xlsx", sheet = "data_2017_b")
+
+# Slå sammen med hoveddatasettet (NUTS2 <-> geo)
+data_2017 <- data_2017_b %>%
+  left_join(utdanning_2017_trenivå, by = c("NUTS2" = "geo"))%>%
+  select(-utdanning_hoy)
+data_2017
+```
+
+### Estimering av effekten av tre utdanningsnivåer på ulikhet
+
+```{r}
+# lav utdanning
+model_lav  <- lm(Gini_weighted ~ change_GDPC_pct + vei_tetthet + andelen_over65 + Lav_utdanning, data = data_2017)
+summary(model_lav)
+```
+
+```{r}
+# middels utdanning
+model_middels  <- lm(Gini_weighted ~ change_GDPC_pct + vei_tetthet + andelen_over65 + Middels_utdanning, data = data_2017)
+summary(model_middels)
+```
+
+```{r}
+# høy utdanning
+model_hoy  <- lm(Gini_weighted ~ change_GDPC_pct + vei_tetthet + andelen_over65 + Høy_utdanning, data = data_2017)
+summary(model_hoy)
+```
+
+## Diskusjon om delmengdeanalyse: (200–400 ord)
+
+Når de andre tre variablene holdes konstante, viser resultatene at ulike utdanningsnivåer som lavt, middels og høyt påvirker inntektsulikheten på forskjellige måter.
+
+I regioner med lav utdanning er utviklingseffekten (change_GDPC_pct) positiv, men ikke signifikant (omtrent estimate 0.003 og p 0.567), noe som tyder på at økonomisk vekst alene ikke reduserer ulikheten. Lav utdanning har en negativ og signifikant effekt (omtrent estimate −0.0046 og p 0.046), som betyr at økt utdanningsnivå i lavt utdannede regioner bidrar til å redusere forskjeller. Her spiller utdanning en sterkere rolle enn både økonomisk utvikling og infrastruktur.
+
+I regioner med middels utdanning er utviklingseffekten svak positiv (omtrent p 0.098), mens middels utdanning har en negativ, men ikke signifikant effekt (p 0.124). Veitetthet viser derimot en tydelig negativ og signifikant effekt (p = 0.043). Dette indikerer at infrastruktur har større forklaringskraft enn utdanning i disse områdene, og at bedre tilkobling mellom regioner kan bidra mer effektivt til å redusere inntektsulikhet enn økt utdanningsnivå.
+
+I regioner med høy utdanning er både økonomisk utvikling (p = 0.057) og høy utdanning (p = 0.0097) positivt og signifikant knyttet til ulikhet. Veitetthet har derimot en negativ og signifikant effekt (estimate −0.0009, p 0.039), noe som tyder på at bedre infrastruktur kan bidra til å dempe forskjeller som ellers øker med økonomisk vekst og høyt utdanningsnivå. Dette antyder at når utdanningsnivået allerede er høyt, fører videre vekst og utdanning til at inntektsforskjellene øker, sannsynligvis fordi gevinsten av utviklingen tilfaller de mest kvalifiserte gruppene.
+
+Samlet viser analysen at utdanning reduserer ulikhet i lavt utdannede regioner, men kan forsterke forskjeller i høyt utdannede regioner, mens infrastruktur spiller størst rolle for å utjevne ulikhet i mellomgruppen.
+
+# Del B: Utforsking av alternative funksjonsformer
+
+## Utforsk alternative funksjonsformer
+
+```{r}
+# Log-lineær modell
+model_log <- lm(Gini_weighted ~ log(change_GDPC_pct + 1) + vei_tetthet + andelen_over65 + `Høy_utdanning`, data = data_2017)
+summary(model_log)
+```
+
+```{r}
+# Kvadratisk modell
+model_kvad <- lm(Gini_weighted ~ change_GDPC_pct + I(change_GDPC_pct^2) + vei_tetthet + andelen_over65 + `Høy_utdanning`, data = data_2017)
+summary(model_kvad)
+```
+
+```{r}
+# Kubisk modell
+model_kub <- lm(Gini_weighted ~ change_GDPC_pct + I(change_GDPC_pct^2) + I(change_GDPC_pct^3) + vei_tetthet + andelen_over65 + `Høy_utdanning`, data = data_2017)
+summary(model_kub)
+```
+
+```{r}
+# Sammenligning av hvor godt de tre modellene passer
+data.frame(
+  Modell = c("Log-lineær", "Kvadratisk", "Kubisk"),
+  R2 = c(summary(model_log)$adj.r.squared,
+         summary(model_kvad)$adj.r.squared,
+         summary(model_kub)$adj.r.squared),
+  AIC = c(AIC(model_log),
+          AIC(model_kvad),
+          AIC(model_kub)))
+```
+
+### Begrunn valgene mine
+
+Blant de tre funksjonelle formene gir både den log-lineære og den kvadratiske modellen en bedre tilpasning enn den lineære. Den log-lineære modellen har lavest AIC (−76.77), mens den kvadratiske har høyest justert R² (0.528). Jo høyere R2, desto bedre; jo lavere aic, desto bedre. Begge modellene gir dermed en bedre empirisk forklaring på sammenhengen mellom økonomisk utvikling og ulikhet, noe som også støttes teoretisk av Kuznets-hypotesen @kuznets2019economic, der ulikheten først øker og deretter reduseres med økonomisk vekst.
+
+Resultatene støttes av artikkelen @LESSMANN2017110, som finner en ikke-lineær sammenheng mellom økonomisk utvikling og regional ulikhet. De viser at ulikheten først øker og deretter reduseres etter hvert som økonomien utvikler seg, noe som tilsvarer den klassiske Kuznets-kurven @kuznets2019economic.
+
+## Estimering og visualisering
+
+```{r}
+# Lager et nytt datasett for visualisering av modellene
+visualisering_data <- data.frame(
+  change_GDPC_pct = seq(min(data_2017$change_GDPC_pct, na.rm = TRUE),
+                        max(data_2017$change_GDPC_pct, na.rm = TRUE),
+                        length.out = 100), # Oppretter 100 jevnt fordelte verdier for økonomisk vekst (change_GDPC_pct)
+  vei_tetthet = mean(data_2017$vei_tetthet, na.rm = TRUE),
+  andelen_over65 = mean(data_2017$andelen_over65, na.rm = TRUE),
+  Høy_utdanning = mean(data_2017$`Høy_utdanning`, na.rm = TRUE)) # Holder de andre forklaringsvariablene konstante ved å bruke gjennomsnittsverdier
+
+# Beregner predikerte Gini-verdier fra den log-lineære modellen
+visualisering_data$pred_log  <- predict(model_log,  newdata = visualisering_data)
+# Beregner predikerte Gini-verdier fra den kvadratiske modellen
+visualisering_data$pred_kvad <- predict(model_kvad, newdata = visualisering_data)
+
+```
+
+```{r}
+# Visualisering
+# ved å sammenligne den log-lineære og den kvadratiske modellen
+visualisering <- data_2017 %>% 
+  ggplot(aes(x = change_GDPC_pct, y = Gini_weighted)) +
+  geom_point(alpha = 0.6, color = "grey40") +
+  geom_line(data = visualisering_data, aes(y = pred_log, color = "Log-lineær modell"), size = 1.2) +
+  geom_line(data = visualisering_data, aes(y = pred_kvad, color = "Kvadratisk modell"), size = 1.2, linetype = "dashed") +
+  scale_color_manual(values = c("Log-lineær modell" = "blue", "Kvadratisk modell" = "red")) +
+  labs(
+    title = "Sammenheng mellom økonomisk utvikling og inntektsulikhet",
+    subtitle = "Sammenligning av log-lineær og kvadratisk modell",
+    x = "Endring i BNP per innbygger (%)",
+    y = "Gini-koeffisient",
+    color = "Modell"
+  ) +
+  theme_minimal(base_size = 13)  +
+  theme(
+    legend.text = element_text(size = 5),   
+    legend.title = element_text(size = 6)  
+  )
+
+visualisering
+```
+ 
+
+## Tolkning av resultater (opp til 400 ord)
+
+ 
+
+# Del C: Heteroskedastisitetstesting og kausalitetsdiskusjon
+
+## Heteroskedastisitetstesting
+
+```{r}
+# Breusch–Pagan-test
+bp_log  <- bptest(model_log)
+bp_kvad <- bptest(model_kvad)
+bp_kub  <- bptest(model_kub)
+
+# White-test (BP på predikerte verdier og deres kvadrat)
+wt_log  <- bptest(model_log,  ~ fitted(model_log)  + I(fitted(model_log)^2))
+wt_kvad <- bptest(model_kvad, ~ fitted(model_kvad) + I(fitted(model_kvad)^2))
+wt_kub  <- bptest(model_kub,  ~ fitted(model_kub)  + I(fitted(model_kub)^2))
+
+# Score-test (car::ncvTest)
+sc_log  <- ncvTest(model_log)
+sc_kvad <- ncvTest(model_kvad)
+sc_kub  <- ncvTest(model_kub)
+```
+
+```{r}
+#| label: tbl-heteroskedastisitet
+#| tbl-cap: "Resultater fra Breusch–Pagan-, White- og Score-testene for de tre modellene"
+# Samler testresultatene i en tabell
+hetero_test <- tibble(
+  Modell  = c("Log-lineær", "Kvadratisk", "Kubisk"),
+  BP_p    = c(bp_log$p.value,  bp_kvad$p.value,  bp_kub$p.value),
+  White_p = c(wt_log$p.value,  wt_kvad$p.value,  wt_kub$p.value),
+  Score_p = c(sc_log$p,        sc_kvad$p,        sc_kub$p)
+)
+hetero_test
+```
+
+### Tolk og diskuter resultatene og implikasjonene (opptil 200 ord).
+
+ 
+
+## Kausalitetsdiskusjon (200–400 ord)
+
+
+
+
+
+
+# Del D: Panelestimater
+
+## Panelestimeringsoppgave
+
+```{r}
+
+
+```
+
+##Panelestimeringsanalyse: (opptil 400 ord)
+
+
+
+
+##Panelestimeringsdiskusjon: (opptil 400 ord)
+
+
+
+
+# Del E
+
+
+
