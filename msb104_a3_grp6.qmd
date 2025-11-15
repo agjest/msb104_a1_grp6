@@ -32,13 +32,15 @@ library(car)        # For ncvTest (score-test)
 library(tibble)     # For å lage tabeller
 library(fixest)
 library(plm)
+library(modelsummary)
 
 
 #install pakker om ikke har hatt
 #install.packages("plm")
 #install.packages("eurostat")
 #install.packages("readxl") 
-#install.packages("fixest")    
+#install.packages("fixest")
+#install.packages("modelsummary")
 ```
 
 # Del A: Testing av utviklingseffekter på tvers av delmengder
@@ -53,11 +55,6 @@ Resultatene fra del B i oppgave 2 viser at utdanning er den mest signifikante fa
 # Laster ned utdanningsdatasettet fra Eurostat
 utdanning <- get_eurostat("edat_lfse_04", time_format = "num") 
 
-# Viser unike utdanningsnivåkoder i variabelen isced11
-unique(utdanning$isced11)
-```
-
-```{r}
 # Filtrerer utdanningsdata for 2017 og grupperer regionene etter lav, middels og høy utdanning
 utdanning_2017 <- utdanning %>%
   filter(
@@ -76,9 +73,7 @@ utdanning_2017 <- utdanning %>%
     TRUE ~ NA_character_
   )) # lager tre utdanningsnivå (lav, middels, høy)
 utdanning_2017
-```
 
-```{r}
 # Gjør utdanningsdata om til bredt format med tre kolonner for lav, middels og høy utdanning per region
 utdanning_2017_trenivå <- utdanning_2017 %>%
   select(geo, edu_group, values) %>%
@@ -105,26 +100,42 @@ data_2017
 ### Estimering av effekten av tre utdanningsnivåer på ulikhet
 
 ```{r}
-# lav utdanning
+# Low education subset
 model_lav  <- lm(Gini_weighted ~ change_GDPC_pct + vei_tetthet + andelen_over65 + Lav_utdanning, data = data_2017)
 summary(model_lav)
 ```
 
 ```{r}
-# middels utdanning
+# Medium education subset
 model_middels  <- lm(Gini_weighted ~ change_GDPC_pct + vei_tetthet + andelen_over65 + Middels_utdanning, data = data_2017)
 summary(model_middels)
 ```
 
 ```{r}
-# høy utdanning
+# High education subset
 model_hoy  <- lm(Gini_weighted ~ change_GDPC_pct + vei_tetthet + andelen_over65 + Høy_utdanning, data = data_2017)
 summary(model_hoy)
 ```
 
+```{r}
+#| label: tbl-subset
+#| tbl-cap: "Resultater av delmengderegresjon på tvers av utdanningsgrupper"
+modelsummary(
+  list(
+    "Low education regions"    = model_lav,
+    "Medium education regions" = model_middels,
+    "High education regions"   = model_hoy
+  ),
+  stars = TRUE,
+  statistic = "({statistic})",
+  fmt = 5   # Behold 5 desimaler 
+  )
+```
+
+
 ## Diskusjon om delmengdeanalyse: (200–400 ord)
 
-Når de andre tre variablene holdes konstante, viser resultatene at ulike utdanningsnivåer som lavt, middels og høyt påvirker inntektsulikheten på forskjellige måter.
+Som vist i tabell @tbl-subset undersøker delmengdeanalysen om sammenhengen mellom regional økonomisk utvikling og inntektsulikhet varierer på tvers av regioner med ulike utdanningsprofiler. Når de andre tre variablene holdes konstante, viser resultatene at ulike utdanningsnivåer som lavt, middels og høyt påvirker inntektsulikheten på forskjellige måter.
 
 I regioner med lav utdanning er utviklingseffekten (change_GDPC_pct) positiv, men ikke signifikant (omtrent estimate 0.003 og p 0.567), noe som tyder på at økonomisk vekst alene ikke reduserer ulikheten. Lav utdanning har en negativ og signifikant effekt (omtrent estimate −0.0046 og p 0.046), som betyr at økt utdanningsnivå i lavt utdannede regioner bidrar til å redusere forskjeller. Her spiller utdanning en sterkere rolle enn både økonomisk utvikling og infrastruktur.
 
@@ -132,7 +143,7 @@ I regioner med middels utdanning er utviklingseffekten svak positiv (omtrent p 0
 
 I regioner med høy utdanning er både økonomisk utvikling (p = 0.057) og høy utdanning (p = 0.0097) positivt og signifikant knyttet til ulikhet. Veitetthet har derimot en negativ og signifikant effekt (estimate −0.0009, p 0.039), noe som tyder på at bedre infrastruktur kan bidra til å dempe forskjeller som ellers øker med økonomisk vekst og høyt utdanningsnivå. Dette antyder at når utdanningsnivået allerede er høyt, fører videre vekst og utdanning til at inntektsforskjellene øker, sannsynligvis fordi gevinsten av utviklingen tilfaller de mest kvalifiserte gruppene.
 
-Samlet viser analysen at utdanning reduserer ulikhet i lavt utdannede regioner, men kan forsterke forskjeller i høyt utdannede regioner, mens infrastruktur spiller størst rolle for å utjevne ulikhet i mellomgruppen.
+Samlet viser analysen at utdanning reduserer ulikhet i lavt utdannede regioner, men kan forsterke forskjeller i høyt utdannede regioner, mens infrastruktur fremstår som en mer stabil og gjennomgående utjevnende faktor.
 
 # Del B: Utforsking av alternative funksjonsformer
 
@@ -157,20 +168,23 @@ summary(model_kub)
 ```
 
 ```{r}
-# Sammenligning av hvor godt de tre modellene passer
-data.frame(
-  Modell = c("Log-lineær", "Kvadratisk", "Kubisk"),
-  R2 = c(summary(model_log)$adj.r.squared,
-         summary(model_kvad)$adj.r.squared,
-         summary(model_kub)$adj.r.squared),
-  AIC = c(AIC(model_log),
-          AIC(model_kvad),
-          AIC(model_kub)))
+#| label: tbl-funksjonsformer
+#| tbl-cap: "logaritmiske, kvadratiske, kubiske"
+modelsummary(
+  list(
+    "Log-lineær modell" = model_log,
+    "Kvadratisk modell" = model_kvad,
+    "Kubisk modell"     = model_kub
+  ),
+  stars = TRUE,
+  statistic = "({statistic})",   # viser t-verdier i parentes
+  fmt = 5                        # # beholder 5 desimaler
+)
 ```
 
 ### Begrunn valgene mine
 
-Blant de tre funksjonelle formene gir både den log-lineære og den kvadratiske modellen en bedre tilpasning enn den lineære. Den log-lineære modellen har lavest AIC (−76.77), mens den kvadratiske har høyest justert R² (0.528). Jo høyere R2, desto bedre; jo lavere aic, desto bedre. Begge modellene gir dermed en bedre empirisk forklaring på sammenhengen mellom økonomisk utvikling og ulikhet, noe som også støttes teoretisk av Kuznets-hypotesen @kuznets2019economic, der ulikheten først øker og deretter reduseres med økonomisk vekst.
+Blant de tre funksjonelle formene gir både den log-lineære og den kvadratiske modellen en bedre tilpasning enn den lineære modellen. Den log-lineære modellen har lavest AIC (−76.77), mens den kvadratiske har høyest justert R² (0.528), slik resultatene i tabell @tbl-funksjonsformer viser. Jo høyere R², desto bedre; jo lavere AIC, desto bedre. Begge modellene gir dermed en bedre empirisk forklaring på sammenhengen mellom økonomisk utvikling og ulikhet, noe som også støttes teoretisk av Kuznets-hypotesen @kuznets2019economic, der ulikheten først øker og deretter reduseres med økonomisk utvikling.
 
 Resultatene støttes av artikkelen @LESSMANN2017110, som finner en ikke-lineær sammenheng mellom økonomisk utvikling og regional ulikhet. De viser at ulikheten først øker og deretter reduseres etter hvert som økonomien utvikler seg, noe som tilsvarer den klassiske Kuznets-kurven @kuznets2019economic.
 
@@ -194,8 +208,9 @@ visualisering_data$pred_kvad <- predict(model_kvad, newdata = visualisering_data
 ```
 
 ```{r}
-# Visualisering
-# ved å sammenligne den log-lineære og den kvadratiske modellen
+#| label: fig-log-kvadratisk
+#| fig-cap: "Visualisering av log-lineær og kvadratisk modell for sammenhengen mellom økonomisk utvikling og inntektsulikhet"
+
 visualisering <- data_2017 %>% 
   ggplot(aes(x = change_GDPC_pct, y = Gini_weighted)) +
   geom_point(alpha = 0.6, color = "grey40") +
@@ -214,15 +229,14 @@ visualisering <- data_2017 %>%
     legend.text = element_text(size = 5),   
     legend.title = element_text(size = 6)  
   )
-
 visualisering
 ```
 
-Figuren viser sammenhengen mellom økonomisk utvikling og inntektsulikhet, der x-aksen viser endringen i BNP per innbygger (%) og y-aksen viser Gini-koeffisienten. Den log-lineære modellen (blå linje) viser en jevn og gradvis økning i ulikhet når BNP-veksten stiger. Den kvadratiske modellen (rød stiplet linje) har en tydelig buet form der ulikheten først øker og deretter flater ut eller synker svakt ved høyere vekstnivåer.
+@fig-log-kvadratisk viser sammenhengen mellom økonomisk utvikling og inntektsulikhet, der x-aksen viser endringen i BNP per innbygger (%) og y-aksen viser Gini-koeffisienten. Den log-lineære modellen (blå linje) viser en jevn og gradvis økning i ulikhet når BNP-veksten stiger. Den kvadratiske modellen (rød stiplet linje) har en tydelig buet form der ulikheten først øker og deretter flater ut eller synker svakt ved høyere vekstnivåer.
 
 ## Tolkning av resultater (opp til 400 ord)
 
-Resultatene fra de tre alternative funksjonsformene viser at den log-lineære og den kvadratiske modellen er mer overbevisende enn den kubiske modellen. Den log-lineære modellen har den laveste AIC-verdien (–76.77), mens den kvadratiske modellen har den høyeste justerte R² (0.528).
+Resultatene fra @tbl-funksjonsformer viser at den log-lineære og den kvadratiske modellen er mer overbevisende enn den kubiske modellen. Den log-lineære modellen har den laveste AIC-verdien (–76.77), mens den kvadratiske modellen har den høyeste justerte R² (0.528).
 
 I den log-lineære modellen er koeffisienten til log(change_GDPC_pct + 1) positiv og signifikant (Estimate = 0.0827, p = 0.030). Dette innebærer at inntektsulikheten øker når BNP-veksten stiger, men at effekten avtar ved høyere vekstnivåer. 
 
