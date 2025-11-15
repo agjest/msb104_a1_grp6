@@ -21,6 +21,7 @@ Denne oppgaven har som mål å utforske alternative funksjonelle former og bruke
 ```{r}
 # Pakker
 library(dplyr)
+library(dineq)
 library(tidyr)
 library(ggplot2)
 library(broom)
@@ -30,9 +31,11 @@ library(lmtest)     # For bptest og coeftest
 library(car)        # For ncvTest (score-test)
 library(tibble)     # For å lage tabeller
 library(fixest)
+library(plm)
 
 
 #install pakker om ikke har hatt
+#install.packages("plm")
 #install.packages("eurostat")
 #install.packages("readxl") 
 #install.packages("fixest")    
@@ -214,11 +217,20 @@ visualisering <- data_2017 %>%
 
 visualisering
 ```
- 
+
+Figuren viser sammenhengen mellom økonomisk utvikling og inntektsulikhet, der x-aksen viser endringen i BNP per innbygger (%) og y-aksen viser Gini-koeffisienten. Den log-lineære modellen (blå linje) viser en jevn og gradvis økning i ulikhet når BNP-veksten stiger. Den kvadratiske modellen (rød stiplet linje) har en tydelig buet form der ulikheten først øker og deretter flater ut eller synker svakt ved høyere vekstnivåer.
 
 ## Tolkning av resultater (opp til 400 ord)
 
- 
+Resultatene fra de tre alternative funksjonsformene viser at den log-lineære og den kvadratiske modellen er mer overbevisende enn den kubiske modellen. Den log-lineære modellen har den laveste AIC-verdien (–76.77), mens den kvadratiske modellen har den høyeste justerte R² (0.528).
+
+I den log-lineære modellen er koeffisienten til log(change_GDPC_pct + 1) positiv og signifikant (Estimate = 0.0827, p = 0.030). Dette innebærer at inntektsulikheten øker når BNP-veksten stiger, men at effekten avtar ved høyere vekstnivåer. 
+
+Den kvadratiske modellen viser også en ikke-lineær sammenheng. Førsteordensleddet er positivt og signifikant (Estimate = 0.03697, p = 0.049), mens andreordensleddet er negativt (Estimate = –0.0019996, p = 0.140). Selv om det sistnevnte ikke er signifikant, antyder retningen at økningen i ulikhet avtar ved høyere vekstnivåer. Dette kan tolkes som en svak Kuznets-lignende kurve @kuznets2019economic, der ulikheten først øker og senere flater ut.
+
+Den kubiske modellen gir derimot ingen forbedring. R² og AIC er svakere enn i de to andre modellene, og modellen tilfører dermed ikke ytterligere innsikt. 
+
+Samlet sett peker resultatene mot en ikke-lineær utvikling der økonomisk vekst øker inntektsulikheten, men hvor effekten gradvis svekkes. Dette samsvarer med litteratur som fremhever ikke-lineære utviklingsbaner, slik som @kuznets2019economic og @LESSMANN2017110. Den log-lineære og den kvadratiske modellen fanger dette mønsteret best.
 
 # Del C: Heteroskedastisitetstesting og kausalitetsdiskusjon
 
@@ -256,13 +268,21 @@ hetero_test
 
 ### Tolk og diskuter resultatene og implikasjonene (opptil 200 ord).
 
- 
+Resultatene fra @tbl-heteroskedastisitet viser at Breusch–Pagan-, White- og Score-testene ikke finner noen tegn til heteroskedastisitet i noen av modellene. For den log-lineære modellen er p-verdiene 0.456 (BP), 0.185 (White) og 0.205 (Score). Den kvadratiske modellen har tilsvarende høye p-verdier (0.467, 0.189 og 0.282), og selv for den kubiske modellen ligger alle p-verdiene godt over 0.05 (0.450, 0.096 og 0.166). Siden alle testene gir p-verdier over 0.05, kan ikke nullhypotesen om homoskedastisitet forkastes. Dette betyr at variansen i residualene er stabil, og at modellen ikke lider av heteroskedastisitet. Det er derfor ikke behov for å benytte robuste standardfeil, ettersom heteroskedastisitet ikke utgjør et problem i disse modellene.
 
 ## Kausalitetsdiskusjon (200–400 ord)
 
+Selv om denne studien viser en statistisk sammenheng mellom økonomisk utvikling og inntektsulikhet, der utdanning, transport og demografi inngår som forklaringsvariabler, kan resultatene ikke tolkes som kausale.
 
+Det finnes flere grunner til dette. For det første kan det være omvendt kausalitet. Økonomisk vekst kan påvirke ulikhet, men ulikhet kan også påvirke vekst. For eksempel kan regioner med høy ulikhet ha lavere investeringer i utdanning, dårligere transportforhold og en skjev befolkningssammensetning, noe som kan redusere økonomisk utvikling. I dette tilfellet viser modellen en toveis sammenheng snarere enn en klar årsakssammenheng.
+ 
+For det andre kan modellen mangle viktige variabler. Selv om analysen inkluderer utdanning, veitetthet og andelen eldre, noe som gir modellen en viss forklaringskraft, mangler det fortsatt flere andre sentrale faktorer som blant annet institusjonskvalitet, arbeidsmarkedsforhold eller fordeling av kapital. Dersom slike faktorer påvirker både økonomisk vekst og ulikhet, kan resultatene bli skjeve på grunn av utelatte variabler.
 
+Et annet problem er samtidig påvirkning. Økonomisk vekst og inntektsulikhet kan påvirke hverandre i samme periode, og ikke bare i én retning. Når begge variablene endrer seg samtidig og påvirker hverandre, blir det vanskelig å skille hva som er årsak og hva som er virkning.
 
+For å identifisere kausale sammenhenger bedre, trengs mer presise analyser som kan kontrollere for regionale forhold som ikke endrer seg over tid, og dermed redusere problemet med utelatte variabler. Det er også mulig å bruke instrumentvariabler eller tidsforsinkede variabler for å redusere omvendt kausalitet og samtidig påvirkning. Flere kontrollvariabler eller lengre tidsserier kan i tillegg gjøre kausalanalysen mer pålitelig.
+
+Oppsummert viser analysen bare at det finnes en sammenheng mellom variablene, men ikke hva som er årsaken. For å si noe mer sikkert om årsakssammenhenger, trengs det mer grundige analyser som kan håndtere at viktige forhold kan mangle i modellen, eller at variablene kan påvirke hverandre.
 
 
 # Del D: Panelestimater
@@ -270,16 +290,195 @@ hetero_test
 ## Panelestimeringsoppgave
 
 ```{r}
+# Laster ned og filtrerer datasett for perioden 2008–2022
+
+# Nedlasting av BNP 2008–2022
+gdp_panel <- get_eurostat("nama_10r_3gdp", time_format="num") %>%
+  filter(
+    unit == "MIO_EUR",
+    TIME_PERIOD %in% 2008:2022,
+    nchar(geo) == 5,
+    substr(geo,1,2) %in% c("BE","NL","BG","NO")
+  ) %>%
+  select(geo, TIME_PERIOD, values_gdp = values)
+
+# Nedlasting av befolkning 2008–2022
+pop_panel <- get_eurostat("demo_r_pjanaggr3", time_format="num") %>%
+  filter(
+    sex == "T",
+    age == "TOTAL",
+    TIME_PERIOD %in% 2008:2022,
+    nchar(geo) == 5,
+    substr(geo,1,2) %in% c("BE","NL","BG","NO")
+  ) %>%
+  select(geo, TIME_PERIOD, values_pop = values)
+
+# Slå sammen
+gdp_pop_panel <- gdp_panel %>%
+  left_join(pop_panel, by = c("geo", "TIME_PERIOD")) %>%
+  mutate(
+    NUTS2 = substr(geo, 1, 4),
+    GDPC  = values_gdp * 1e6 / values_pop
+  ) %>%
+  filter(values_pop > 0, is.finite(GDPC)) %>%
+  # beregnes årlig vekstrate i GDPC på NUTS2-nivå
+  group_by(NUTS2) %>%
+  arrange(TIME_PERIOD, .by_group = TRUE) %>%
+  mutate(change_GDPC_pct = (GDPC / lag(GDPC) - 1) * 100) %>%
+  ungroup() %>%
+  # beregnes Gini på (NUTS2, TIME_PERIOD)-nivå, og oppsummeres direkte
+  group_by(NUTS2, TIME_PERIOD) %>%
+  mutate(
+    Gini_weighted = if (n() >= 2)
+      as.numeric(gini.wtd(GDPC, weights = values_pop))
+    else
+      NA_real_
+  ) %>%
+  summarise(
+    GDPC           = sum(values_gdp * 1e6) / sum(values_pop),  # Befolkningsvektet GDPC for NUTS2
+    change_GDPC_pct = mean(change_GDPC_pct, na.rm = TRUE),      # Skal være identisk innen samme NUTS2-år
+    Gini_weighted   = mean(Gini_weighted, na.rm = TRUE),        # Beholder NA, filtrerer ikke bort
+    .groups = "drop"
+  )
+```
+
+
+
+
+
+```{r}
+# høy utdanning 2008–2022
+edu_panel <- utdanning %>%
+  filter(
+    TIME_PERIOD %in% 2008:2022,
+    sex=="T", age=="Y25-64", unit=="PC",
+    isced11=="ED5-8",
+    nchar(geo)==4,
+    substr(geo,1,2) %in% c("BE","NL","BG","NO")
+  ) %>%
+  select(NUTS2 = geo, TIME_PERIOD, Høy_utdanning = values)
 
 
 ```
 
-##Panelestimeringsanalyse: (opptil 400 ord)
+
+```{r}
+# population (andel over 65 år) 2008–2022
+pop_panel <- get_eurostat("demo_r_pjangrp3", time_format="num") %>%
+  filter(
+    TIME_PERIOD %in% 2008:2022,
+    sex=="T",
+    nchar(geo)==4,
+    substr(geo,1,2) %in% c("BE","NL","BG","NO")
+  ) %>%
+  group_by(geo, TIME_PERIOD) %>%
+  summarise(
+    pop_over65 = sum(values[age %in% c("Y65-69","Y70-74","Y75-79","Y80-84","Y85-89","Y_GE85")]),
+    pop_total  = sum(values[age=="TOTAL"]),
+    andelen_over65 = pop_over65/pop_total * 100,
+    .groups = "drop"
+  ) %>%
+  rename(NUTS2=geo)%>%
+  select(NUTS2, TIME_PERIOD, andelen_over65)
+
+```
+
+```{r}
+# Kobler sammen datasett
+panel_df <- gdp_pop_panel %>%
+  left_join(edu_panel, by = c("NUTS2", "TIME_PERIOD")) %>%
+  left_join(pop_panel, by = c("NUTS2", "TIME_PERIOD"))
+
+# Sjekker for dupliserte observasjoner per NUTS2 og TIME_PERIOD
+panel_df %>%
+  count(NUTS2, TIME_PERIOD) %>%
+  filter(n > 1)
+
+```
 
 
 
 
-##Panelestimeringsdiskusjon: (opptil 400 ord)
+```{r}
+
+# Oppretter landkode fra NUTS2 og aggregerer data til land × år
+panel_country <- panel_df %>%
+  mutate(country = substr(NUTS2, 1, 2)) %>%
+  group_by(country, TIME_PERIOD) %>%
+  summarise(
+    Gini_weighted   = mean(Gini_weighted,   na.rm = TRUE),
+    change_GDPC_pct = mean(change_GDPC_pct, na.rm = TRUE),
+    Høy_utdanning   = mean(Høy_utdanning,   na.rm = TRUE),
+    andelen_over65  = mean(andelen_over65,  na.rm = TRUE),
+    .groups = "drop"
+  )
+
+panel_country <- pdata.frame(panel_country, index = c("country", "TIME_PERIOD"))
+
+# Modell: land-faste effekter
+fe_country <- plm(
+  Gini_weighted ~ change_GDPC_pct + Høy_utdanning + andelen_over65,
+  data   = panel_country,
+  model  = "within",
+  effect = "individual"
+)
+summary(fe_country)
+
+```
+
+
+```{r}
+# Konverterer datasettet til et panelobjekt med NUTS2 som enhets-ID og TIME_PERIOD som tidsvariabel
+panel_df <- pdata.frame(panel_df, index = c("NUTS2", "TIME_PERIOD"))
+```
+
+
+```{r}
+# Modell 2: Faste effekter for år (year FE)
+fe_year <- plm(
+  Gini_weighted ~ change_GDPC_pct + `Høy_utdanning` + andelen_over65,
+  data   = panel_df,   # pdata.frame med NUTS2 og år
+  model  = "within",
+  effect = "time"      # år som tids-FE
+)
+summary(fe_year)
+```
+
+
+```{r}
+
+# Modell 3: Faste effekter på NUTS2-nivå (region FE)
+fe_region <- plm(
+  Gini_weighted ~ change_GDPC_pct + `Høy_utdanning` + andelen_over65,
+  data   = panel_df,
+  model  = "within",
+  effect = "individual"    # individual = NUTS2-FE siden panelet er indeksert etter NUTS2
+)
+summary(fe_region)
+```
+
+
+```{r}
+# Modell 4: Toveis faste effekter (NUTS2 + år)
+fe_twoway <- plm(
+  Gini_weighted ~ change_GDPC_pct + `Høy_utdanning` + andelen_over65,
+  data   = panel_df,
+  model  = "within",
+  effect = "twoways"  # kontrollerer både for NUTS2- og årsfaste effekter
+)
+summary(fe_twoway)
+
+```
+
+
+
+
+## Panelestimeringsanalyse: (opptil 400 ord)
+
+Transportinfrastruktur (veitetthet) ble ikke inkludert i panelmodellen, siden variabelen er tidsinvariant  
+
+
+## Panelestimeringsdiskusjon: (opptil 400 ord)
 
 
 
