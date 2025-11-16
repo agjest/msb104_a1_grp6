@@ -181,7 +181,7 @@ Blant de tre funksjonelle formene gir både den log-lineære og den kvadratiske 
 
 Resultatene støttes av artikkelen @LESSMANN2017110, som finner en ikke-lineær sammenheng mellom økonomisk utvikling og regional ulikhet. De viser at ulikheten først øker og deretter reduseres etter hvert som økonomien utvikler seg, noe som tilsvarer den klassiske Kuznets-kurven @kuznets2019economic.
 
-## Estimering og visualisering
+## Visualisering
 
 ```{r}
 # Lager et nytt datasett for visualisering av modellene
@@ -453,11 +453,11 @@ summary(fe_twoway)
 
 ```
 ```{r}
-#| label: tabell-panel
+#| label: tbl-panel
 #| tbl-cap: "Sammenligning av panelmodeller"
 modelsummary(
   list(
-    "NUTS2 FE"   = fe_region,
+    "Region FE"   = fe_region,
     "Year FE"    = fe_year,
     "Two-way FE" = fe_twoway,
     "Country FE" = fe_country
@@ -467,19 +467,56 @@ modelsummary(
 )
 ```
 
-
-
 ## Panelestimeringsanalyse: (opptil 400 ord)
 
-Transportinfrastruktur (veitetthet) ble ikke inkludert i panelmodellen, siden variabelen er tidsinvariant  
+I panelmodellen inkluderte jeg ikke transportinfrastruktur (veitetthet). Selv om variabelen endrer seg over tid, er endringen så liten at den i praksis er tidsinvariant. En faste-effekt-modell estimerer kun basert på tidsvariasjon innen samme region, og tidsinvariante variabler blir fullstendig absorbert av regionsfaste effekter. Dermed kan ikke veitetthet estimeres på en korrekt måte og er utelatt fra panelanalysen. I stedet inkluderes kun høyere utdanning og andelen av befolkningen over 65 år.
 
+Som vist i @tbl-panel har alle fire modellene svært svak forklaringskraft, med R²-verdier på henholdsvis 0.004, 0.022, 0.006 og 0.009, og de justerte R²-verdiene er negative. Dette indikerer at modellene i liten grad klarer å forklare utviklingen i regional inntektsulikhet over tid.  
+
+Videre er koeffisientene for de inkluderte variablene svært små og gjennomgående ikke-signifikante. For utdanningsnivået er p-verdiene i alle modellene klart over 0.1, blant annet p 0.41 (region FE), 0.86 (year FE), 0.51 (two-way FE) og 0.62 (country FE). Andelen eldre har også p-verdier over 0.1 i de fleste modellene, som p 0.59 (region FE)), 0.45 (two-way FE) og 0.78 (country FE), med unntak av year FE-modellen der variabelen er svakt signifikant (p 0.0889). Dette viser at disse variablene endrer seg svært lite over tid innen hver region, og derfor ikke klarer å forklare variasjonen i Gini-koeffisienten.
+
+Samlet sett viser panelresultatene at de tidsmessige endringene innen regionene er begrenset. Både Gini, utdanningsnivå og aldersstruktur er forholdsvis stabile, noe som gjør det utfordrende for modellen å identifisere tydelige tidseffekter. Dette samsvarer med de lave R²-verdiene og manglende signifikans i @tbl-panel, og tyder på at regionale ulikheter i større grad skyldes langsiktige strukturelle forskjeller enn kortsiktige endringer.
 
 ## Panelestimeringsdiskusjon: (opptil 400 ord)
 
+Basert på de samlede panelestimatene fremstår modellens forklaringskraft som svak. Dette henger i stor grad sammen med den begrensede tidsvariasjonen i variablene samt egenskapene ved FE modeller, som benytter endringer over tid innen samme region til å identifisere effekter.
+
+Transportinfrastruktur (veitetthet) er også en relevant forklaringsfaktor, men ble ikke inkludert i panelmodellen på grunn av modellens metodiske begrensninger. Veitetthet er i praksis en tidsinvariant variabel i analyseperioden og vil derfor bli fullstendig absorbert av regionsfaste effekter. Dermed kan den ikke estimeres i en faste-effekt-modell. Dette innebærer at en potensielt viktig forklaringsvariabel faller bort, noe som ytterligere begrenser modellens totale forklaringskraft.
+
+@tbl-panel viser tydelig at modellens forklaringskraft er svært svak. I en modell med faste effekter er identifikasjonen basert på endringer over tid innenfor samme region. I dette datasettet endrer imidlertid Gini, utdanningsnivå og andelen eldre over 65 år seg svært lite i perioden 2008–2022. Fordi variablene nesten ikke varierer, har modellen svært begrenset tidsvariasjon å utnytte. Derfor blir koeffisientene meget små, for eksempel er den laveste koeffisienten for utdanning –0.00036 og for andelen eldre –0.00055, mens den laveste R²-verdien er helt nede på 0.004. Dette viser at modellen i liten grad klarer å forklare endringer over tid.
+
+I toveis faste effekter (Two-way FE) blir mønsteret enda tydeligere. Denne modellen kontrollerer både for regionspesifikke forskjeller og årsspesifikke sjokk, noe som gjør at enda mindre tidsvariasjon står igjen til å forklare endringer i ulikhet. I toveis faste effekter (Two-way FE) er p-verdiene høye: 0.5141 for utdanningsnivå og 0.4457 for andelen eldre. Begge ligger langt over 0.1, noe som viser at disse variablene ikke har noen tydelig statistisk effekt innen regionene over tid.
+
+Samlet sett viser dette at regionale ulikheter i større grad skyldes stabile og langsiktige strukturelle forhold, og at kortsiktige endringer i utdanning, demografi og økonomisk utvikling spiller en svært begrenset rolle for utviklingen i Gini-koeffisienten i denne perioden.
+
+# Del E: Dokumenter din bruk av KI
+
+I denne oppgaven brukte jeg kunstig intelligens som støtte i skrive- og analysearbeidet. Programvaren som ble benyttet var ChatGPT fra OpenAI (modell GPT-5.1). KI-verktøyet ble hovedsakelig brukt til å korrigere kodefeil, oversette språk, oppsummere relevant litteratur, forklare datainnhold, forstå økonometriske begreper, kontrollere om teksten var klart formulert, samt bistå med språklig forbedring slik at fremstillingen ble presis og tydelig.
+Gjennom prosessen hadde jeg en målrettet spørrestrategi, hvor jeg stilte flere presise spørsmål om konkrete temaer, for eksempel betydningen av faste effekter, toveis faste effekter, hvorfor tidsinvariante variabler ikke kan estimeres i FE-modeller, og hvordan panelresultater bør tolkes. Jeg brukte også KI til å oversette enkelte avsnitt mellom kinesisk og norsk for å sikre at språket var konsistent i hele rapporten. Etter hver redigering kontrollerte igjen jeg innholdet selv for å unngå overredigering og for å sikre at all analyse og alle konklusjoner var basert på min egen forståelse og mine egne data.
 
 
 
-# Del E
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
