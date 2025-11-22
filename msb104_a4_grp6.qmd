@@ -1,0 +1,183 @@
+---
+title: "Assignment 4, MSB104-gruppe 6 2025"
+author: Karin Liang
+editor: visual
+csl: apa7.csl
+format:
+  pdf: 
+    documentclass: article
+    number-sections: true
+    keep-tex: true
+    papersize: A4
+  html:
+    fig-cap-location: bottom
+    fig-number: true
+lang: NO_nb
+bibliography: references4.bib
+execute:
+  warning: false
+  message: false
+  error: false
+---
+
+# 0. Kort sammendrag
+
+# I. Innledning
+
+# II. Litteraturgjennomgang
+
+# III. Data og metodikk
+
+# IV. Empiriske funn
+
+## Resultater fra A2
+
+### Enkel lineær regresjonsmodell
+```{r}
+library(readxl)
+library(modelsummary)
+library(dplyr)
+library(plm)
+
+
+```
+
+
+```{r}
+# leser excel datasettet fra A2 for enkel lineær regresjonsmodell
+data_2017_a <- read_excel("/Users/liang/Desktop/msb104/msb104_a4/data_2017_a.xlsx", sheet = "Sheet1")
+
+# Enkel lineær regresjonsmodell
+model_simple <- lm(Gini_weighted ~ change_GDPC_pct, data = data_2017_a)
+
+# Sjekker dataene direkte
+summary(model_simple)
+
+```
+
+## Multippel lineær regresjonsmodell
+
+```{r}
+# leser excel datasettet fra A2 for multippel lineær regresjonsmodell
+data_2017_b <- read_excel("/Users/liang/Desktop/msb104/msb104_a4/data_2017_b.xlsx", sheet = "Sheet1")
+
+# Estimerer en multippel lineær regresjonsmodell
+model_multiple <- lm(
+  Gini_weighted ~ change_GDPC_pct + utdanning_hoy + vei_tetthet + andelen_over65,
+  data = data_2017_b)
+summary(model_multiple)
+```
+
+## Resultater fra A3
+
+### Alternative funksjonelle former
+
+```{r}
+# leser excel datasettet fra A3 for alternative funksjonelle former
+data_2017 <- read_excel("/Users/liang/Desktop/msb104/msb104_a4/data_2017.xlsx", sheet = "Sheet1")
+
+# Log-lineær modell
+model_log <- lm(Gini_weighted ~ log(change_GDPC_pct + 1) + vei_tetthet + andelen_over65 + `Høy_utdanning`, data = data_2017)
+
+# Kvadratisk modell
+model_kvad <- lm(Gini_weighted ~ change_GDPC_pct + I(change_GDPC_pct^2) + vei_tetthet + andelen_over65 + `Høy_utdanning`, data = data_2017)
+
+# Kubisk modell
+model_kub <- lm(Gini_weighted ~ change_GDPC_pct + I(change_GDPC_pct^2) + I(change_GDPC_pct^3) + vei_tetthet + andelen_over65 + `Høy_utdanning`, data = data_2017)
+```
+
+```{r}
+#| label: tbl-funksjonsformer
+#| tbl-cap: "logaritmiske, kvadratiske, kubiske"
+modelsummary(
+  list(
+    "Log-lineær modell" = model_log,
+    "Kvadratisk modell" = model_kvad,
+    "Kubisk modell"     = model_kub
+  ),
+  stars = TRUE,
+  statistic = "({statistic})",   # viser t-verdier i parentes
+  fmt = 5  
+)
+```
+
+### Panelmodeller (Fire FE-spesifikasjoner)
+
+```{r}
+# leser excel datasettet fra A3 for alternative funksjonelle former
+panel_df <- read_excel("/Users/liang/Desktop/msb104/msb104_a4/panel_df.xlsx", sheet = "Sheet1")
+
+# Oppretter landkode fra NUTS2 og aggregerer data til land × år
+panel_country <- panel_df %>%
+  mutate(country = substr(NUTS2, 1, 2)) %>%
+  group_by(country, TIME_PERIOD) %>%
+  summarise(
+    Gini_weighted   = mean(Gini_weighted,   na.rm = TRUE),
+    change_GDPC_pct = mean(change_GDPC_pct, na.rm = TRUE),
+    Høy_utdanning   = mean(Høy_utdanning,   na.rm = TRUE),
+    andelen_over65  = mean(andelen_over65,  na.rm = TRUE),
+    .groups = "drop"
+  )
+
+panel_country <- pdata.frame(panel_country, index = c("country", "TIME_PERIOD"))
+
+# Modell 1: land-faste effekter
+fe_country <- plm(
+  Gini_weighted ~ change_GDPC_pct + Høy_utdanning + andelen_over65,
+  data   = panel_country,
+  model  = "within",
+  effect = "individual"
+)
+
+# Konverterer datasettet til et panelobjekt med NUTS2 som enhets-ID og TIME_PERIOD som tidsvariabel
+panel_df <- pdata.frame(panel_df, index = c("NUTS2", "TIME_PERIOD"))
+
+# Modell 2: Faste effekter for år (year FE)
+fe_year <- plm(
+  Gini_weighted ~ change_GDPC_pct + `Høy_utdanning` + andelen_over65,
+  data   = panel_df,   # pdata.frame med NUTS2 og år
+  model  = "within",
+  effect = "time"      # år som tids-FE
+)
+
+# Modell 3: Faste effekter på NUTS2-nivå (region FE)
+fe_region <- plm(
+  Gini_weighted ~ change_GDPC_pct + `Høy_utdanning` + andelen_over65,
+  data   = panel_df,
+  model  = "within",
+  effect = "individual"    # individual = NUTS2-FE siden panelet er indeksert etter NUTS2
+)
+
+# Modell 4: Toveis faste effekter (NUTS2 + år)
+fe_twoway <- plm(
+  Gini_weighted ~ change_GDPC_pct + `Høy_utdanning` + andelen_over65,
+  data   = panel_df,
+  model  = "within",
+  effect = "twoways"  # kontrollerer både for NUTS2- og årsfaste effekter
+)
+```
+
+```{r}
+#| label: tbl-panel
+#| tbl-cap: "Sammenligning av panelmodeller"
+modelsummary(
+  list(
+    "Region FE"   = fe_region,
+    "Year FE"    = fe_year,
+    "Two-way FE" = fe_twoway,
+    "Country FE" = fe_country
+  ),
+  stars = TRUE, 
+  fmt = 5 
+)
+```
+
+# V. Diskusjon
+
+# VI. Begrensninger og fremtidig forskning
+
+# VII. Konklusjon
+
+# VIII. Referanser
+
+# Vedlegg
