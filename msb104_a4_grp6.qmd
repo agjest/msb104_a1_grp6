@@ -1,5 +1,5 @@
 ---
-title: "Assignment 4, MSB104-gruppe 6 2025"
+title: "Assignment 4, MSB104-gruppe 6, 2025"
 author: Karin Liang
 editor: visual
 csl: apa7.csl
@@ -30,7 +30,7 @@ execute:
 ## Bakgrunn
 
 Det finnes fortsatt tydelige forskjeller i økonomisk kapasitet mellom europeiske land og mellom regioner innen hvert land. Basert på BNP per innbygger data hentet fra Eurostat kan man se at både på nasjonalt og regionalt nivå viser økonomisk utvikling betydelig variasjon, både i langsiktige trender og i tverrsnittssammenligninger. Disse forskjellene gjenspeiler ikke bare variasjoner i regional produksjonskapasitet og økonomisk struktur, men er også nært knyttet til flere nøkkelfaktorer, 
-blant annet utdanningsnivå (andel høy utdanning), transportinfrastruktur (veitetthet), demografisk struktur (andel av befolkningen som er 65 år eller eldre), og nivået på eller endringen i BNP per innbygger.
+blant annet utdanningsnivå (høy utdanning), transportinfrastruktur (veitetthet), demografisk struktur (andel av befolkningen som er 65 år eller eldre), og nivået på eller endringen i BNP per innbygger.
 
 ## Mål
 
@@ -38,7 +38,7 @@ Denne oppgaven integrerer analysene fra oppgave 1, 2 og 3 for systematisk å und
 
 Hovedmålet i oppgave 1 er å benytte BNP og befolkningsdata fra Eurostat til å konstruere BNP per innbygger (BNPC) og Gini koeffisienten på NUTS2 nivå for perioden 2000 til 2023 for de fire landene. Dette brukes til å sammenligne nivået på regional økonomisk utvikling og de langsiktige utviklingstrendene. Gjennom en beskrivende analyse presenteres utviklingsmønstre for regionene, noe som gir et viktig bakteppe for videre analyser av regionale forskjeller og inntektsulikhet.
 
-Oppgave 2 undersøker tverrsnittssammenhengen mellom regional utvikling og inntektsulikhet. Basert på tverrsnittsdata for 2017 estimeres en multiple lineær regresjonsmodell for å vurdere om økonomisk utvikling (endring i BNP per innbygger), transportinfrastruktur (veitetthet), utdanningsnivå (andel høy utdanning) og demografisk struktur (andel 65 år eller eldre) er systematisk forbundet med regionale nivåer av Gini koeffisienten.
+Oppgave 2 undersøker tverrsnittssammenhengen mellom regional utvikling og inntektsulikhet. Basert på tverrsnittsdata for 2017 estimeres en multiple lineær regresjonsmodell for å vurdere om økonomisk utvikling (endring i BNP per innbygger), transportinfrastruktur (veitetthet), utdanningsnivå (høy utdanning) og demografisk struktur (andel 65 år eller eldre) er systematisk forbundet med regionale nivåer av Gini koeffisienten.
 
 Oppgave 3 utvider analysen metodisk ved å benytte alternative funksjonelle former, som log lineær modell, kvadratisk modell og kubisk modell, samt panelmodeller med faste effekter. Hensikten er å undersøke om de samme variablene viser robuste sammenhenger under ulike modellspecifikasjoner og i tidsdimensjonen. Paneldatastrukturen gjør det mulig å kontrollere for uobserverbare, tidsinvariante regionale egenskaper, noe som gir et mer helhetlig grunnlag for å analysere de dynamiske forholdene mellom regional utvikling og inntektsulikhet.
 
@@ -70,11 +70,11 @@ Selv om eksisterende litteratur gir et viktig teoretisk grunnlag for å forstå 
 
 For det første, på datanivå, bygger tidligere arbeid som @LESSMANN2017110 hovedsakelig på nasjonale eller globale sammenligninger og analyserer sammenhengen mellom utvikling og ulikhet ved hjelp av tverrnasjonale datasett. Artikkelen benytter ikke Eurostat sine harmoniserte og direkte sammenlignbare NUTS2-regiondata innenfor samme statistiske rammeverk.
 
-For det andre, fokuserer mange artikler ofte på en enkelt faktor, som utdanning, infrastruktur eller demografi, og analyserer sjelden disse variablene samtidig innenfor samme empiriske ramme. I disse oppgavene analyseres imidlertid utdanningsnivå (andel høyere utdanning), transportinfrastruktur (veitetthet), demografisk struktur (andel over 65 år) og økonomisk utvikling (BNP per innbygger eller endringen i BNP per innbygger) samlet i en modell i forhold til regional inntektsulikhet (Gini).
+For det andre, fokuserer mange artikler ofte på en enkelt faktor, som utdanning, infrastruktur eller demografi, og analyserer sjelden disse variablene samtidig innenfor samme empiriske ramme. I disse oppgavene analyseres imidlertid utdanningsnivå (høy utdanning), transportinfrastruktur (veitetthet), demografisk struktur (65 år eller eldre) og økonomisk utvikling (BNP per innbygger eller endringen i BNP per innbygger) samlet i en modell i forhold til regional inntektsulikhet (Gini).
 
 For det tredje, bruker tidligere arbeid en enkelt analysemodell, enten tverrsnittsanalyser eller  tidsseriestudier, og kombinerer sjelden flere tilnærminger som langtidsbeskrivelser, tverrsnittsregresjoner og paneldataanalyse. Dermed blir robuste tester av de samme sammenhengene på tvers av ulike metoder ofte fraværende.
 
-Disse oppgavene benytter Eurostat-data og gjennomfører en sammenlignende analyse av Belgia, Bulgaria, Nederland og Norge. Gjennom langtidsbeskrivelsen av BNP per innbygger i oppgave 1, tverrsnittsanalysen i oppgave 2, og de alternative funksjonelle formene samt panelmodellene i oppgave 3, analyseres sammenhengene mellom regional økonomisk utvikling (BNP per innbygger eller endringen i BNP per innbygger), utdanning (andel høyere utdanning), transportinfrastruktur (veitetthet), demografisk struktur (andel over 65 år) og regional inntektsulikhet (Gini) fra flere perspektiver. På denne måten gir oppgavene en helhetlig tilnærming der de samme variablene undersøkes fra ulike metodiske vinkler, basert på én konsistent datakilde.
+Disse oppgavene benytter Eurostat-data og gjennomfører en sammenlignende analyse av Belgia, Bulgaria, Nederland og Norge. Gjennom langtidsbeskrivelsen av BNP per innbygger i oppgave 1, tverrsnittsanalysen i oppgave 2, og de alternative funksjonelle formene samt panelmodellene i oppgave 3, analyseres sammenhengene mellom regional økonomisk utvikling (BNP per innbygger eller endringen i BNP per innbygger), utdanning (høy utdanning), transportinfrastruktur (veitetthet), demografisk struktur (65 år eller eldre) og regional inntektsulikhet (Gini) fra flere perspektiver. På denne måten gir oppgavene en helhetlig tilnærming der de samme variablene undersøkes fra ulike metodiske vinkler, basert på én konsistent datakilde.
 
 # Data og metodikk
 
@@ -82,7 +82,7 @@ Disse oppgavene benytter Eurostat-data og gjennomfører en sammenlignende analys
 
 Datasettet som brukes i oppgave 1 kommer fra Eurostat og inkluderer "nama_10r_3gdp" (BNP) og "demo_r_pjanaggr3" (befolkning), begge tilgjengelig på NUTS3-nivå. Basert på BNP- og befolkningsdata for perioden 2000–2023 beregnes BNP per innbygger (BNPC), og flere NUTS3-regioner slås sammen til NUTS2 ved hjelp av befolkningsvekting. Innenfor samme sammenslåingsramme beregnes også Gini-koeffisienten på NUTS2-nivå for å måle regional inntektsulikhet. Siden Eurostat kun dekker Norge fra og med 2010, er tilgjengelige år for Norge kortere enn for de andre landene i disse oppgavene. I tillegg, selv uten å slette manglende verdier, varierer antall tilgjengelige observasjoner mellom land i de opprinnelige Eurostat-datasettene, og sammenslåing etter region fører også til tap av enkelte observasjoner. Noen NUTS2-regioner består kun av en NUTS3-enhet, noe som genererer flere NA-verdier ved beregning av Gini.
 
-Oppgave 2 benytter 2017-data hentet fra datasett brukt i oppgave 1, og henter i tillegg nye datasett fra Eurostat: utdanning (andel høyere utdanning, ISCED 5–8) fra "edat_lfse_04", demografisk struktur (andel av befolkningen som er 65 år eller eldre) fra "demo_r_pjanaggr3", for transportinfrastruktur hentes veilengde fra "tran_r_net", og arealdata fra "reg_area3", som kombineres for å beregne veitetthet. Disse variablene utgjør 2017 tverrsnittsgrunnlaget for analysen av regional inntektsulikhet. Datasettene varierer i antall observasjoner mellom land, og enkelte regioner har manglende verdier, noe som fører til redusert utvalgsstørrelse etter datarensing.
+Oppgave 2 benytter 2017-data hentet fra datasett brukt i oppgave 1, og henter i tillegg nye datasett fra Eurostat: utdanning (høy utdanning, ISCED 5–8) fra "edat_lfse_04", demografisk struktur (andel av befolkningen som er 65 år eller eldre) fra "demo_r_pjanaggr3", for transportinfrastruktur hentes veilengde fra "tran_r_net", og arealdata fra "reg_area3", som kombineres for å beregne veitetthet. Disse variablene utgjør 2017 tverrsnittsgrunnlaget for analysen av regional inntektsulikhet. Datasettene varierer i antall observasjoner mellom land, og enkelte regioner har manglende verdier, noe som fører til redusert utvalgsstørrelse etter datarensing.
 
 Datasettet som brukes i oppgave 3 dekker perioden 2008–2022 og benytter de samme variablene som i oppgave 1 og oppgave 2, hentet fra de samme Eurostat-kildene. Det konstrueres analysefiler på tvers av år og modeller basert på samme datagrunnlag. Siden tilgjengelige år og datadekning varierer mellom land, får panelet en ubalansert struktur (unbalanced panel), og enkelte regioner mangler observasjoner i enkelte år. Dette reduserer antallet gyldige årsobservasjoner som kan inngå i estimeringen.
 
@@ -135,7 +135,7 @@ model_multiple <- lm(
 summary(model_multiple)
 ```
 
-I den multiple lineære regresjonsmodellen inkluderes flere forklaringsvariabler, blant annet transportinfrastruktur (veitetthet), utdanning (andel høyere utdanning) og demografisk struktur (andel av befolkningen som er 65 år eller eldre). Modellen viser en tydelig forbedring i forklaringskraft (justert R² = 0.4888), noe som indikerer at strukturelle forskjeller mellom regioner spiller en viktig rolle for regional inntektsulikhet. Resultatene viser at andelen høyere utdanning har en signifikant positiv effekt (koeffisient 0.00433, p = 0.00966), som innebærer at regioner med høyere utdanningsnivå også har større inntektsforskjeller. Veitetthet har en signifikant negativ sammenheng med ulikhet (koeffisient –0.0009, p = 0.03934), noe som viser at regioner med bedre transportinfrastruktur som regel har lavere ulikhet. Variabelen økonomisk utvikling beholder en svak positiv sammenheng i den multiple modellen (koeffisient 0.01126, p = 0.05738), men uten sterk statistisk signifikans. Andelen eldre over 65 år viser ingen signifikant effekt (p = 0.51634).
+I den multiple lineære regresjonsmodellen inkluderes flere forklaringsvariabler, blant annet transportinfrastruktur (veitetthet), utdanning (høy utdanning) og demografisk struktur (andel av befolkningen som er 65 år eller eldre). Modellen viser en tydelig forbedring i forklaringskraft (justert R² = 0.4888), noe som indikerer at strukturelle forskjeller mellom regioner spiller en viktig rolle for regional inntektsulikhet. Resultatene viser at høy utdanning har en signifikant positiv effekt (koeffisient 0.00433, p = 0.00966), som innebærer at regioner med høyere utdanningsnivå også har større inntektsforskjeller. Veitetthet har en signifikant negativ sammenheng med ulikhet (koeffisient –0.0009, p = 0.03934), noe som viser at regioner med bedre transportinfrastruktur som regel har lavere ulikhet. Variabelen økonomisk utvikling beholder en svak positiv sammenheng i den multiple modellen (koeffisient 0.01126, p = 0.05738), men uten sterk statistisk signifikans. Andelen eldre over 65 år viser ingen signifikant effekt (p = 0.51634).
 
 Samlet sett viser tverrsnittsanalysen at regional inntektsulikhet ikke kan forklares av økonomisk utvikling alene. Selv om den enkle lineære modellen indikerer en positiv sammenheng mellom økonomisk vekst og ulikhet, forklarer modellen kun om lag en fjerdedel av variasjonen mellom regioner. Den utvidede multiple modellen har derimot betydelig høyere forklaringskraft og viser at utdanningsnivå og transportinfrastruktur har de sterkeste og mest konsistente sammenhengene med ulikhet, noe som er klart sterkere enn økonomisk vekst. Sammenligningen av de to modellene viser at regional ulikhet er et resultat av flere strukturelle forhold, der utdanning og transportinfrastruktur spiller en langt viktigere rolle enn økonomisk utvikling alene.
 
@@ -182,7 +182,6 @@ For det andre viser den log lineære modellen en koeffisient på 0.08266 for log
 For det tredje er variabelen høy_utdanning signifikant og positiv i alle tre modeller, med koeffisienter rundt 0.00475 til 0.0045. Dette viser at utdanningsnivået er den mest stabile forklaringsvariabelen i modellene. Variabelen vei_tetthet har negativ effekt i alle tre modellene og er signifikant i både log og kvadratiske modeller, med koeffisienter på henholdsvis -0.00087 og -0.00086. I den kubiske modellen er effekten svakere og kun svakt signifikant, med koeffisient -0.00078. Variabelen andelen_over65 er ikke signifikant i noen av modellspesifikasjonene.
 
 Samlet sett viser tabell @tbl-funksjonsformer at log lineær, kvadratisk og kubisk modell alle fanger opp sammenhengen mellom økonomisk utvikling og inntektsulikhet, men med ulike resultater. Log lineær modell og kvadratisk modell viser tydeligere statistiske sammenhenger for vekstvariabelen, mens den kubiske modellen, til tross for høy R², ikke har signifikante vekstparametere og tilfører lite informasjon. Basert på sammenligning av R² og AIC vurderes log lineær og kvadratisk modell som de mest representative alternative funksjonelle formene.
-
 
 ### Panelmodeller (Fire FE-spesifikasjoner)
 
@@ -274,17 +273,17 @@ Gjennom en komplementær analyse av tverrsnittsmodeller, alternative funksjonell
 
 For det første viser den enkle lineære regresjonsmodellen en positiv sammenheng mellom økonomisk utvikling og regional ulikhet, men modellens forklaringskraft er lav med en justert R² på om lag 25 prosent. Dette viser at økonomisk vekst alene ikke er tilstrekkelig for å forklare ulikhetsnivået mellom regioner.
 
-For det andre viser den multiple lineære regresjonsmodellen en betydelig økning i forklaringskraft, til rundt 49 prosent, når sentrale regionale faktorer som utdanning (andel høyere utdanning), transportinfrastruktur (veitetthet) og demografisk struktur (andel av befolkningen som er 65 år eller eldre) inkluderes. Andelen høy utdanning har en signifikant positiv effekt, noe som viser at utdanning er den viktigste forklaringsvariabelen. Veitetthet har en signifikant negativ effekt, noe som innebærer at regioner med bedre transportinfrastruktur har lavere inntektsulikhet. Økonomisk utvikling beholder en positiv koeffisient, men uten statistisk signifikans, noe som viser at dens forklaringsbidrag er begrenset.
+For det andre viser den multiple lineære regresjonsmodellen en betydelig økning i forklaringskraft, til rundt 49 prosent, når sentrale regionale faktorer som utdanning (høy utdanning), transportinfrastruktur (veitetthet) og demografisk struktur (andel av befolkningen som er 65 år eller eldre) inkluderes. Høy utdanning har en signifikant positiv effekt, noe som viser at utdanning er den viktigste forklaringsvariabelen. Veitetthet har en signifikant negativ effekt, noe som innebærer at regioner med bedre transportinfrastruktur har lavere inntektsulikhet. Økonomisk utvikling beholder en positiv koeffisient, men uten statistisk signifikans, noe som viser at dens forklaringsbidrag er begrenset.
 
-For det tredje viser de alternative funksjonelle formene at sammenhengen mellom økonomisk utvikling og regional ulikhet varierer noe i signifikans på tvers av modellspesifikasjoner. Selv om log modellen og den kvadratiske modellen gir bedre modelltilpasning, er hovedresultatene stabilt: andelen høyere utdanning og veitetthet er signifikante i alle modeller, mens økonomisk utvikling viser svakere og mindre stabile effekter. Dette viser at utdanning og infrastruktur gir mer robuste forklaringer på ulikhet enn økonomisk vekst.
+For det tredje viser de alternative funksjonelle formene at sammenhengen mellom økonomisk utvikling og regional ulikhet varierer noe i signifikans på tvers av modellspesifikasjoner. Selv om log modellen og den kvadratiske modellen gir bedre modelltilpasning, er hovedresultatene stabilt: høy utdanning og veitetthet er signifikante i alle modeller, mens økonomisk utvikling viser svakere og mindre stabile effekter. Dette viser at utdanning og infrastruktur gir mer robuste forklaringer på ulikhet enn økonomisk vekst.
 
 Til slutt viser panelmodellene at alle faste effektsmodeller har svært lav forklaringskraft. Verken country FE, year FE, region FE eller two way FE viser signifikante effekter for nøkkelvariablene over tid. Dette gjenspeiler at regional ulikhet, utdanningsnivå og befolkningsstruktur i perioden 2008 til 2022 endrer seg svært lite innen regioner, noe som gjør det vanskelig for faste effekter å identifisere tydelige tidsvariasjoner.
 
-Samlet sett viser disse modellene at forskjeller i regional inntektsulikhet hovedsakelig kommer fra langsiktige forskjeller mellom regioner, særlig knyttet til utdanningsnivå og transportinfrastruktur, og ikke fra endringer over tid. Andelen høy utdanning og veitetthet er signifikante i både tverrsnittsmodeller og de alternative funksjonelle formene, mens variablene ikke viser signifikante effekter i panelmodellene fordi de endrer seg svært lite over tid. Dette viser at regional inntektsulikhet i stor grad gjenspeiler varige forskjeller mellom regioner, og ikke variasjoner fra år til år.
+Samlet sett viser disse modellene at forskjeller i regional inntektsulikhet hovedsakelig kommer fra langsiktige forskjeller mellom regioner, særlig knyttet til utdanningsnivå og transportinfrastruktur, og ikke fra endringer over tid. Høy utdanning og veitetthet er signifikante i både tverrsnittsmodeller og de alternative funksjonelle formene, mens variablene ikke viser signifikante effekter i panelmodellene fordi de endrer seg svært lite over tid. Dette viser at regional inntektsulikhet i stor grad gjenspeiler varige forskjeller mellom regioner, og ikke variasjoner fra år til år.
 
 ## Politiske implikasjoner
 
-Resultatene fra oppgavene viser at regional inntektsulikhet i stor grad skyldes langvarige og stabile strukturelle forskjeller, snarere enn årlige svingninger i økonomisk vekst. Dette har viktige implikasjoner for regionalpolitikken.
+Resultatene fra oppgavene viser at utdanningsnivå og transportinfrastruktur er de mest konsistente faktorene knyttet til regional inntektsulikhet, mens økonomisk vekst viser svakere og mindre stabile sammenhenger. Dette gir et grunnlag for å vurdere hvilke typer tiltak som kan være mest målrettet når en ønsker å redusere regionale forskjeller.
 
 For det første er utdanningsnivået konsekvent signifikant i både tverrsnittsmodellen og de alternative funksjonelle formene, og fremstår som den viktigste forklaringsvariabelen. Dette innebærer at økt tilgang til utdanning er ett av de mest effektive langsiktige virkemidlene for å redusere regional ulikhet. I regioner med svake utdanningsressurser bør politikken prioritere bedre tilgang til høyere utdanning og kompetanseheving, for å styrke regionale utviklingsmuligheter.
 
@@ -294,7 +293,7 @@ For det tredje er den økonomiske veksten ustabil i sin signifikans, og forklari
 
 Til slutt viser panelanalysen at de interne endringene innen regioner i perioden 2008 til 2022 er svært begrensede, og at regionale forskjeller har en tydelig langsiktig karakter. Dette innebærer at kortsiktige tiltak vanskelig kan endre ulikhetsmønstre raskt, og at politikken derfor må bygge på langsiktige og vedvarende strukturelle tiltak.
 
-Samlet sett krever reduksjon av regional inntektsulikhet langsiktige strukturelle tiltak innen utdanning og transportinfrastruktur, snarere enn avhengighet av kortsiktige økonomiske vekststimuli.
+Med dette som bakgrunn kan politikk for å redusere regionale forskjeller med fordel prioritere tiltak som styrker utdanningsmuligheter og forbedrer transportinfrastruktur. Slike tiltak har større sannsynlighet for å gi varige forbedringer enn kortsiktige økonomiske vekststimuli.
 
 # Begrensninger og fremtidig forskning
 
@@ -312,8 +311,37 @@ Til slutt bygger oppgavene sine konklusjoner på statistiske sammenhenger observ
 
 ## Sammendrag
 
+Gjennom å kombinere den langsiktige deskriptive analysen i oppgave 1, tverrsnittsregresjonsmodellen i oppgave 2 og de alternative funksjonelle formene samt panelmodellene med faste effekter i oppgave 3, undersøker de oppgavene systematisk regionale forskjeller i økonomisk utvikling og sentrale faktorer som påvirker regional inntektsulikhet i Belgia, Nederland, Bulgaria og Norge.
+
+Tverrsnittsanalysen viser at høy utdanning og veitetthet har stabile og signifikante effekter på tvers av ulike modellspecifikasjoner, og er de viktigste forklaringsfaktorene for regional ulikhet. Høy utdanning har en signifikant positiv sammenheng med inntektsulikhet, noe som innebærer at regioner med en større andel høyt utdannede ofte har høyere ulikhet. Veitetthet har derimot en negativ sammenheng med ulikhet, og regioner med bedre transporttilgang har som regel lavere inntektsforskjeller. Sammenlignet med dette viser endringen i BNP per innbygger ustabile signifikansnivåer i flere modeller, noe som tyder på at økonomisk vekst ikke er den viktigste forklaringsfaktoren bak regional ulikhet.
+
+Resultatene fra de alternative funksjonelle formene bekrefter dette bildet. Selv om log lineære og kvadratiske modeller gir en viss forbedring i modelltilpasning, endres verken koeffisientenes retning eller deres signifikans på en vesentlig måte. Effekten av høy utdanning og veitetthet forblir robust, mens økonomisk vekst fortsatt har begrenset forklaringskraft.
+
+Panelmodellene viser at de sentrale variablene har svært begrenset tidsvariasjon innen regionene i perioden 2008 til 2022. Høy utdanning og den demografiske strukturen (andel 65 år eller eldre) fremstår uten signifikante effekter i faste effektsmodeller. Dette indikerer at regional inntektsulikhet i større grad gjenspeiler vedvarende forskjeller mellom regioner enn kortsiktige årlige endringer.
+
+Samlet sett viser modellresultatene at tiltak for å redusere regionale inntektsforskjeller bør legge større vekt på langsiktige innsatsområder som å øke utdanningsnivå og forbedre transportinfrastruktur, i stedet for å støtte seg på kortsiktige tiltak for å stimulere økonomisk vekst. 
+
+Betydningen av disse funnene er at de bidrar til å identifisere hvilke faktorer som har sterkest sammenheng med regional ulikhet, noe som kan hjelpe beslutningstakere med å målrette innsatsen mer effektivt.
+
 ## Sluttrefleksjon
+
+Basert på de ulike datastrukturene og metodiske tilnærmingene som oppgave 1, 2 og 3 benytter, har forholdet mellom regional utvikling og inntektsulikhet kunnet undersøkes fra flere perspektiver. Ved å kombinere deskriptive analyser, tverrsnittsmodeller og panelestimeringer har oppgavene vist hvordan valg av metode og datagrunnlag påvirker de empiriske resultatene, og understreket betydningen av å bruke flere metodiske tilnærminger i regional forskning.
+
+Utfordringer knyttet til datadekning på tvers av land, manglende observasjoner og begrenset tidsvariasjon i sentrale variabler gjenspeiler også praktiske begrensninger som ofte oppstår i analyser av regionale data. Til tross for disse utfordringene viser resultatene på tvers av modellene en viss konsistens, noe som gjør det mulig å identifisere utdanningsnivå og transportinfrastruktur som de mest sentrale faktorene knyttet til regionale forskjeller.
+
+Analysene gir et mer konkret bilde av hvordan et lite sett av variabler kan være knyttet til regional inntektsulikhet. Selv om analysene ikke kan si noe om årsakssammenhenger, gir arbeidet nyttige erfaringer med bruk av ulike metoder, noe som kan være relevant for videre empiriske studier på området.
 
 # Vedlegg
 
+
+
+
+
+
+
 # Referanser
+
+
+
+
+
