@@ -4,6 +4,9 @@ author: Karin Liang
 editor: visual
 csl: apa7.csl
 format:
+  html:
+    fig-cap-location: bottom
+    fig-number: true
   pdf:
     documentclass: article
     number-sections: true
@@ -11,9 +14,6 @@ format:
     papersize: A4
     linestretch: 1.5
     mainfont: "Times New Roman"
-  html:
-    fig-cap-location: bottom
-    fig-number: true
 lang: NO_nb
 bibliography: references4.bib
 execute:
@@ -22,8 +22,11 @@ execute:
   error: false
   echo: false
 ---
-
 # Kort sammendrag
+
+Denne oppgaven undersøker regionale forskjeller i økonomisk utvikling og inntektsulikhet i Belgia, Nederland, Bulgaria og Norge ved hjelp av Eurostat-data. Analysene kombinerer tre tilnærminger: deskriptive analyser av BNP per innbygger og Gini, tverrsnittsregresjoner basert på 2017-data, samt alternative funksjonelle former og panelmodeller for perioden 2008 til 2022. Formålet er å vurdere hvordan økonomisk utvikling, utdanningsnivå, transportinfrastruktur og demografisk struktur henger sammen med regionale ulikhetsnivåer.
+
+Resultatene viser at utdanningsnivå og veitetthet er de mest konsistente forklaringsfaktorene for variasjon i inntektsulikhet, mens økonomisk vekst har svak og ustabil betydning på tvers av modellene. Panelestimeringene viser svært begrenset tidsvariasjon i utdanningsnivå og demografisk struktur, noe som gjør det vanskelig å identifisere tydelige tidsdynamiske effekter i regional ulikhet. Analysene gir et oversiktsbilde av hvordan et lite sett av variabler henger sammen med regional inntektsulikhet, og kan fungere som et utgangspunkt for videre empiriske analyser og vurderinger innen regionalpolitikken.
 
 # Innledning
 
@@ -331,17 +334,8 @@ Utfordringer knyttet til datadekning på tvers av land, manglende observasjoner 
 
 Analysene gir et mer konkret bilde av hvordan et lite sett av variabler kan være knyttet til regional inntektsulikhet. Selv om analysene ikke kan si noe om årsakssammenhenger, gir arbeidet nyttige erfaringer med bruk av ulike metoder, noe som kan være relevant for videre empiriske studier på området.
 
-# Vedlegg
+# Vedlegg-Bruken av AI-verktøy
 
-
-
-
-
-
+Jeg benyttet ChatGPT (modell GPT-5.1) i arbeidet med MSB104 oppgave 4, hovedsakelig som støtte til oversettelse mellom kinesisk og norsk. Basert på mine egne kinesiske utkast brukte jeg ChatGPT til å oversette innholdet til norsk og til å få forslag til mer naturlige eller mer akademiske formuleringer. Jeg gjennomgikk alle forslagene og teksten som ble generert av ChatGPT, redigerte og omorganiserte dem for å sikre at terminologien, strukturen og det analytiske rammeverket var i samsvar med det opprinnelige utkastet. Gjennom hele prosessen bidro ChatGPT til å forbedre sammenheng og språklig klarhet i tekstene. Alle formuleringer ble kontrollert av meg setning for setning, og jeg sørget for at de var i tråd med min egen analyse og forståelse.
 
 # Referanser
-
-
-
-
-
