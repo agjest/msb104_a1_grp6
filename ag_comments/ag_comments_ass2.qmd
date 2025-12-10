@@ -1,0 +1,13 @@
+---
+title: "ag comments Ass2"
+format: html
+editor: source
+---
+
+## General comments
+
+-   Pass på mht. absolutte filstier! Jeg kan ikke åpne `/Users/liang/Desktop/msb104/msb104_a2/gdp_pop.xlsx` on my machine. Endret til `../gdp_pop.xlsx`
+-   Samme for gini
+
+
+## Tips and Tricks

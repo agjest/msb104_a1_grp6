@@ -1,0 +1,31 @@
+---
+title: "ag comments assignment 1"
+format: html
+editor: source
+---
+
+## General comments
+
+-   Et flott stykke arbeid. Vær forsiktig med å blande GDPC fra ulike år siden dette egentlig er forskjellige ting.
+
+## Tips and Tricks
+
+-   Endret litt YAML s.a. jeg også kunne generer pdf versjon via `typst`
+-   Ga chunk-en som laster pakker labelen setup `#| label: setup`. Gjør at denne blir sjekket hver gang før noe kode blir kjørt.
+-   La inn options(paged.print = FALSE) i setup. Synes ofte Console type output er mer hensiktsmessig. Dette er en smakssak.
+-   La inn width = 70 for glimpse for å begrense bredden på output
+-   Foreslår å splitte chunken rett etter *Merger datasetter GDP og papulation, og fjerner manglende verdier*. Ofte bedre å ha en «ting» i hver chunk.
+-   Detaljer: 2 119 observasjoner endret til 2119 observasjoner. Se [her](https://no.wikipedia.org/wiki/Tallord) for regler rundt tusen-skille på norsk. Det skal brukes tusen-skille for tall med mer enn fem siffer. Det anbefalte non-break-space (control + space) gir litt stort mellomrom. Unicode karakteren U+202f (narrow non breaking space) er anbefalt i kilden ovenfor. På mac får en den frem vha: fb (globus) knappen nede i venstre hjørne og så skrive u+202f (klikk på tegnet som kommer opp). I virtual mode i RStudio kan den også nås ved å velge "Unicode Character" fra insert-menyen. Forskjellen blir 2 345 389 og 2 345 389.
+-   Endret fig-bnp_per_innbygger til fig-bnp-per-innbygger. Det er ikke anbefalt med "_" i labels, bl.a har pdf-output problem med dette.
+-   Fint og klar histogram, men bruker GDPC for hele perioden og 2003 tall vil være svært forskjellig fra 2023. Vil heller anbefale histogram for to årstall.
+-   For deskreptiv statistikk har jeg vist hvordan man relativt enkelt kan få en fint formatert tabell vha. flextable og også bruk av Quarto caption og kryssreferanse.
+-   Fin bruk av boxplot, men igjen vil jeg anbefale å se på enkeltår slik at en ikke blander GDPC fra ulike år.
+-   *fig-bnp-over-tid-median* er en svært klar og informativ figur. Viser fint utviklingen i GDPC. Endret "_" til "-" i label. Her ser en klart at å blande 2000 og 2023 tall ikke er så lurt.
+-   Fin litteraturgjennomgang.
+-   Fin diskusjon av de gini-koeffisientene på NUTS2 nivå.
+-   *fig-gini-over-tid* er svært klar og informativ
+-   Det er to kryssreferanser som ikke matcher label: fig-gini-gjennomsnittlig og fig-gini-median
+
+
+
+
