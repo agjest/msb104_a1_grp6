@@ -46,7 +46,6 @@ gdp_pop <- read_excel("../gdp_pop.xlsx", sheet = "Sheet 1")
 gini <- read_excel("../gini.xlsx", sheet = "Sheet 1")
 ```
 
-
 # Del A
 
 ## Laster ned og slår sammen datasettene for 2017
@@ -59,13 +58,6 @@ gdp_pop <- gdp_pop %>%
     TIME_PERIOD %in% c(2016, 2017),
     unit_gdp == "MIO_EUR",
     unit_pop == "NR",
-    sex == "T", 
-    age == "TOTAL"
-  ) %>%
-  filter(
-    year %in% c(2016, 2017),
-    unit_gdp == "MIO_EUR",
-    unit_pop == "NR",
     sex == "T", age == "TOTAL"
   ) %>%
   group_by(NUTS2, TIME_PERIOD) %>%
@@ -75,6 +67,7 @@ gdp_pop <- gdp_pop %>%
     .groups = "drop"
   ) %>% # Summerer BNP og befolkning for hver NUTS2-region og år
   mutate(GDPC = (values_gdp * 1e6) / values_pop)   # BNP per innbygger (i euro)
+gdp_pop
 ```
 
 ```{r}
@@ -89,7 +82,6 @@ gdp_pop_change_2017 <- gdp_pop %>%
   ungroup()
 gdp_pop_change_2017
 ```
-
 
 ```{r}
 # Velger Gini-vektene for 2017
@@ -152,8 +144,6 @@ gdp_pop_17 <- gdp_pop_ag |>
   filter(year == "2017-01-01")
 ```
 
-
-
 Først hentes data for BNP og population for årene 2016 og 2017 fra datasettet gdp_pop.
 Deretter beregnes endringen og den prosentvise endringen av BNP per innbygger i hver NUTS2-region fra 2016 til 2017.\
 Gini-koeffisientene for 2017 hentes fra datasettet gini, og disse kobles sammen med BNP-dataene ved hjelp av NUTS2-koden som felles nøkkel.
@@ -164,7 +154,6 @@ Resultatet er et kombinert datasett data_2017_a som brukes i den videre enkle li
 Her brukes den avhengige variabelen Gini_weighted og den uavhengige variabelen change_GDPC_pct for å estimere en enkel lineær regresjonsmodell.
 
 ```{r}
-#| eval: false
 # Avhengig variabel: Gini_weighted
 # Uavhengig variabel: change_GDPC_pct
 # Enkel lineær regresjonsmodell
@@ -187,7 +176,7 @@ gdp_pop_17 |>
   as_flextable() |> 
   colformat_double(digits = 5) |> 
   line_spacing(space = 0.6, part = "all")
-``` 
+```
 
 ```{r}
 #| label: tbl-model_simple
@@ -232,9 +221,9 @@ En p-verdi på ca.
 0.008 vist i @tbl-model_simple indikerer at modellen som helhet er statistisk signifikant.
 Det betyr at den uavhengige variabelen den prosentvise endringen i BNP per innbygger (change_GDPC_pct) bidrar signifikant til å forklare variasjonen i ulikhet (Gini_weighted) mellom regionene i de fire landene.
 
-Den esiduelle standardfeilen på 0.04598 fra summary, indikerer at avvikene mellom observerte og predikerte verdier er relativt små, noe som støtter at modellen gir en rimelig god tilpasning til dataene.
+Den indviduelle standardfeilen på 0.04598 fra summary, indikerer at avvikene mellom observerte og predikerte verdier er relativt små, noe som støtter at modellen gir en rimelig god tilpasning til dataene.
 
-Samlet sett tyder disse resultatene på at modellen har en tilfredsstillende forklaringskraft, og at endring i BNP per innbygger spiller en signifikant rolle i å forklare variasjoner i regional ulikhet i 2017.
+Samlet sett tyder disse resultatene på at modellen har en tilfredsstillende forklaringskraft, og at endring i BNP per innbygger (økonomisk vekst i regionene) spiller en signifikant rolle i å forklare variasjoner i regional ulikhet i 2017.
 
 ### OLS
 
@@ -275,7 +264,8 @@ bptest(model_simple)
 ```
 
 @tbl-Homoskedastisitet gir p-verdien på 0.0699, som er litt over signifikansnivået.
-Dette betyr at vi ikke forkaster nullhypotesen om konstant varians.Scale–Location-plottet i @fig-diagnostiske viser også en jevn spredning av punkter og en forholdsvis flat blå linje, noe som støtter antakelsen om homoskedastisitet i modellen.
+Dette betyr at vi ikke forkaster nullhypotesen om konstant varians.
+Scale–Location-plottet i @fig-diagnostiske viser også en jevn spredning av punkter og en forholdsvis flat blå linje, noe som støtter antakelsen om homoskedastisitet i modellen.
 
 ```{r}
 # (4) Ingen multikollinearitet
@@ -307,6 +297,10 @@ shapiro.test(resid(model_simple))
 ```{r}
 #| label: fig-diagnostiske
 #| fig-cap: "Diagnostiske plott for OLS-modellen"
+#| warning: false
+# ag: Jeg satte warning: false på denne for å unngå
+# varslingene, men det set ut til at den pakken/funksjonen
+# ikke har blitt oppdatert på en stund
 # Diagnostiske plott for OLS-modellen
 autoplot(model_simple)
 ```
@@ -322,12 +316,12 @@ Hvis forutsetningene ikke er oppfylt, kan beregningene av standardfeil bli unøy
 Dette kan føre til at testen for signifikans ikke blir helt pålitelig.
 For å løse dette kan man bruke robuste standardfeil, eller lage en mer detaljert modell med flere forklaringsvariabler som tar hensyn til forskjeller mellom regionene.
 
-## Visuzlization
+## Visualisering
 
 ```{r}
 #| label: fig-forholdet-utvikling-ulikhet
 #| fig-cap: "Forholdet mellom regional utvikling og regional ulikhet, 2017 (NUTS2)"
-
+#| message: false
 figur_utvikling_ulikhet <- data_2017_a %>%
   ggplot(aes(x = change_GDPC_pct, y = Gini_weighted)) +
   geom_point(color = "darkblue") +
@@ -479,7 +473,9 @@ Jeg velger andelen personer med høyere utdanning som analysevariabel, fordi @Co
 Dermed forventes andelen personer med høyere utdanning å ha en negativ sammenheng med Gini-koeffisienten, ettersom et høyere utdanningsnivå bidrar til å utjevne inntektsforskjeller og redusere ulikheten mellom regioner.
 Dermed representerer andelen personer med høyere utdanning utdanningsdata for videre analyser, der det antas at denne variabelen kan påvirke regional ulikhet.
 
-Jeg velger veitetthet som analysevariabel, fordi @Calderon2004Infrastructure viser at de to sentrale resultatene er at økonomisk vekst påvirkes positivt av beholdningen av infrastrukturaktiva, og at inntektsulikhet reduseres når mengden og kvaliteten på infrastrukturen øker.
+Jeg velger veitetthet som analysevariabel, fordi @Calderon2004Infrastructure viser at
+
+to sentrale resultatene er at økonomisk vekst påvirkes positivt av beholdningen av infrastrukturaktiva, og at inntektsulikhet reduseres når mengden og kvaliteten på infrastrukturen øker.
 Videre viser @Calderon2004Infrastructure også at veinettets tetthet har en tydelig negativ sammenheng med inntektsulikhet, og peker at Gini-koeffisienten er negativt korrelert med infrastrukturnivået for veier (-0,48).
 Dermed forventes variabelen veitetthet å ha en negativ sammenheng med Gini-koeffisienten.
 Dette tyder på at bedre og tettere transportinfrastruktur kan bidra til lavere regional ulikhet.
@@ -563,12 +559,12 @@ Dette er i tråd med teorien til @Calderon2004Infrastructure, som viser at trans
 
 @tbl-model_multiple viser at den økonomiske vekstvariabelen har en svak positiv sammenheng med ulikhet, som kan tyde på at økonomisk vekst på kort sikt ikke nødvendigvis er likt fordelt mellom regioner.
 
-Variabelen andelen av befolkningen som er 65 år og eldre er ikke signifikant, men ifølge @dolls2019demographic peker at population endringer, særlig aldring, kan bidra til økende ulikhet over tid.
+Variabelen andelen av befolkningen som er 65 år og eldre er ikke signifikant her, men @dolls2019demographic hevder at populatsjonsendringer, særlig aldring, kan bidra til økende ulikhet over tid.
 
 P-verdien på 0.003 i @tbl-model__multiple_stats indikerer at modellen samlet sett er statistisk signifikant.
 Videre @tbl-model__multiple_stats viser R.squared 0.59 og justert R.squared 0.49.
-Der betyr R.squared at de fire varibalene, økonomisk utvikling, utdanning, transport og population forklarer om lag 59 % av ulikheten mellom regionene.
-Mens justert R.squared 0.49, som betyr at etter justering for antall variabler, modellen forklarer omtrent 49 % av variasjonen i Gini-koeffisienten.
+Der betyr R.squared at de fire varibalene, økonomisk utvikling, utdanning, transport og population forklarer om lag 59 % av ulikheten mellom regionene i 2017.
+Mens justert R.squared 0.49, betyr at etter justering for antall variabler, modellen forklarer omtrent 49 % av variasjonen i Gini-koeffisienten.
 Modellen viser moderat forklaringskraft.
 Dette indikerer at modellen fanger opp noen strukturelle påvirkningsfaktorer, men andre faktorer kan fortsatt bidra til regional ulikhet.
 

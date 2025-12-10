@@ -6,8 +6,36 @@ editor: source
 
 ## General comments
 
+-   Legger til `library(tidyverse)`
 -   Pass på mht. absolutte filstier! Jeg kan ikke åpne `/Users/liang/Desktop/msb104/msb104_a2/gdp_pop.xlsx` on my machine. Endret til `../gdp_pop.xlsx`
 -   Samme for gini
+-   Hvorfor ikke bare benytte gdp_pop fra Assignment 1? Den var jo ferdig ryddet. Har lagt inn en `save(gdp_pop)` i Assignment 1 og en tilsvarende `load(gdp_pop)` her i Assignment 2.
+-   Med disse fiksene var dokumentet reproduserbart. Flott!
+-   Jeg vil foreslå at du bruker en ny chunk hver gang du printer til skjerm. Jeg har splitett chunck-en under *Laster ned og slår sammen datasettene for 2017*
+-   I chunken lst-henter-bnp-og-population vil jeg foreslå at du endrer navnet på objektet til gdp_pop_n2 og ikke overskriver gdp_pop. Jeg foreslår også å endre en del variabelnavn fordi jeg er lat ;-).
+-   Det kan være lurt med en konsekvent navngiving her. Jeg vil forelå n3 for NUTS3, n2 for NUTS2, n1 for NUTS1 og nc for Country.
+-   En kan da beregne gini, gdp, pop og gdp_pc for ulike aggregeringsniå og så legge disse til gdp_pop vha. left_join(). Alle data vi trenger kan da samles i gdp_pop.
+-   Fin diskusjon under modellspesifikasjon
+-   Igjen så anbefaler Quarto å ikke benytte underscore "_" i labels siden disse feiler ved generering av pdf (via latex).
+-   Dropp `dwtest()`. Testen tester for **tidsmessig** autokorrelasjon. Siden vi bare har ett år 2017 blir dette meningsløst. Det kan godt tenkes at det er **romlig** autokorrelasjon i disse dataene. Det skal vi lære å teste for neste år, men da må vi første lære å behandle kar slik at vi kan plassere reginonene i forhold til hverandre i en geografi.
+-   `bptest()` er grei, siden den er marginalt ikke-signifikant er det aktuelt å kjøre en White test som har større styrke.
+-   Fin bruk av Shapiro-Wilk test. Siden vi har såpass få observasjoner (22) kunne du ha poengtert at normalitetsantakelsen er viktig for inferens.
+-   Under Visualisering: Fin bruk av label og caption. Jeg la til message: false for å slippe melding fra geom_smooth om at formula = 'y ~ x'
+-   Tre passende variabler: Variablene som er valgt virker fornuftige.
+-   Fin behandling av veitetthet. Dette er typisk for hvordan man jobber i anvendt analyse. Man måte jobbe med de dataene en har tilgang til å prøve å lage et fornuftig mål.
+-   Fin forklaring av hvorfor **andel** av befolkning over 65 må brukes.
+-   Veldig god begrunnelse for valg av variabler. At du knytter dem opp til eksisterende litteratur er virkelig flott.
+-   Resultatene fra den multiple regresjonsanalysen bekrefter at du har gjort gode valg av variabler.
+-   At du holder dine resultater opp mot hva som er kjent i literaturen er *glimrende*.
+-   Du kunne kanskje sjekke for heteroskedastisitet også her og eventuelt estimere robuste SE og F-verdi.
+-   Fin konklusjon på avsnittet *Dokumenter og begrunner modellspesifikasjonen min*
+-   Jeg liker avsnittet *Forklar koeffisientene*. Du har fornuftige tolkninger og knytter funnene dine opp til eksisterende litteratur. Veldig bra. Avslutningen der du angir «policy» implikasjonene av funnene er også ypperlig.
+-   Ut fra beskrivelsen av bruk av KI ser det ut til at du bruker verktøyet på en fornuftig måte. KI må holdes i «stramme tøyler», men er da et svært nyttig verktøy.
 
+## Konklusjon
 
-## Tips and Tricks
+-   Et flott stykke arbeid!
+-   Fjern Durbin-Watson testen for den er feil.
+-   Vurder mitt forslag om å hente data fra Assignment 1 istedenfor å hente alt inn på nytt. Hensikten med Assignment 1 er å lage dataene klar for Assignment 2.
+-   Jeg synes du har mange gode poenger i analysen og drøftingen av resultatene.
+
