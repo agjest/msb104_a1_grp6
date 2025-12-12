@@ -1,0 +1,20 @@
+---
+title: "ag comments assignment 3"
+format: html
+editor: source
+---
+
+## Generelle kommentarer
+
+-   Endret til relativ sti for data_2017_b. "./" er unix for "denne mappen". Hadde virket med bare filnavn også. Husk at så lenge vi jobbe i et prosjekt så vil RStudio automatisk sette "workning directory" til mappen hvor Quarto dokumentet vi er i er.
+-   modelsummary(output = "markdown"). Min favoritt er flextable, men  det er en smakssak.
+-   Interessante funn rundt utdanningsnivå og utgjevning.
+-   I avsnittet *Begrunn valgene mine* skriver du: «Blant de tre funksjonelle formene gir både den log-lineære og den kvadratiske modellen en bedre tilpasning enn den lineære modellen.» Vær forsiktig! Når vi har forskjellig funsksjonsform (har gjort transformasjoner) kan vi IKKE sammenligne R^2 etc uten videre.
+-   Koblingen til Lessmann-2017 og Kuznets er veldig bra.
+-   I `fig-log-kvadratisk` `geom_line`endret jeg `size = `til `linewidth=` for å slippe advarsler.
+-   Fin diskusjon av «functional form». Du kunne kanskje også ha vurdert log-log for å få elastisitets-tolkningen, men med to kategorivariabler blir det mane modeller å holde styr på. Et argument mot å bruke log-log her.
+-   Flott diskusjon av kausalitet.
+-   Under *Datainnsamling for Panelestimering*. Trenger du å hente inn dataene på nytt. Du har dem vel alt i gdp_pop?
+-   Fin panel analyse.
+
+
