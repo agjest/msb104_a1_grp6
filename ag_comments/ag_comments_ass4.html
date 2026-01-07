@@ -36,6 +36,35 @@ ul.task-list li input[type="checkbox"] {
 <link href="ag_comments_ass4_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="ag_comments_ass4_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -66,9 +95,19 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="generelle-kommentarer" class="level2">
 <h2 class="anchored" data-anchor-id="generelle-kommentarer">Generelle kommentarer</h2>
-</section>
-<section id="tips-og-triks" class="level2">
-<h2 class="anchored" data-anchor-id="tips-og-triks">Tips og Triks</h2>
+<ul>
+<li>Måtte endre fra absolutte til relative filnavn for å kunne reprodusere dokumentet. Det er en forutsetning at man bruker relative filnavn for at Quarto-dokumentene skal være reproduserbare. Så lenge man jobber i prosjekter i RStudio sørger programmet for automatisk å sette «working directory» i R til mappen der Quarto-dokumentet ligger. Har vi en data-fil <code>data.csv</code> i samme mappe kan vi lese den vha <code>read_csv(file = "data.csv")</code> eller mer presist <code>read_csv(file = "./data.csv")</code> der «./» er «unix-speak» for nåværende mappe («current directory»). Ligger dataene i en undermappe, f.eks <code>data</code>, kan vi lese inn dataene vha. <code>read_csv(file = "./data/data,csv)</code>. Når denne mappen/dette prosjektet flyttes til en annen maskin vil disse fil-stiene fortsette å virke. Bruker man derimot en absolutt sti som <code>data_2017_a &lt;- read_excel("/Users/liang/Desktop/msb104/msb104_a4/data_2017_a.xlsx", sheet = "Sheet1")</code> så vil denne funksjonen bare virker for en bruker med hjemme-mappe <code>liang</code> som har prosjektet liggende på <code>Desktop</code>etc..</li>
+<li>Dokumentet vil jeg betegne som velskrevet og presist formulert selv om du hadde hatt norsk som morsmål. Imponerende hva du har fått til vha. KI.</li>
+<li>Selve innholdet og vurderingene fremkommer som dine egne og ikke bare «boksemat» generert av KI. Viser at verktøyet kan brukes med fornuft.</li>
+<li>Fin litteraturgjennomgang. Du viser til tidligere litteratur for de ulike forklaringsvariablene du velger.</li>
+<li>For regresjonsresultatene under <em>Enkel lineær regresjonsmodell</em> og <em>Multippel lineær regresjonsmodell</em> har jeg foreslått bruk av flextable for å tabeller som står mer i stil med resten av dokumentet.</li>
+<li>Har også lagt inn caption og benyttet kryssreferanse til tabellene i teksten. Dette er enkelt å få til i Quarto (når en vet hvordan det skal gjøres) og er et viktig verktøy i akademisk skriving.</li>
+<li>I Table 1 burde du ha opplyst om det er SE eller t-verdier som er angitt i parentesene under estimatene. SE er det vanligste, men i økonometriske arbeider er det ofte t-verdier som brukes.</li>
+<li>Har endret til <code>lang: nb</code> i YAML header. Det ser ut til at dette fungerer bedre enn <code>lang: nb_NO</code> da <code>babel</code> systemet virker i latex og gir f.eks <em>Tabell 1</em> istedenfor <em>Table 1</em>. Samme gjelder for <code>typst</code>. Her har det vært mye frem og tilbake, men ser nå ut til å være <code>nb</code> for norsk bokmål og <code>nn</code> for norsk nynorsk språk.</li>
+<li>Har flyttet setup chunken til rett etter YAML header. Det er anbefalt at denne kommer tidlig i dokumentet slik at andre brukere kan se hvilke pakker som trengs for å kunne kjøre dokumentet.</li>
+<li>For <code>tbl-funksjonsformer</code> vil jeg foreslå å heller bruke <code>flextable</code>som output. Dette gir større muligheter for å formatere tabellen. Virker bra for html, pdf (vha. <code>#| ft.arraystretch</code>), typst og også docx. Enklere å få fine tabeller i typst enn i pdf (via latex).</li>
+<li>Side 7: «For det første viser de tre modellene R2 verdier på henholdsvis 0.612 for log modellen, 0.640 forden kvadratiske modellen og 0.651 for den kubiske modellen. Den justerte R2 ligger i området0.512 til 0.528, med små forskjeller mellom modellene.» Vær forsikitg med å sammenlikne <span class="math inline">\(R^2\)</span> når du har gjort transformasjoner. Kan ikke gjøres uten videre.</li>
+</ul>
 </section>
 
 </main>

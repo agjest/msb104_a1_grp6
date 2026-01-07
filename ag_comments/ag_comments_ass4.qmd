@@ -5,9 +5,18 @@ format: html
 
 ## Generelle kommentarer
 
+-   Måtte endre fra absolutte til relative filnavn for å kunne reprodusere dokumentet. Det er en forutsetning at man bruker relative filnavn for at Quarto-dokumentene skal være reproduserbare. Så lenge man jobber i prosjekter i RStudio sørger programmet for automatisk å sette «working directory» i R til mappen der Quarto-dokumentet ligger. Har vi en data-fil `data.csv` i samme mappe kan vi lese den vha `read_csv(file = "data.csv")` eller mer presist `read_csv(file = "./data.csv")` der «./» er «unix-speak» for nåværende mappe («current directory»). Ligger dataene i en undermappe, f.eks `data`, kan vi lese inn dataene vha. `read_csv(file = "./data/data,csv)`. Når denne mappen/dette prosjektet flyttes til en annen maskin vil disse fil-stiene fortsette å virke. Bruker man derimot en absolutt sti som `data_2017_a <- read_excel("/Users/liang/Desktop/msb104/msb104_a4/data_2017_a.xlsx", sheet = "Sheet1")` så vil denne funksjonen bare virker for en bruker med hjemme-mappe `liang` som har prosjektet liggende på `Desktop`etc..
+-   Dokumentet vil jeg betegne som velskrevet og presist formulert selv om du hadde hatt norsk som morsmål. Imponerende hva du har fått til vha. KI.
+-   Selve innholdet og vurderingene fremkommer som dine egne og ikke bare «boksemat» generert av KI. Viser at verktøyet kan brukes med fornuft.
+-   Fin litteraturgjennomgang. Du viser til tidligere litteratur for de ulike forklaringsvariablene du velger.
+-   For regresjonsresultatene under *Enkel lineær regresjonsmodell* og *Multippel lineær regresjonsmodell* har jeg foreslått bruk av flextable for å tabeller som står mer i stil med resten av dokumentet.
+-   Har også lagt inn caption og benyttet kryssreferanse til tabellene i teksten. Dette er enkelt å få til i Quarto (når en vet hvordan det skal gjøres) og er et viktig verktøy i akademisk skriving.
+-   I Table 1 burde du ha opplyst om det er SE eller t-verdier som er angitt i parentesene under estimatene. SE er det vanligste, men i økonometriske arbeider er det ofte t-verdier som brukes.
+-   Har endret til `lang: nb` i YAML header. Det ser ut til at dette fungerer bedre enn `lang: nb_NO` da `babel` systemet virker i latex og gir f.eks *Tabell 1* istedenfor *Table 1*. Samme gjelder for `typst`. Her har det vært mye frem og tilbake, men ser nå ut til å være `nb` for norsk bokmål og `nn` for norsk nynorsk språk.
+-   Har flyttet setup chunken til rett etter YAML header. Det er anbefalt at denne kommer tidlig i dokumentet slik at andre brukere kan se hvilke pakker som trengs for å kunne kjøre dokumentet.
+-   For `tbl-funksjonsformer` vil jeg foreslå å heller bruke `flextable`som output. Dette gir større muligheter for å formatere tabellen. Virker bra for html, pdf (vha. `#| ft.arraystretch`), typst og også docx. Enklere å få fine tabeller i typst enn i pdf (via latex).
+-   Side 7: «For det første viser de tre modellene R2 verdier på henholdsvis 0.612 for log modellen, 0.640 forden kvadratiske modellen og 0.651 for den kubiske modellen. Den justerte R2 ligger i området0.512 til 0.528, med små forskjeller mellom modellene.» Vær forsikitg med å sammenlikne $R^2$ når du har gjort transformasjoner. Kan ikke gjøres uten videre.
 
-
-## Tips og Triks
 
 
 
